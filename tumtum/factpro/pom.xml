@@ -14,6 +14,21 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.eclipse.swt</groupId>
+    	<artifactId>jmx</artifactId>
+    	<version>1.0.0-v20070510</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.eclipse.swt.win32.win32</groupId>
+    	<artifactId>x86</artifactId>
+    	<version>3.3.0-v3346</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.eclipse.jface</groupId>
+    	<artifactId>databinding</artifactId>
+    	<version>1.1.0-I20070606-0010</version>
+    </dependency>
   </dependencies>
   <build>
   	<plugins>
@@ -24,7 +39,7 @@
   			<configuration>
 			<archive>
 				<manifest>
-					<mainClass>ba.unsa.etf.si2013.tim9.App</mainClass>
+					<mainClass>ba.unsa.etf.si2013.tim9.placeholder</mainClass>
 				</manifest>
 			</archive>
 			<descriptorRefs>
