@@ -14,6 +14,15 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiFirmeBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiFirmeIzmjenaForm;
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiIzmjenaForm;
+import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiPretragaForm;
+import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciIzmjenaForm;
 import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciPretragaForm;
 
 
@@ -75,6 +84,8 @@ public class GlavnaForm {
 		mntmDodaj.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				KorisniciDodavanjeForm a = new KorisniciDodavanjeForm(null);
+				a.open();
 				//DodavanjeKorisnikaForm dk = new DodavanjeKorisnikaForm();
 				//dk.open();
 			}
@@ -85,6 +96,8 @@ public class GlavnaForm {
 		mntmIzmjeni.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				KorisniciIzmjenaForm a = new KorisniciIzmjenaForm(null);
+				a.open();
 				//IzmjenaKorisnikaForm ik = new IzmjenaKorisnikaForm();
 				//ik.open();
 			}
@@ -96,6 +109,8 @@ public class GlavnaForm {
 		mntmBrii.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				KorisniciBrisanjeForm a= new KorisniciBrisanjeForm(null);
+				a.open();
 				//BrisanjeKorisnikaForm bk= new BrisanjeKorisnikaForm();
 				//bk.open();
 			}
@@ -128,8 +143,8 @@ public class GlavnaForm {
 		mntmDodaj_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				////DodavanjeKlijentaForm dkf = new DodavanjeKlijentaForm ();
-				//dkf.open();
+				KlijentiDodavanjeForm a = new KlijentiDodavanjeForm(null);
+				a.open();
 			}
 		});
 		mntmDodaj_1.setText("Dodaj");
@@ -144,8 +159,8 @@ public class GlavnaForm {
 		mntmFizikaLica_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IzmjenaKlijentaForm i = new IzmjenaKlijentaForm();
-				//i.open();
+				KlijentiIzmjenaForm a = new KlijentiIzmjenaForm(null);
+				a.close();
 			}
 		});
 		mntmFizikaLica_1.setText("Fizi\u010Dka lica");
@@ -154,8 +169,8 @@ public class GlavnaForm {
 		mntmFirme_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IzmjenaFirmeForm f= new IzmjenaFirmeForm();
-				//f.open();
+				KlijentiFirmeIzmjenaForm a = new KlijentiFirmeIzmjenaForm(null);
+				a.open();
 			}
 		});
 		mntmFirme_1.setText("Firme");
@@ -170,8 +185,8 @@ public class GlavnaForm {
 		mntmFirme.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//BrisanjeFirmeForm bff = new BrisanjeFirmeForm ();
-				//bff.open();
+				KlijentiFirmeBrisanjeForm a = new KlijentiFirmeBrisanjeForm(null);
+				a.open();
 			}
 		});
 		mntmFirme.setText("Firme");
@@ -180,6 +195,8 @@ public class GlavnaForm {
 		mntmFizikaLica.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				KlijentiBrisanjeForm a = new KlijentiBrisanjeForm(null);
+				a.open();
 				//BrisanjeKlijentaForm bkf = new BrisanjeKlijentaForm ();
 				//bkf.open();
 			}
@@ -190,6 +207,8 @@ public class GlavnaForm {
 		mntmPretraga_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				KlijentiPretragaForm a = new KlijentiPretragaForm(null);
+				a.open();
 				//PretragaKlijenataForm pk = new PretragaKlijenataForm ();
 				//pk.open();
 			}
