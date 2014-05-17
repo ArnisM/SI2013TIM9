@@ -44,7 +44,7 @@ public class placeholder extends ApplicationWindow {
 				a.open();
 			}
 		});
-		btnNewButton.setBounds(50, 75, 75, 25);
+		btnNewButton.setBounds(10, 10, 75, 25);
 		btnNewButton.setText("Glavna forma");
 
 		return container;

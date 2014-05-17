@@ -6,7 +6,6 @@ import java.io.InputStream;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -14,6 +13,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+
+import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciPretragaForm;
 
 
 public class GlavnaForm {
@@ -105,8 +106,8 @@ public class GlavnaForm {
 		mntmPretragaIIspis.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//PretragaKorisnikaForm pk = new PretragaKorisnikaForm();
-				//pk.open();
+				KorisniciPretragaForm a = new KorisniciPretragaForm(null);
+				a.open();
 			}
 		});
 		mntmPretragaIIspis.setText("Pretraga i ispis");
