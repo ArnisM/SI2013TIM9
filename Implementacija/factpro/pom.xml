@@ -126,7 +126,7 @@
   			<configuration>
 			<archive>
 				<manifest>
-					<mainClass>ba.unsa.etf.si2013.tim9.Forme.GlavnaForma.java</mainClass>
+					<mainClass>ba.unsa.etf.si2013.tim9.placeholder</mainClass>
 				</manifest>
 			</archive>
 			<descriptorRefs>
