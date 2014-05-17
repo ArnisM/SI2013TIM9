@@ -14,6 +14,13 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 
+import ba.unsa.etf.si2013.tim9.Fakture.FaktureBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Fakture.FaktureDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Fakture.FaktureDodavanjePrekoPonudeForm;
+import ba.unsa.etf.si2013.tim9.Fakture.FaktureIzmjenaForm;
+import ba.unsa.etf.si2013.tim9.Fakture.FakturePretragaForm;
+import ba.unsa.etf.si2013.tim9.Izvjestaji.IzvjestajPoKlijentForm;
+import ba.unsa.etf.si2013.tim9.Izvjestaji.IzvjestajiPerdiodForm;
 import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiBrisanjeForm;
 import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiDodavanjeForm;
 import ba.unsa.etf.si2013.tim9.Klijenti.KlijentiFirmeBrisanjeForm;
@@ -24,6 +31,14 @@ import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciBrisanjeForm;
 import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciDodavanjeForm;
 import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciIzmjenaForm;
 import ba.unsa.etf.si2013.tim9.Korisnici.KorisniciPretragaForm;
+import ba.unsa.etf.si2013.tim9.Ponude.PonudeBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Ponude.PonudeDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Ponude.PonudeIzmjenaForm;
+import ba.unsa.etf.si2013.tim9.Ponude.PonudePretragaForm;
+import ba.unsa.etf.si2013.tim9.Usluge.UslugeBrisanjeForm;
+import ba.unsa.etf.si2013.tim9.Usluge.UslugeDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Usluge.UslugeIzmjenaForm;
+import ba.unsa.etf.si2013.tim9.Usluge.UslugePretragaForm;
 
 
 public class GlavnaForm {
@@ -226,8 +241,8 @@ public class GlavnaForm {
 		mntmDodaj_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//DodavanjeUslugaForm du = new DodavanjeUslugaForm();
-				//du.open();
+				UslugeDodavanjeForm a = new UslugeDodavanjeForm(null);
+				a.open();
 			}
 		});
 		mntmDodaj_2.setText("Dodaj");
@@ -236,8 +251,8 @@ public class GlavnaForm {
 		mntmIzmjeni_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IzmjenaUslugeForm iu = new IzmjenaUslugeForm();
-				//iu.open();
+				UslugeIzmjenaForm a = new UslugeIzmjenaForm(null);
+				a.open();
 			}
 		});
 		mntmIzmjeni_2.setText("Izmjeni");
@@ -246,8 +261,8 @@ public class GlavnaForm {
 		mntmBrii_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//BrisanjeUslugeForm b =new BrisanjeUslugeForm();
-				//b.open();
+				UslugeBrisanjeForm a = new UslugeBrisanjeForm(null);
+				a.open();
 			}
 		});
 		mntmBrii_1.setText("Bri\u0161i");
@@ -256,8 +271,8 @@ public class GlavnaForm {
 		mntmPretraga_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//PretragaUslugeForm pu = new PretragaUslugeForm();
-				//pu.open();
+				UslugePretragaForm a = new UslugePretragaForm(null);
+				a.open();
 			}
 		});
 		mntmPretraga_2.setText("Pretraga i ispis");
@@ -273,6 +288,8 @@ public class GlavnaForm {
 		mntmDodaj_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				PonudeDodavanjeForm a = new PonudeDodavanjeForm(null);
+				a.open();
 				//DodavanjeNovePonudeForm d = new DodavanjeNovePonudeForm();
 				//d.open();
 			}
@@ -283,6 +300,8 @@ public class GlavnaForm {
 		mntmIzmjeniPonudu.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				PonudeIzmjenaForm a = new PonudeIzmjenaForm(null);
+				a.open();
 				//IzmjenaPonudeForm i = new IzmjenaPonudeForm();
 				//i.open();
 			}
@@ -293,8 +312,8 @@ public class GlavnaForm {
 		mntmBriiPonudu.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//BrisanjePonudeForm b  =new BrisanjePonudeForm();
-				//b.open();
+				PonudeBrisanjeForm a = new PonudeBrisanjeForm(null);
+				a.open();
 			}
 		});
 		mntmBriiPonudu.setText("Bri\u0161i ponudu");
@@ -303,6 +322,8 @@ public class GlavnaForm {
 		mntmPretragaIIspis_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				PonudePretragaForm a = new PonudePretragaForm (null);
+				a.open();
 				//PretragaPonudaForm p = new PretragaPonudaForm();
 				//p.open();
 			}
@@ -345,6 +366,8 @@ public class GlavnaForm {
 		mntmDodavanjeNoveFakture.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				FaktureDodavanjeForm a = new FaktureDodavanjeForm(null);
+				a.open();
 				//DodavanjNoveFaktureForm df = new DodavanjNoveFaktureForm();
 				//df.open();
 			}
@@ -355,6 +378,8 @@ public class GlavnaForm {
 		mntmDodavanjaFaktureNa.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				FaktureDodavanjePrekoPonudeForm a = new FaktureDodavanjePrekoPonudeForm(null);
+				a.open();
 				//DodavanjeFakturePrekoPonudeForm dp = new DodavanjeFakturePrekoPonudeForm();
 				//dp.open();
 			}
@@ -365,6 +390,8 @@ public class GlavnaForm {
 		mntmIzmjenaFakture.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				FaktureIzmjenaForm a = new FaktureIzmjenaForm(null);
+				a.open();
 				//IzmjenaFaktureForm ifo =new  IzmjenaFaktureForm();
 				//ifo.open();
 			}
@@ -375,6 +402,8 @@ public class GlavnaForm {
 		mntmBrisanjeFakture.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				FaktureBrisanjeForm a = new FaktureBrisanjeForm(null);
+				a.open();
 				//BrisanjeFaktureForm bf = new BrisanjeFaktureForm();
 				//bf.open();
 			}
@@ -385,6 +414,8 @@ public class GlavnaForm {
 		mntmPretragaFaktura.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				FakturePretragaForm a = new FakturePretragaForm(null);
+				a.open();
 				//PretragaFakturaForm pf = new PretragaFakturaForm();
 				//pf.open();
 			}
@@ -402,8 +433,8 @@ public class GlavnaForm {
 		mntmPeriodini.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IzvjestajPoKlijentForm ipk = new IzvjestajPoKlijentForm ();
-				//ipk.open();
+				IzvjestajPoKlijentForm ipk = new IzvjestajPoKlijentForm ();
+				ipk.open();
 			}
 		});
 		mntmPeriodini.setText("Po klijentu");
@@ -412,8 +443,8 @@ public class GlavnaForm {
 		mntmPeriodini_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IzvjestajiPerdiodForm pk = new IzvjestajiPerdiodForm();
-				//pk.open();
+				IzvjestajiPerdiodForm pk = new IzvjestajiPerdiodForm();
+				pk.open();
 			}
 		});
 		mntmPeriodini_1.setText("Periodi\u010Dni");
