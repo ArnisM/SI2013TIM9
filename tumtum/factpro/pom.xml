@@ -5,8 +5,8 @@
   <artifactId>factpro</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>factpro</name>
-  <url>http://maven.apache.org</url>
+  <name>FactPRO</name>
+  <url>https://github.com/amustafic2/SI2013TIM9</url>
   
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,7 +69,12 @@
 		<artifactId>forms</artifactId>
 		<version>3.3.0-v20070511</version>
 	</dependency>
-                                                                                            
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.30</version>
+	</dependency>
+                                                                                                        
     <dependency>
     	<groupId>org.eclipse.swt</groupId>
     	<artifactId>jmx</artifactId>
@@ -130,8 +135,42 @@
   <developers>
     <developer>
       <id>huma</id>
-      <name>Huma</name>
+      <name>Huma Milišić</name>
       <email>huma.milisic@gmail.com</email>
     </developer>
+    <developer>
+      <id>samra</id>
+      <name>Samra Mršo</name>
+    </developer>
+    <developer>
+      <id>berina</id>
+      <name>Berina Muratović</name>
+    </developer>
+    <developer>
+      <id>arnis</id>
+      <name>Arnis Mustafić</name>
+    </developer>
+    <developer>
+      <id>kopic</id>
+      <name>Edin Kopić</name>
+    </developer>
+    <developer>
+      <id>krupic</id>
+      <name>Edin Krupić</name>
+    </developer>
+    
   </developers>
+  <description>Sistem za fakturisanje</description>
+  <organization>
+  	<name>Tim9</name>
+  </organization>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
