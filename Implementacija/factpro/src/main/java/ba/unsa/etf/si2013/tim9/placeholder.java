@@ -10,6 +10,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+
+//import ba.unsa.etf.si2013.tim9.forme.GlavnaForma;
 
 public class placeholder extends ApplicationWindow {
 
@@ -30,6 +35,17 @@ public class placeholder extends ApplicationWindow {
 	 */
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
+		
+		Button btnNewButton = new Button(container, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				GlavnaForm a = new GlavnaForm();
+				a.open();
+			}
+		});
+		btnNewButton.setBounds(50, 75, 75, 25);
+		btnNewButton.setText("Glavna forma");
 
 		return container;
 	}
@@ -98,5 +114,4 @@ public class placeholder extends ApplicationWindow {
 	protected Point getInitialSize() {
 		return new Point(450, 300);
 	}
-
 }
