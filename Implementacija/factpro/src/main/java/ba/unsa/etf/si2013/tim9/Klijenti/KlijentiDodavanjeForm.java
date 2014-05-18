@@ -1,5 +1,8 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
+import javax.transaction.Transaction;
+
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,7 +36,17 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
+
+
+
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.sun.java_cup.internal.runtime.Scanner;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 public class KlijentiDodavanjeForm extends Shell {
@@ -43,6 +56,7 @@ public class KlijentiDodavanjeForm extends Shell {
 	 * @param args
 	 */
 //	protected Shell this;
+	private static SessionFactory factory; 
 	private Text text;
 	private Text text_1;
 	private Text text_2;
@@ -59,6 +73,7 @@ public class KlijentiDodavanjeForm extends Shell {
 	
 	public static void main(String args[]) {
 		try {
+			
 			Display display = Display.getDefault();
 			KlijentiDodavanjeForm shell = new KlijentiDodavanjeForm(display);
 			shell.open();
@@ -71,6 +86,11 @@ public class KlijentiDodavanjeForm extends Shell {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void dodajKlijenta(Session session) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -126,7 +146,14 @@ public class KlijentiDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
+				
+				ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
 				ControlDecoration nazivFirmeError = new ControlDecoration(txt_nazivFirme, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text10Error = new ControlDecoration(text_10, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
 				
 				if (txt_nazivFirme.getText().length()<3 || txt_nazivFirme.getText()==""){
 					nazivFirmeError.setDescriptionText("Niste unijeli naziv firme!");
@@ -135,36 +162,36 @@ public class KlijentiDodavanjeForm extends Shell {
 					nazivFirmeError.showHoverText("Niste unijeli naziv firme!");
 				}
 				
-				ControlDecoration text10Error = new ControlDecoration(text_10, SWT.RIGHT | SWT.TOP);
 				
-				if (text_10.getText().length()<3 || text_10.getText()==""){
+				
+				else if (text_10.getText().length()<3 || text_10.getText()==""){
 					text10Error.setDescriptionText("Niste unijeli adresu firme!");
 					FieldDecoration text10Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text10Error.setImage(text10Field.getImage());
 					text10Error.showHoverText("Niste unijeli adresu firme!");
 				}
 				
-				ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
 				
-				if (text_5.getText().length()<3 || text_5.getText()==""){
+				
+				else if (text_5.getText().length()<3 || text_5.getText()==""){
 					text5Error.setDescriptionText("Niste unijeli PDV broj!");
 					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text5Error.setImage(text5Field.getImage());
 					text5Error.showHoverText("Niste unijeli PDV broj!");
 				}
 				
-ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+
 				
-				if (text_6.getText().length()<3 || text_6.getText()==""){
+				else if (text_6.getText().length()<3 || text_6.getText()==""){
 					text6Error.setDescriptionText("Niste unijeli IDPDV broj!");
 					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text6Error.setImage(text6Field.getImage());
 					text6Error.showHoverText("Niste unijeli IDPDV broj!");
 				}
 				
-ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
+
 				
-				if (text_7.getText().length()<3 || text_7.getText()==""){
+				else if (text_7.getText().length()<3 || text_7.getText()==""){
 					text7Error.setDescriptionText("Niste unijeli kontakt telefon!");
 					FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text7Error.setImage(text7Field.getImage());
@@ -178,9 +205,9 @@ ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP
 					text7Error.showHoverText("Telefon nije u ispravnom formatu!");
 				}
 				
-ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+
 				
-				if (text_8.getText().length()<3 || text_8.getText()==""){
+				else if (text_8.getText().length()<3 || text_8.getText()==""){
 					text8Error.setDescriptionText("Niste unijeli kontakt fax!");
 					FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text8Error.setImage(text8Field.getImage());
@@ -194,9 +221,8 @@ ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP
 					text8Error.showHoverText("Fax nije u ispravnom formatu!");
 				}
 				
-ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
-				
-				if (text_9.getText().length()<3 || text_9.getText()==""){
+
+				else if (text_9.getText().length()<3 || text_9.getText()==""){
 					text7Error.setDescriptionText("Niste unijeli e-mail!");
 					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text9Error.setImage(text9Field.getImage());
@@ -209,7 +235,35 @@ ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP
 					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
 				
-				MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				else {
+					
+					try{
+				         factory = new Configuration().configure().buildSessionFactory();
+				    	 Session session = factory.openSession();
+				         Transaction tx = null;
+				         try{
+				        
+				         Integer klijentID = null;
+				 
+				            tx = (Transaction) session.beginTransaction();
+				            KlijentFirma k= new KlijentFirma(txt_nazivFirme.getText(),text_10.getText(),text_7.getText(),text_9.getText());
+				            klijentID = (Integer) session.save(k); 
+				            tx.commit();}
+				         catch (HibernateException e2) {
+				                if (tx!=null) tx.rollback();
+				                e2.printStackTrace(); 
+				             }finally {
+				                session.close(); 
+				             }
+					
+					}catch (Throwable ex) { 
+				         System.err.println("Neuspjela sesija." + ex);
+				         throw new ExceptionInInitializerError(ex); 
+				      }
+					
+					
+				}
+				
 				
 			}
 		});
