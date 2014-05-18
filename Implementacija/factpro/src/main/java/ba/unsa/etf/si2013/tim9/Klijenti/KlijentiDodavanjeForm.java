@@ -13,6 +13,26 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class KlijentiDodavanjeForm extends Shell {
 
@@ -104,6 +124,69 @@ public class KlijentiDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
+				ControlDecoration nazivFirmeError = new ControlDecoration(txt_nazivFirme, SWT.RIGHT | SWT.TOP);
+				
+				if (txt_nazivFirme.getText().length()<3 || txt_nazivFirme.getText()==""){
+					nazivFirmeError.setDescriptionText("Niste unijeli naziv firme!");
+					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					nazivFirmeError.setImage(nazivFirmeField.getImage());
+					nazivFirmeError.showHoverText("Niste unijeli naziv firme!");
+				}
+				
+				ControlDecoration text10Error = new ControlDecoration(text_10, SWT.RIGHT | SWT.TOP);
+				
+				if (text_10.getText().length()<3 || text_10.getText()==""){
+					text10Error.setDescriptionText("Niste unijeli adresu firme!");
+					FieldDecoration text10Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text10Error.setImage(text10Field.getImage());
+					text10Error.showHoverText("Niste unijeli adresu firme!");
+				}
+				
+				ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
+				
+				if (text_5.getText().length()<3 || text_5.getText()==""){
+					text5Error.setDescriptionText("Niste unijeli PDV broj!");
+					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text5Error.setImage(text5Field.getImage());
+					text5Error.showHoverText("Niste unijeli PDV broj!");
+				}
+				
+ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+				
+				if (text_6.getText().length()<3 || text_6.getText()==""){
+					text6Error.setDescriptionText("Niste unijeli IDPDV broj!");
+					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text6Error.setImage(text6Field.getImage());
+					text6Error.showHoverText("Niste unijeli IDPDV broj!");
+				}
+				
+ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
+				
+				if (text_7.getText().length()<3 || text_7.getText()==""){
+					text7Error.setDescriptionText("Niste unijeli kontakt telefon!");
+					FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text7Error.setImage(text7Field.getImage());
+					text7Error.showHoverText("Niste unijeli kontakt telefon!");
+				}
+				
+ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+				
+				if (text_8.getText().length()<3 || text_8.getText()==""){
+					text8Error.setDescriptionText("Niste unijeli kontakt fax!");
+					FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text8Error.setImage(text8Field.getImage());
+					text8Error.showHoverText("Niste unijeli kontakt fax!");
+				}
+				
+ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
+				
+				if (text_9.getText().length()<3 || text_9.getText()==""){
+					text7Error.setDescriptionText("Niste unijeli e-mail!");
+					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text9Error.setImage(text9Field.getImage());
+					text9Error.showHoverText("Niste unijeli e-mail!");
+				}
+				
 				MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
 				
 			}
@@ -180,6 +263,65 @@ public class KlijentiDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
+				
+ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+				
+				if (text.getText().length()<3 || text.getText()==""){
+					textError.setDescriptionText("Niste unijeli ime!");
+					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(textField.getImage());
+					textError.showHoverText("Niste unijeli ime!");
+				}
+				
+ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+				
+				if (text_1.getText().length()<3 || text_1.getText()==""){
+					text1Error.setDescriptionText("Niste unijeli prezime!");
+					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text1Error.setImage(text1Field.getImage());
+					text1Error.showHoverText("Niste unijeli prezime!");
+				}
+				
+ControlDecoration text11Error = new ControlDecoration(text_11, SWT.RIGHT | SWT.TOP);
+				
+				if (text_11.getText().length()<3 || text_11.getText()==""){
+					text11Error.setDescriptionText("Niste unijeli adresu!");
+					FieldDecoration text11Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text11Error.setImage(text11Field.getImage());
+					text11Error.showHoverText("Niste unijeli adresu!");
+				}
+				
+				
+				
+ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+				
+				if (text_2.getText().length()<3 || text_2.getText()==""){
+					text2Error.setDescriptionText("Niste unijeli kontakt telefon!");
+					FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text2Error.setImage(text2Field.getImage());
+					text2Error.showHoverText("Niste unijeli kontakt telefon!");
+				}
+				
+ControlDecoration text12Error = new ControlDecoration(text_12, SWT.RIGHT | SWT.TOP);
+				
+				if (text_12.getText().length()<3 || text_12.getText()==""){
+					text12Error.setDescriptionText("Niste unijeli kontakt fax!");
+					FieldDecoration text12Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text12Error.setImage(text12Field.getImage());
+					text12Error.showHoverText("Niste unijeli kontakt fax!");
+				}
+				
+ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
+				
+				if (text_3.getText().length()<3 || text_3.getText()==""){
+					text3Error.setDescriptionText("Niste unijeli e-mail!");
+					FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text3Error.setImage(text3Field.getImage());
+					text3Error.showHoverText("Niste unijeli e-mail!");
+				}
+				
+				
+				
 				MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
 				
 			}
