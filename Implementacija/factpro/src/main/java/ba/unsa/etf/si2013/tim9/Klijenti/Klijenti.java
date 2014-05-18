@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
 public class Klijenti implements Serializable {
-	
+	long id;
 	String adresa, broj_telefona, email;
 	
 	public Klijenti(){}

@@ -3,7 +3,7 @@ package ba.unsa.etf.si2013.tim9.Klijenti;
 import java.io.Serializable;
 
 public class KlijentFizickoLice extends Klijenti implements Serializable{
-	
+	long id;
 	String ime, prezime;
 	
 	public KlijentFizickoLice (){}

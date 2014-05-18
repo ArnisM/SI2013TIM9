@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class KlijentFirma extends Klijenti implements Serializable {
 	
+	long id;
 	String naziv;
 	
 	public KlijentFirma(){}
