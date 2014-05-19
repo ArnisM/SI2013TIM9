@@ -8,7 +8,8 @@
             <column name="ID" />
         </key>
         <property name="id" type="long" access="field">
-            <column name="ID" />
+                    <column name="ID" />
+                    <generator class="identity"/>
         </property>
         <property name="naziv" type="java.lang.String">
             <column name="NAZIV" />

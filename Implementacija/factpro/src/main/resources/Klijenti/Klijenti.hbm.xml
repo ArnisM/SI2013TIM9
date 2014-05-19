@@ -6,7 +6,7 @@
     <class name="ba.unsa.etf.si2013.tim9.Klijenti.Klijenti" table="KLIJENTI">
         <id name="id" type="long" access="field">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="adresa" type="java.lang.String">
             <column name="ADRESA" />

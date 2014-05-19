@@ -10,7 +10,7 @@ public class KlijentFirma extends Klijenti implements Serializable {
 	
 	public KlijentFirma(){}
 	
-	public KlijentFirma (String naziv, String adresa, String telefon, String email){
+	public KlijentFirma (long id, String naziv, String adresa, String telefon, String email){
 		super (adresa, telefon, email);
 		this.naziv=naziv;
 	}

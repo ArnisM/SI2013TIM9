@@ -1,5 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 
 import org.eclipse.core.runtime.SafeRunner;
@@ -48,6 +52,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.sun.java_cup.internal.runtime.Scanner;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+import ba.unsa.etf.si2013.tim9.Klijenti.*;
 
 public class KlijentiDodavanjeForm extends Shell {
 
@@ -88,9 +93,22 @@ public class KlijentiDodavanjeForm extends Shell {
 		}
 	}
 
-	private static void dodajKlijenta(Session session) {
-		// TODO Auto-generated method stub
+	private static void dodajKlijenta(Session session) throws IllegalStateException, SystemException, SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 		
+		session = HibernateUtil.getSessionFactory().openSession();
+		 
+        session.beginTransaction();
+        Klijenti stock = new Klijenti();
+ 
+        stock.setAdresa("adresa");
+        stock.setEmail("email");
+        stock.setTelefon("telefon");
+ 
+        session.save(stock);
+        session.getTransaction().commit();
+		// TODO Auto-generated method stub
+		 Shell shell = new Shell();
+		 MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
 	}
 
 	/**
@@ -236,30 +254,29 @@ public class KlijentiDodavanjeForm extends Shell {
 				}
 				
 				else {
-					
-					try{
-				         factory = new Configuration().configure().buildSessionFactory();
-				    	 Session session = factory.openSession();
-				         Transaction tx = null;
-				         try{
-				        
-				         Integer klijentID = null;
-				 
-				            tx = (Transaction) session.beginTransaction();
-				            KlijentFirma k= new KlijentFirma(txt_nazivFirme.getText(),text_10.getText(),text_7.getText(),text_9.getText());
-				            klijentID = (Integer) session.save(k); 
-				            tx.commit();}
-				         catch (HibernateException e2) {
-				                if (tx!=null) tx.rollback();
-				                e2.printStackTrace(); 
-				             }finally {
-				                session.close(); 
-				             }
-					
-					}catch (Throwable ex) { 
-				         System.err.println("Neuspjela sesija." + ex);
-				         throw new ExceptionInInitializerError(ex); 
-				      }
+					Session session = HibernateUtil.getSessionFactory().openSession();
+					try {
+						dodajKlijenta(session);
+					} catch (IllegalStateException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SecurityException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SystemException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RollbackException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (HeuristicMixedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (HeuristicRollbackException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				      
 					
 					
 				}
