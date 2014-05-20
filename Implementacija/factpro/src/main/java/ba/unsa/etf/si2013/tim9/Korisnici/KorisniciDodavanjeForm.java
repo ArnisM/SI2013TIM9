@@ -1,6 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+
 public class KorisniciDodavanjeForm extends Shell {
 
 	/**
@@ -20,13 +24,13 @@ public class KorisniciDodavanjeForm extends Shell {
 	 * @param args
 	 */
 //	protected Shell this;
-	private Text text;
-	private Text text_1;
-	private Text text_2;
-	private Text text_3;
-	private Text text_4;
-	private Text text_5;
-	private Text text_6;
+	private Text text_Ime;
+	private Text text_Prezime;
+	private Text text_Email;
+	private Text text_Telefon;
+	private Text text_Username;
+	private Text text_Sifra;
+	private Text text_PonovljenaSifra;
 	
 	public static void main(String args[]) {
 		try {
@@ -56,6 +60,89 @@ public class KorisniciDodavanjeForm extends Shell {
 	/**
 	 * Create contents of the shell.
 	 */
+	
+	protected Boolean Validacija()
+	{
+		Boolean rez = true;
+		//Ime
+		ControlDecoration textErrorIme = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		KorisniciValidacija a = new KorisniciValidacija();
+		if (a.ValidacijaImeUneseno(text_Ime.getText()))
+		{
+			textErrorIme.setDescriptionText("Niste unijeli ime!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorIme.setImage(textField.getImage());
+			textErrorIme.showHoverText("Niste unijeli ime!");
+			rez = false;
+		}
+		
+		else if (a.ValidacijaImeFormatDobar(text_Ime.getText())){
+			textErrorIme.setDescriptionText("Ime nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorIme.setImage(textField.getImage());
+			textErrorIme.showHoverText("Ime nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		//Prezime
+		ControlDecoration textErrorPrezime = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaPrezimeUneseno(text_Prezime.getText()))
+		{
+			textErrorPrezime.setDescriptionText("Niste unijeli prezime!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorPrezime.setImage(textField.getImage());
+			textErrorPrezime.showHoverText("Niste unijeli prezime!");
+			rez = false;
+		}		
+		else if (a.ValidacijaPrezimeFormatDobar(text_Prezime.getText())){
+			textErrorPrezime.setDescriptionText("Prezime nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorPrezime.setImage(textField.getImage());
+			textErrorPrezime.showHoverText("Prezime nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		ControlDecoration textErrorAdresa = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		
+		//Telefon
+		ControlDecoration textErrorTelefon = new ControlDecoration(text_Telefon, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaTelefonUneseno(text_Telefon.getText()))
+		{
+			textErrorTelefon.setDescriptionText("Niste unijeli Telefon!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorTelefon.setImage(textField.getImage());
+			textErrorTelefon.showHoverText("Niste unijeli Telefon!");
+			rez = false;
+		}		
+		else if (a.ValidacijaTelefonFormatDobar(text_Telefon.getText())){
+			textErrorTelefon.setDescriptionText("Telefon nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorTelefon.setImage(textField.getImage());
+			textErrorTelefon.showHoverText("Telefon nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		ControlDecoration textErrorEmail = new ControlDecoration(text_Email, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaEmailUnesen(text_Email.getText()))
+		{
+			textErrorEmail.setDescriptionText("Niste unijeli Email!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorEmail.setImage(textField.getImage());
+			textErrorEmail.showHoverText("Niste unijeli Email!");
+			rez = false;
+		}		
+		else if (a.ValidacijaEmailFormatDobar(text_Email.getText())){
+			textErrorEmail.setDescriptionText("Email nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorEmail.setImage(textField.getImage());
+			textErrorEmail.showHoverText("Email nije u ispravnom formatu!");
+			rez = false;
+		}
+		ControlDecoration textErrorUsername = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		
+		return rez;
+	}
+	
 	protected void createContents() {
 //		this = new Shell();
 		this.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1396674475_user_male2.png"));
@@ -97,37 +184,37 @@ public class KorisniciDodavanjeForm extends Shell {
 		grpOdabirUloge.setText("Odabir uloge");
 		grpOdabirUloge.setBounds(37, 263, 220, 67);
 		
-		Button btnOperater = new Button(grpOdabirUloge, SWT.RADIO);
-		btnOperater.setBounds(20, 30, 67, 16);
-		btnOperater.setText("Operater");
+		Button _operater = new Button(grpOdabirUloge, SWT.RADIO);
+		_operater.setBounds(20, 30, 67, 16);
+		_operater.setText("Operater");
 		
-		Button btnRukovodilac = new Button(grpOdabirUloge, SWT.RADIO);
-		btnRukovodilac.setBounds(106, 30, 90, 16);
-		btnRukovodilac.setText("Rukovodilac");
+		Button _rukovodilac = new Button(grpOdabirUloge, SWT.RADIO);
+		_rukovodilac.setBounds(106, 30, 90, 16);
+		_rukovodilac.setText("Rukovodilac");
 		
-		text = new Text(group, SWT.BORDER);
-		text.setBounds(131, 37, 126, 21);
+		text_Ime = new Text(group, SWT.BORDER);
+		text_Ime.setBounds(131, 37, 126, 21);
 		
-		text_1 = new Text(group, SWT.BORDER);
-		text_1.setBounds(131, 72, 126, 21);
+		text_Prezime = new Text(group, SWT.BORDER);
+		text_Prezime.setBounds(131, 72, 126, 21);
 		
-		text_2 = new Text(group, SWT.BORDER);
-		text_2.setBounds(131, 106, 126, 21);
+		text_Email = new Text(group, SWT.BORDER);
+		text_Email.setBounds(131, 106, 126, 21);
 		
-		text_3 = new Text(group, SWT.BORDER);
-		text_3.setBounds(131, 140, 126, 21);
+		text_Telefon = new Text(group, SWT.BORDER);
+		text_Telefon.setBounds(131, 140, 126, 21);
 		
-		text_4 = new Text(group, SWT.BORDER);
-		text_4.setBounds(131, 172, 126, 21);
+		text_Username = new Text(group, SWT.BORDER);
+		text_Username.setBounds(131, 172, 126, 21);
 		
-		text_5 = new Text(group, SWT.BORDER);
-		text_5.setBounds(131, 201, 126, 21);
+		text_Sifra = new Text(group, SWT.BORDER);
+		text_Sifra.setBounds(131, 201, 126, 21);
 		
-		text_6 = new Text(group, SWT.BORDER);
-		text_6.setBounds(131, 232, 126, 21);
+		text_PonovljenaSifra = new Text(group, SWT.BORDER);
+		text_PonovljenaSifra.setBounds(131, 232, 126, 21);
 		
-		Canvas canvas = new Canvas(group, SWT.NONE);
-		canvas.setBounds(281, 37, 118, 141);
+		Canvas _slika = new Canvas(group, SWT.NONE);
+		_slika.setBounds(281, 37, 118, 141);
 		
 		Button btnIzaberiSliku = new Button(group, SWT.NONE);
 		btnIzaberiSliku.setBounds(304, 184, 75, 25);
@@ -141,24 +228,28 @@ public class KorisniciDodavanjeForm extends Shell {
 			}
 		});
 		
-		Button btnNewButton = new Button(this, SWT.NONE);
-		btnNewButton.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1398195801_tick_32.png"));
-		btnNewButton.setBounds(160, 369, 117, 38);
-		btnNewButton.setText("Dodaj");
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
+		Button _dodaj = new Button(this, SWT.NONE);
+		_dodaj.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1398195801_tick_32.png"));
+		_dodaj.setBounds(160, 369, 117, 38);
+		_dodaj.setText("Dodaj");
+		_dodaj.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
-				MessageDialog.openInformation(shell, "Dodavanje", "Uspjesno je dodan korisnik.");
+				if(Validacija())
+				{
+					MessageDialog.openInformation(shell, "Dodavanje", text_Ime.getText());
+					close();
+				}
 				
 			}
 		});
 		
-		Button btnNewButton_1 = new Button(this, SWT.NONE);
-		btnNewButton_1.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
-		btnNewButton_1.setBounds(303, 369, 117, 38);
-		btnNewButton_1.setText("Izlaz");
-		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
+		Button _izlaz = new Button(this, SWT.NONE);
+		_izlaz.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
+		_izlaz.setBounds(303, 369, 117, 38);
+		_izlaz.setText("Izlaz");
+		_izlaz.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				close();
