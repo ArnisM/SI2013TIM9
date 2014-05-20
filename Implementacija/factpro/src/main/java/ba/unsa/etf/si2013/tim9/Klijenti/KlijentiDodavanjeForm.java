@@ -52,6 +52,8 @@ import org.hibernate.cfg.Configuration;
 
 import com.sun.java_cup.internal.runtime.Scanner;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.*;
 
 public class KlijentiDodavanjeForm extends Shell {
