@@ -1,42 +1,62 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
 import java.io.Serializable;
+
+import javax.persistence.GeneratedValue; 
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.util.Date;	
 
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity 
+@Table (name = "TB_Klijenti")
 public class Klijenti implements Serializable {
-	long id;
-	String adresa, broj_telefona, email;
 	
-	public Klijenti(){}
-	public Klijenti (String ad, String br_tel, String mail){
-		this.adresa=ad;
-		this.broj_telefona=br_tel;
-		this.email=mail;
+
+	 @Id 
+	 @GeneratedValue 
+	 long id;
+	 
+	 String adresa,email;
+	 String brojtelefona;
+		
+		public Klijenti(){} 
+		public Klijenti(String adresa2, String telefon, String email2) {
+			this.adresa=adresa2;
+			this.brojtelefona=telefon;
+			this.email=email2;
+		// TODO Auto-generated constructor stub
 	}
+		public String getAdresa() {
+		return adresa;
+	}
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getBrojtelefona() {
+		return brojtelefona;
+	}
+	public void setBrojtelefona(String brojtelefona) {
+		this.brojtelefona = brojtelefona;
+	}
+
 	
-	public String getAdresa(){
-		return this.adresa;
-	}
 	
-	public void setAdresa(String ad){
-		this.adresa=ad;
-	}
 	
-	public String getTelefon(){
-		return this.broj_telefona;
-	}
-	
-	public void setTelefon(String tel){
-		this.broj_telefona=tel;
-	}
-	
-	public void setEmail (String mail){
-		this.email=mail;
-	}
-	
-	public String getEmail (){
-		return this.email;
-	}
 }

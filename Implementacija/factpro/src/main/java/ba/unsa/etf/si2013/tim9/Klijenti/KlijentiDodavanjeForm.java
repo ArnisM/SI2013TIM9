@@ -102,7 +102,7 @@ public class KlijentiDodavanjeForm extends Shell {
  
         stock.setAdresa("adresa");
         stock.setEmail("email");
-        stock.setTelefon("telefon");
+        stock.setBrojtelefona("123456789");
  
         session.save(stock);
         session.getTransaction().commit();
@@ -165,7 +165,7 @@ public class KlijentiDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				
-				ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+			/*	ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
@@ -251,9 +251,9 @@ public class KlijentiDodavanjeForm extends Shell {
 					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text9Error.setImage(text9Field.getImage());
 					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
-				}
+				}*/
 				
-				else {
+				//else {
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					try {
 						dodajKlijenta(session);
@@ -279,7 +279,7 @@ public class KlijentiDodavanjeForm extends Shell {
 				      
 					
 					
-				}
+				//}
 				
 				
 			}
