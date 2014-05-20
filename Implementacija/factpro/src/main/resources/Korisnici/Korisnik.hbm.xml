@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2014 9:51:36 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ba.unsa.etf.si2013.tim9.Korisnici.Korisnik" table="KORISNIK">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="Adresa" type="java.lang.String">
+            <column name="ADRESA" />
+        </property>
+        <property name="Telefon" type="java.lang.String">
+            <column name="TELEFON" />
+        </property>
+        <property name="Pozicija" type="java.lang.String">
+            <column name="POZICIJA" />
+        </property>
+        <property name="Ime" type="java.lang.String">
+            <column name="IME" />
+        </property>
+        <property name="Prezime" type="java.lang.String">
+            <column name="PREZIME" />
+        </property>
+        <property name="DatumZaposlenja" type="org.eclipse.swt.widgets.DateTime">
+            <column name="DATUMZAPOSLENJA" />
+        </property>
+    </class>
+</hibernate-mapping>
