@@ -2,6 +2,7 @@ package ba.unsa.etf.si2013.tim9.Korisnici;
 
 import java.io.Serializable;
 
+<<<<<<< Upstream, based on origin/master
 import org.eclipse.swt.widgets.DateTime;
 
 public class Korisnik implements Serializable {
@@ -63,4 +64,13 @@ public class Korisnik implements Serializable {
 		DatumZaposlenja = datumZaposlenja;
 	}
 	
+=======
+public class Korisnik implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+>>>>>>> 6410d7d Korisnik klasa
 }
