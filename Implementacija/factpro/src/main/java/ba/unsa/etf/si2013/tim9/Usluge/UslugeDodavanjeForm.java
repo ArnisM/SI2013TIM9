@@ -16,7 +16,13 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import org.hibernate.Session;
+import java.util.Scanner; 
+
+import org.hibernate.Transaction; 
+import org.hibernate.Session; 
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Usluge.*;
 
 
 
@@ -43,8 +49,17 @@ public class UslugeDodavanjeForm extends Shell {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+	
 		}
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 dodajUslugu(session);
+		  
+		 session.close(); 
+
 	}
+
+
 
 	/**
 	 * Create the shell.
@@ -148,6 +163,18 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+	private static void dodajUslugu(Session session) {
+		// TODO Auto-generated method stub
+		Transaction t = session.beginTransaction(); 
+		 
+		 Usluga u = new Usluga(); 
+		 
+		 
+		 Long id = (Long) session.save(u); 
+		  
+		 t.commit(); 
+
 	}
 
 }
