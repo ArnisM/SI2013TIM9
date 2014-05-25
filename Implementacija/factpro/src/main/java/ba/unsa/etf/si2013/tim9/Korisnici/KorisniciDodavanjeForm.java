@@ -27,6 +27,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import sun.security.util.Password;
 
 
+
 public class KorisniciDodavanjeForm extends Shell {
 
 	/**
@@ -39,12 +40,17 @@ public class KorisniciDodavanjeForm extends Shell {
 	private Text text_Email;
 	private Text text_Telefon;
 	private Text text_Username;
+<<<<<<< HEAD
+	private Text text_Sifra;
+	private Text text_PonovljenaSifra;
+=======
 	private Text text_Password;
 	private Text text_PasswordPotvrda;
 	private Image image_Slika;
 	private Display d;
 	private Shell s;
 
+>>>>>>> refs/heads/101korisnik
 	
 	public static void main(String args[]) {
 		try {
@@ -77,6 +83,86 @@ public class KorisniciDodavanjeForm extends Shell {
 	 * Create contents of the shell.
 	 */
 	
+<<<<<<< HEAD
+	protected Boolean Validacija()
+	{
+		Boolean rez = true;
+		//Ime
+		ControlDecoration textErrorIme = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		KorisniciValidacija a = new KorisniciValidacija();
+		if (a.ValidacijaImeUneseno(text_Ime.getText()))
+		{
+			textErrorIme.setDescriptionText("Niste unijeli ime!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorIme.setImage(textField.getImage());
+			textErrorIme.showHoverText("Niste unijeli ime!");
+			rez = false;
+		}
+		
+		else if (a.ValidacijaImeFormatDobar(text_Ime.getText())){
+			textErrorIme.setDescriptionText("Ime nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorIme.setImage(textField.getImage());
+			textErrorIme.showHoverText("Ime nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		//Prezime
+		ControlDecoration textErrorPrezime = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaPrezimeUneseno(text_Prezime.getText()))
+		{
+			textErrorPrezime.setDescriptionText("Niste unijeli prezime!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorPrezime.setImage(textField.getImage());
+			textErrorPrezime.showHoverText("Niste unijeli prezime!");
+			rez = false;
+		}		
+		else if (a.ValidacijaPrezimeFormatDobar(text_Prezime.getText())){
+			textErrorPrezime.setDescriptionText("Prezime nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorPrezime.setImage(textField.getImage());
+			textErrorPrezime.showHoverText("Prezime nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		ControlDecoration textErrorAdresa = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		
+		//Telefon
+		ControlDecoration textErrorTelefon = new ControlDecoration(text_Telefon, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaTelefonUneseno(text_Telefon.getText()))
+		{
+			textErrorTelefon.setDescriptionText("Niste unijeli Telefon!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorTelefon.setImage(textField.getImage());
+			textErrorTelefon.showHoverText("Niste unijeli Telefon!");
+			rez = false;
+		}		
+		else if (a.ValidacijaTelefonFormatDobar(text_Telefon.getText())){
+			textErrorTelefon.setDescriptionText("Telefon nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorTelefon.setImage(textField.getImage());
+			textErrorTelefon.showHoverText("Telefon nije u ispravnom formatu!");
+			rez = false;
+		}
+		
+		ControlDecoration textErrorEmail = new ControlDecoration(text_Email, SWT.RIGHT | SWT.TOP);
+		if (a.ValidacijaEmailUnesen(text_Email.getText()))
+		{
+			textErrorEmail.setDescriptionText("Niste unijeli Email!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorEmail.setImage(textField.getImage());
+			textErrorEmail.showHoverText("Niste unijeli Email!");
+			rez = false;
+		}		
+		else if (a.ValidacijaEmailFormatDobar(text_Email.getText())){
+			textErrorEmail.setDescriptionText("Email nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textErrorEmail.setImage(textField.getImage());
+			textErrorEmail.showHoverText("Email nije u ispravnom formatu!");
+			rez = false;
+		}
+		ControlDecoration textErrorUsername = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+=======
 	protected void UnosSlike(Canvas _slika)
 	{
 		//org.eclipse.swt.widgets.FileDialog fd = new FileDialog(null, balloonTitle);
@@ -209,6 +295,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			rez = false;
 		}
 		
+>>>>>>> refs/heads/101korisnik
 		
 		return rez;
 	}
@@ -254,6 +341,9 @@ public class KorisniciDodavanjeForm extends Shell {
 		grpOdabirUloge.setText("Odabir uloge");
 		grpOdabirUloge.setBounds(37, 263, 220, 67);
 		
+<<<<<<< HEAD
+		Button _operater = new Button(grpOdabirUloge, SWT.RADIO);
+=======
 		final Button _operater = new Button(grpOdabirUloge, SWT.RADIO);
 		final Button _rukovodilac = new Button(grpOdabirUloge, SWT.RADIO);
 		_operater.setSelection(true);
@@ -264,9 +354,13 @@ public class KorisniciDodavanjeForm extends Shell {
 				//_rukovodilac.setSelection(false);
 			}
 		});
+>>>>>>> refs/heads/101korisnik
 		_operater.setBounds(20, 30, 67, 16);
 		_operater.setText("Operater");
 		
+<<<<<<< HEAD
+		Button _rukovodilac = new Button(grpOdabirUloge, SWT.RADIO);
+=======
 		_rukovodilac.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) 
@@ -274,6 +368,7 @@ public class KorisniciDodavanjeForm extends Shell {
 				//_operater.setSelection(false);
 			}
 		});
+>>>>>>> refs/heads/101korisnik
 		_rukovodilac.setBounds(106, 30, 90, 16);
 		_rukovodilac.setText("Rukovodilac");
 		
@@ -292,16 +387,31 @@ public class KorisniciDodavanjeForm extends Shell {
 		text_Username = new Text(group, SWT.BORDER);
 		text_Username.setBounds(131, 172, 126, 21);
 		
+<<<<<<< HEAD
+		text_Sifra = new Text(group, SWT.BORDER);
+		text_Sifra.setBounds(131, 201, 126, 21);
+=======
 		text_Password = new Text(group, SWT.PASSWORD| SWT.BORDER);
 		text_Password.setBounds(131, 201, 126, 21);
 		//_test.
+>>>>>>> refs/heads/101korisnik
 		
+<<<<<<< HEAD
+		text_PonovljenaSifra = new Text(group, SWT.BORDER);
+		text_PonovljenaSifra.setBounds(131, 232, 126, 21);
+=======
 		text_PasswordPotvrda = new Text(group, SWT.PASSWORD | SWT.BORDER);
 		text_PasswordPotvrda.setBounds(131, 232, 126, 21);
+>>>>>>> refs/heads/101korisnik
 		
+<<<<<<< HEAD
+		Canvas _slika = new Canvas(group, SWT.NONE);
+		_slika.setBounds(281, 37, 118, 141);
+=======
 		final Canvas _slika = new Canvas(group, SWT.NONE);
 		_slika.setBounds(281, 37, 118, 141);
 		_slika.setBackgroundImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1396674475_user_male2.png"));
+>>>>>>> refs/heads/101korisnik
 		
 		Button IzaberiSliku = new Button(group, SWT.NONE);
 		IzaberiSliku.setBounds(304, 184, 75, 25);
