@@ -1,6 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -102,6 +105,22 @@ public class UslugeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
+ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+				
+				if (text.getText().length()<3 || text.getText()==""){
+					textError.setDescriptionText("Niste unijeli naziv!");
+					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(textField.getImage());
+					textError.showHoverText("Niste unijeli naziv!");
+				}
+				
+				else if (!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+					textError.setDescriptionText("Naziv usluge nije u ispravnom formatu!");
+					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(textField.getImage());
+					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
+				}
+				else
 				MessageDialog.openInformation(shell, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
 		});

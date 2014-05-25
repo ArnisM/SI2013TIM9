@@ -1,7 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 import java.io.Serializable;
 
-public class Usluga {
+public class Usluga implements Serializable {
 	long id;
 	String  naziv;
 	int cijena, ukupanTrosak;
