@@ -10,6 +10,8 @@ public class Korisnik implements Serializable {
 	/**
 	 * 
 	 */
+	
+	
 	private static final long serialVersionUID = 1L;
 	long id;
 	String  Adresa,
@@ -20,6 +22,8 @@ public class Korisnik implements Serializable {
 	DateTime DatumZaposlenja;
 	
 	public Korisnik(){}
+	
+	public Korisnik(String _adresa, String _telefon){}
 	
 	public long getId() {
 		return id;

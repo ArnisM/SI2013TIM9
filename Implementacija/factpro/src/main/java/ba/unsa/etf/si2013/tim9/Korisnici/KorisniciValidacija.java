@@ -13,7 +13,7 @@ public class KorisniciValidacija
 	//telefon
 	protected Boolean ValidacijaTelefonUneseno(String _telefon)
 	{
-		return (_telefon.length()<3 || _telefon=="");
+		return (_telefon.length()<3 || _telefon=="")||(_telefon==null);
 	}
 	protected Boolean ValidacijaTelefonFormatDobar(String _telefon)
 	{
@@ -23,7 +23,7 @@ public class KorisniciValidacija
 	//email
 	protected Boolean ValidacijaEmailUnesen(String _email)
 	{
-		return (_email.length()<3 || _email=="");		
+		return (_email.length()<3 || _email=="")||(_email==null);		
 	}
 	protected Boolean ValidacijaEmailFormatDobar(String _email)
 	{
@@ -33,7 +33,7 @@ public class KorisniciValidacija
 	//ime
 	protected Boolean ValidacijaImeUneseno(String _ime)
 	{
-		return (_ime.length()<3 || _ime=="");//!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")		
+		return (_ime.length()<3 || _ime=="")||(_ime==null);//!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")		
 	}
 	protected Boolean ValidacijaImeFormatDobar(String _ime)
 	{
@@ -43,7 +43,7 @@ public class KorisniciValidacija
 	//Prezime
 	protected Boolean ValidacijaPrezimeUneseno(String _prezime)
 	{
-		return (_prezime.length()<3 || _prezime=="");
+		return (_prezime.length()<3 || _prezime=="")||(_prezime==null);
 	}
 	protected Boolean ValidacijaPrezimeFormatDobar(String _prezime)
 	{
@@ -53,28 +53,28 @@ public class KorisniciValidacija
 	//password
 	protected Boolean ValidacijaPasswordUnesen(String _password)
 	{
-		return null;
+		return _password.length()!=0||_password ==null;
 	}
 	protected Boolean ValidacijaPasswordFormatDobar(String _password)
 	{
-		return null;
+		return true;
 	}
 	
 	//password ponovo unesen
 	protected Boolean ValidacijaPasswordPotvrdaUnesen(String _password)
 	{
-		return null;
+		return _password.length()!=0||_password==null;
 		
 	}
-	protected Boolean ValidacijaPasswordPotvrda(String _password)
+	protected Boolean ValidacijaPasswordPotvrda(String _password1,String _password2)
 	{
-		return null;		
+		return (_password1==_password2);		
 	}
 	
 	//datum
 	protected Boolean ValidacijaDatumZaposlenja()
 	{
-		return null;
+		return true;
 		
 	}
 }
