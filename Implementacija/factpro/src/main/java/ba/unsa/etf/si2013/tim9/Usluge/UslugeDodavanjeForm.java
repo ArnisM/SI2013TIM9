@@ -16,6 +16,10 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import org.hibernate.Session;
+
+
+
 public class UslugeDodavanjeForm extends Shell {
 
 	/**

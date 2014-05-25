@@ -1,12 +1,31 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 23, 2014 1:34:48 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 25, 2014 4:49:53 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si2013.tim9.Usluge.Usluga" table="USLUGA">
         <id name="id" type="long">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
+        <property name="naziv" type="java.lang.String">
+            <column name="NAZIV" />
+        </property>
+        <property name="opisUsluge" type="java.lang.String">
+            <column name="OPISUSLUGE" />
+        </property>
+        <property name="cijena" type="int">
+            <column name="CIJENA" />
+        </property>
+        <property name="ukupanTrosak" type="int">
+            <column name="UKUPANTROSAK" />
+        </property>
+        <property name="tipUsluge">
+            <column name="TIPUSLUGE" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">ba.unsa.etf.si2013.tim9.Usluge.Usluga$Tip</param>
+            </type>
+        </property>
     </class>
 </hibernate-mapping>
