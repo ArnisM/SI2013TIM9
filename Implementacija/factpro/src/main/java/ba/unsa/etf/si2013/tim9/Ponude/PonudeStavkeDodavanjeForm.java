@@ -11,6 +11,8 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+
+
 public class PonudeStavkeDodavanjeForm extends Shell {
 
 	/**
@@ -53,7 +55,7 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 		this.setSize(351, 402);
 		this.setText("Dodavanje stavki ponude");
 		
-		List list = new List(this, SWT.BORDER);
+		final List list = new List(this, SWT.BORDER);
 		list.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
 		list.setBounds(10, 57, 310, 249);
 		
@@ -66,6 +68,9 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
+				
+				//tblclmnOpis.value = list.getFocusIndex();
+				
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");
 			}
 		});
