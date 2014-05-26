@@ -159,7 +159,7 @@ public class PonudeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' ponude.");
+				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' ponude."); 
 			}
 		});
 		button.setText("Generi\u0161i .pdf");
