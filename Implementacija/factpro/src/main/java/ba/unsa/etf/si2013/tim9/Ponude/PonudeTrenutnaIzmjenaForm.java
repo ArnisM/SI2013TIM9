@@ -5,16 +5,34 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
-//import org.eclipse.wb.swt.DodavanjeStavkiFaktureForm;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureStavkeDodavanjeForm;
 
@@ -26,7 +44,7 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 	 */
 //	protected Shell this;
 	private Table table;
-	private Text text;
+	private Text text_dodatni_zahtjevi;
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -84,9 +102,10 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 		btnFizikoLice.setBounds(10, 56, 90, 16);
 		btnFizikoLice.setText("Fizi\u010Dko lice");
 		
-		Combo combo = new Combo(grpKlijent, SWT.NONE);
-		combo.setBounds(271, 33, 154, 23);
-		combo.setText("Mercator");
+		final Combo combo_OdabirFirme = new Combo(grpKlijent, SWT.NONE);
+		combo_OdabirFirme.setItems(new String[] {"Mercator", "Interex", "Bh Telecom", "Telemach"});
+		combo_OdabirFirme.setBounds(271, 33, 154, 23);
+		combo_OdabirFirme.setText("Mercator");
 		
 		Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
 		lblIzaberiteFirmu.setBounds(170, 36, 95, 15);
@@ -156,6 +175,24 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
+				
+ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SWT.RIGHT | SWT.TOP);
+				
+				if (combo_OdabirFirme.getText().length()<3 || combo_OdabirFirme.getText()==""){
+					odabirFirmeError.setDescriptionText("Niste odabrali firme!");
+					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					odabirFirmeError.setImage(nazivFirmeField.getImage());
+					odabirFirmeError.showHoverText("Niste odabrali firme!");
+				}
+				
+				ControlDecoration dodatniZahtjeviError = new ControlDecoration(text_dodatni_zahtjevi, SWT.RIGHT | SWT.TOP);
+				if (text_dodatni_zahtjevi.getText()==""){
+					dodatniZahtjeviError.setDescriptionText("Niste unijeli dodatne zahtjeve vezane za ponudu!");
+					FieldDecoration dodatniZahtjevi = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					dodatniZahtjeviError.setImage(dodatniZahtjevi.getImage());
+					dodatniZahtjeviError.showHoverText("Niste unijeli dodatne zahtjeve vezane za ponudu!");
+				}
+				
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je izmjenjena ponuda.");
 			}
 		});
@@ -174,8 +211,8 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 		button_2.setImage(SWTResourceManager.getImage(PonudeTrenutnaIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
 		button_2.setBounds(554, 591, 116, 42);
 		
-		text = new Text(this, SWT.BORDER);
-		text.setBounds(10, 441, 611, 135);
+		text_dodatni_zahtjevi = new Text(this, SWT.BORDER);
+		text_dodatni_zahtjevi.setBounds(10, 441, 611, 135);
 		
 		Label lblDodatniZahtjeviVezani = new Label(this, SWT.NONE);
 		lblDodatniZahtjeviVezani.setBounds(10, 420, 258, 15);
