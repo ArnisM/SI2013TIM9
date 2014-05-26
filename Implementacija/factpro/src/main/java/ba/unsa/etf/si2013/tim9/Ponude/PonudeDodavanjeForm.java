@@ -164,7 +164,7 @@ public class PonudeDodavanjeForm extends Shell {
 		});
 		button.setText("Generi\u0161i .pdf");
 		button.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398206257_pdf.png"));
-		button.setBounds(10, 591, 132, 42);
+		button.setBounds(10, 591, 132, 42); 
 		
 		Button button_1 = new Button(this, SWT.NONE);
 		button_1.addSelectionListener(new SelectionAdapter() {
