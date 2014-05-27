@@ -25,10 +25,10 @@ public class Klijenti implements Serializable {
 	
 
 	 @Id 
-	 @GeneratedValue 
+	 @GeneratedValue
 	 long id;
 	 
-	 private static String naziv;
+	 private String naziv;
 
 	private String adresa;
 

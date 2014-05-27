@@ -152,8 +152,14 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-			
-				
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Klijenti k=new Klijenti();
+			long id=klijenti.get(table.getSelectionIndex()).getId();
+			String hql = "delete from Klijenti where id = :id";
+	        Query query = session.createQuery(hql);
+	        query.setLong("id",id);
+	        int rowCount = query.executeUpdate();
+			table.remove(table.getSelectionIndex());	
 			}
 		});
 		
