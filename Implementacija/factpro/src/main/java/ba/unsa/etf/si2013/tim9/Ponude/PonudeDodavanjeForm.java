@@ -41,7 +41,7 @@ public class PonudeDodavanjeForm extends Shell {
 	 * @param args
 	 */
 //	protected Shell this;
-	private Table table;
+	Table table;
 	private Text text_dodatni_zahtjevi;
 	public static void main(String args[]) {
 		try {

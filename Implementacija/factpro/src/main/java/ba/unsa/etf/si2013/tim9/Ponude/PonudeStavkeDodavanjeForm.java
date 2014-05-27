@@ -10,6 +10,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+
 
 
 
@@ -55,9 +58,9 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 		this.setSize(351, 402);
 		this.setText("Dodavanje stavki ponude");
 		
-		final List list = new List(this, SWT.BORDER);
-		list.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
-		list.setBounds(10, 57, 310, 249);
+		final List list_dodaj = new List(this, SWT.BORDER);
+		list_dodaj.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
+		list_dodaj.setBounds(10, 57, 310, 249);
 		
 		Label lblOdaberiteStavkuKoju = new Label(this, SWT.NONE);
 		lblOdaberiteStavkuKoju.setText("Odaberite stavku koju \u017Eelite dodati:");
@@ -69,7 +72,13 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				
+				//PonudeDodavanjeForm a = new PonudeDodavanjeForm(null);
+				//a.table.
+				//value.setData(list_dodaj.getSelectionIndex());
+				
+				//a.table.tblclmnOpis.value = list_dodaj.getSelectionIndex();
 				//tblclmnOpis.value = list.getFocusIndex();
+				//a.open();
 				
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");
 			}
