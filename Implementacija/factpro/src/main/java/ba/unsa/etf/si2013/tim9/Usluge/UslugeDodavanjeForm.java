@@ -133,7 +133,7 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.showHoverText("Niste unijeli naziv!");
 				}
 				
-				else if (!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+				else if (!text.getText().matches("[A-Za-z0-9 ]*")){
 					textError.setDescriptionText("Naziv usluge nije u ispravnom formatu!");
 					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					textError.setImage(textField.getImage());
