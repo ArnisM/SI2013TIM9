@@ -95,23 +95,7 @@ public class KlijentiDodavanjeForm extends Shell {
 		}
 	}
 
-	private static void dodajKlijenta(Session session) throws IllegalStateException, SystemException, SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		
-		session = HibernateUtil.getSessionFactory().openSession();
-		 
-        session.beginTransaction();
-        Klijenti stock = new Klijenti();
- 
-        stock.setAdresa("adresa");
-        stock.setEmail("email");
-        stock.setBrojtelefona("123456789");
- 
-        session.save(stock);
-        session.getTransaction().commit();
-		// TODO Auto-generated method stub
-		 Shell shell = new Shell();
-		 MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
-	}
+	
 
 	/**
 	 * Create the shell.
@@ -255,33 +239,13 @@ public class KlijentiDodavanjeForm extends Shell {
 					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
 				
-				//else {
-					Session session = HibernateUtil.getSessionFactory().openSession();
-					try {
-						dodajKlijenta(session);
-					} catch (IllegalStateException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SecurityException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SystemException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (RollbackException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (HeuristicMixedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (HeuristicRollbackException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				      
+				else {
+					Klijenti noviKlijent = new Klijenti(txt_nazivFirme.getText(),"firma",text_10.getText(),(Integer.parseInt(text_5.getText())),(Integer.parseInt(text_6.getText())), text_7.getText(), text_8.getText(), text_9.getText());
+					noviKlijent.spasiUBazu();
+					Shell shell1 = new Shell();
+					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
 					
-					
-				//}
+				}
 				
 				
 			}
