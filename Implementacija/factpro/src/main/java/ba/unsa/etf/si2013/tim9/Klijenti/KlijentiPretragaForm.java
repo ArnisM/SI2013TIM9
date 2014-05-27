@@ -1,6 +1,34 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
+
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,6 +52,7 @@ public class KlijentiPretragaForm extends Shell {
 //	protected Shell this;
 	private Text text;
 	private Table table;
+	private List<Klijenti>klijenti;
 	
 	public static void main(String args[]) {
 		try {
@@ -63,8 +92,8 @@ public class KlijentiPretragaForm extends Shell {
 		group.setText("Pretraga");
 		group.setBounds(10, 10, 575, 107);
 		
-		Combo combo = new Combo(group, SWT.NONE);
-		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
+		final Combo combo = new Combo(group, SWT.NONE);
+		combo.setItems(new String[] {"Ime i prezime"});
 		combo.setBounds(112, 35, 142, 23);
 		combo.setText("Ime");
 		
@@ -75,17 +104,40 @@ public class KlijentiPretragaForm extends Shell {
 		text = new Text(group, SWT.BORDER);
 		text.setBounds(380, 35, 163, 21);
 		
-		Label label_1 = new Label(group, SWT.NONE);
-		label_1.setText("Unesite ime:");
-		label_1.setBounds(292, 38, 65, 15);
+		Label lblUnesiteImeI = new Label(group, SWT.NONE);
+		lblUnesiteImeI.setText("Unesite ime i prezime:");
+		lblUnesiteImeI.setBounds(292, 38, 65, 15);
 		
 		Button button = new Button(group, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Pretraga klijenata", "Uspješno je izvršena pretraga klijenata na osnovu odabranog kriterija.");
-			}
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        q.setString("naziv", text.getText());
+		        klijenti=q.list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        		        
+		        for (int i=0; i<klijenti.size(); i++){
+		        	k = (Klijenti) klijenti.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+           	    item.setText(0,k.getNaziv());
+           	    /*item.setText(1,k.(getPdv()));
+             	item.setText(2,k.getPdvbroj());*/
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getBrojtelefona());
+           	    item.setText(7,k.getEmail());
+           	    item.setText(5,k.getBrojtelefona());
+           	    item.setText(6, k.getFax());
+		        }
+		        }}
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KlijentiPretragaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));

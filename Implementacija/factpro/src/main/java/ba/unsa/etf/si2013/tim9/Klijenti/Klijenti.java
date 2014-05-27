@@ -8,12 +8,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import java.util.Date;	
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
@@ -26,7 +28,7 @@ public class Klijenti implements Serializable {
 	 @GeneratedValue 
 	 long id;
 	 
-	 private String naziv;
+	 private static String naziv;
 
 	private String adresa;
 
@@ -93,22 +95,42 @@ public class Klijenti implements Serializable {
 			t.commit();
 			session.close();
 		 	}
-	private int getPdv() {
+	
+	private static List dajKlijente() { 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+ 
+        List klijenti = session.createQuery("from Klijenti").list();
+        t.commit();
+        session.close();
+        return klijenti;
+		 }
+	
+	public void izbrisiIzBaze(){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.delete(this);
+		t.commit();
+		session.close();
+	}
+	
+	public int getPdv() {
 		return pdv;
 	}
-	private void setPdv(int pdv) {
+	public void setPdv(int pdv) {
 		this.pdv = pdv;
 	}
-	private int getPdvbroj() {
+	public int getPdvbroj() {
 		return pdvbroj;
 	}
-	private void setPdvbroj(int pdvbroj) {
+	public void setPdvbroj(int pdvbroj) {
 		this.pdvbroj = pdvbroj;
 	}
-	private String getFax() {
+	public String getFax() {
 		return fax;
 	}
-	private void setFax(String fax) {
+	public void setFax(String fax) {
 		this.fax = fax;
 	}
 	
