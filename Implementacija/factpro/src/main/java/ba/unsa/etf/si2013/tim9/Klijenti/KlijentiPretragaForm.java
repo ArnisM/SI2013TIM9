@@ -1,6 +1,11 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -26,6 +31,16 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
+
+
+
+
+
+
+
+
+
+
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 import org.eclipse.swt.events.DisposeListener;
@@ -42,6 +57,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 
 public class KlijentiPretragaForm extends Shell {
 
@@ -147,11 +168,41 @@ public class KlijentiPretragaForm extends Shell {
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Generiši .pdf", "Uspješno je generisan .pdf dokument za odabranog klijenta.");
+
+			      FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\example.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=table.getSelectionIndex();
+			      document.addTitle("Podaci o klijentu");
+			      document.add(new Paragraph("Naziv firme: " + klijenti.get(i).getNaziv() ));
+			      document.add(new Paragraph("Adresa firme: " + klijenti.get(i).getAdresa() ));
+			      document.add(new Paragraph("Kontakt telefon: " + klijenti.get(i).getBrojtelefona() ));
+			      document.add(new Paragraph(new Date().toString()));
+		
+			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			  }
 			
-			}
-		});
+		
+});
 		button_1.setText("Generi\u0161i .pdf");
 		button_1.setImage(SWTResourceManager.getImage(KlijentiPretragaForm.class, "/images/1398206257_pdf.png"));
 		button_1.setBounds(10, 350, 119, 47);

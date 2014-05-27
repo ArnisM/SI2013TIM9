@@ -2,6 +2,17 @@ package ba.unsa.etf.si2013.tim9.Klijenti;
 
 
 import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -24,6 +35,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+
+
 
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
@@ -77,6 +91,45 @@ public class KlijentiFirmePretragaForm extends Shell {
 		this.setText("Pretraga i ispis firmi");
 		
 		Button button = new Button(this, SWT.NONE);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				 
+				      OutputStream file;
+					try {
+						file = new FileOutputStream(new File("D:\\example.pdf"));
+					
+				      Document document = new Document();
+				      PdfWriter.getInstance(document, file);
+				      document.open();
+				      int i=table.getSelectionIndex();
+				      document.addTitle("Podaci o klijentu");
+				      document.add(new Paragraph("Naziv firme: " + klijenti.get(i).getNaziv() ));
+				      document.add(new Paragraph("Adresa firme: " + klijenti.get(i).getAdresa() ));
+				      document.add(new Paragraph("Kontakt telefon: " + klijenti.get(i).getBrojtelefona() ));
+				      document.add(new Paragraph(new Date().toString()));
+			
+				      document.close();
+				      file.close();
+				      
+				      Shell shell1 = new Shell();
+					MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				  }
+				
+			
+		});
 		button.setText("Generi\u0161i .pdf");
 		button.setImage(SWTResourceManager.getImage(KlijentiFirmePretragaForm.class, "/images/1398206257_pdf.png"));
 		button.setBounds(5, 329, 119, 47);
