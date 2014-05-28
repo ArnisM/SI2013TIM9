@@ -95,23 +95,7 @@ public class KlijentiDodavanjeForm extends Shell {
 		}
 	}
 
-	private static void dodajKlijenta(Session session) throws IllegalStateException, SystemException, SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		
-		session = HibernateUtil.getSessionFactory().openSession();
-		 
-        session.beginTransaction();
-        Klijenti stock = new Klijenti();
- 
-        stock.setAdresa("adresa");
-        stock.setEmail("email");
-        stock.setBrojtelefona("123456789");
- 
-        session.save(stock);
-        session.getTransaction().commit();
-		// TODO Auto-generated method stub
-		 Shell shell = new Shell();
-		 MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
-	}
+	
 
 	/**
 	 * Create the shell.
@@ -167,7 +151,7 @@ public class KlijentiDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				
-			/*	ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+				ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
 				ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
@@ -253,35 +237,15 @@ public class KlijentiDodavanjeForm extends Shell {
 					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text9Error.setImage(text9Field.getImage());
 					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
-				}*/
+				}
 				
-				//else {
-					Session session = HibernateUtil.getSessionFactory().openSession();
-					try {
-						dodajKlijenta(session);
-					} catch (IllegalStateException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SecurityException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SystemException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (RollbackException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (HeuristicMixedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (HeuristicRollbackException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				      
+				else {
+					Klijenti noviKlijent = new Klijenti(txt_nazivFirme.getText(),"firma",text_10.getText(),(Integer.parseInt(text_5.getText())),(Integer.parseInt(text_6.getText())), text_7.getText(), text_8.getText(), text_9.getText());
+					noviKlijent.spasiUBazu();
+					Shell shell1 = new Shell();
+					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
 					
-					
-				//}
+				}
 				
 				
 			}
@@ -457,9 +421,13 @@ ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP
 					text3Error.setImage(text3Field.getImage());
 					text3Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
-				
-				
-				//MessageDialog.openInformation(shell, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				else {
+					Klijenti noviKlijent = new Klijenti(txt_nazivFirme.getText(),"fizickoLice",text_10.getText(),(Integer.parseInt(text_5.getText())),(Integer.parseInt(text_6.getText())), text_7.getText(), text_8.getText(), text_9.getText());
+					noviKlijent.spasiUBazu();
+					Shell shell1 = new Shell();
+					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+					
+				}
 				
 			}
 		});

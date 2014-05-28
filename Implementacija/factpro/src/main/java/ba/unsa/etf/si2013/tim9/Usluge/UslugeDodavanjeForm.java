@@ -139,10 +139,10 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.setImage(textField.getImage());
 					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
 				}
-				else
+				else{
 				MessageDialog.openInformation(shell, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
-		});
+		} });
 		btnDodaj.setText("Dodaj");
 		btnDodaj.setImage(SWTResourceManager.getImage(UslugeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
 		btnDodaj.setBounds(112, 450, 116, 42);

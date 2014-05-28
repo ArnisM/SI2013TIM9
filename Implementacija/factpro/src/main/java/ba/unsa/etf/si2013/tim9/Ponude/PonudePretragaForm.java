@@ -1,6 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Ponude;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -60,20 +63,37 @@ public class PonudePretragaForm extends Shell {
 		group.setText("Pretraga fakture");
 		group.setBounds(10, 10, 575, 162);
 		
-		Combo combo = new Combo(group, SWT.NONE);
+		Combo combo = new Combo(group, SWT.READ_ONLY);
 		combo.setItems(new String[] {"Naziv Firme\t", "PDV broj"});
 		combo.setBounds(112, 84, 142, 23);
+		combo.select(0);
 		combo.setText("Naziv firme");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
 		label.setBounds(10, 87, 96, 15);
 		
+		final Combo combo_OdabirFirme = new Combo(group, SWT.NONE);
+		combo_OdabirFirme.setItems(new String[] {"Mercator", "Interex", "Telemach"});
+		combo_OdabirFirme.setBounds(394, 84, 149, 23);
+		combo_OdabirFirme.setText("Mercator");
+		
 		Button button = new Button(group, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent e) { 
+				
 				Shell shell = new Shell();
+				
+ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SWT.RIGHT | SWT.TOP);
+				
+				if (combo_OdabirFirme.getText().length()<2 || combo_OdabirFirme.getText()==""){
+					odabirFirmeError.setDescriptionText("Niste odabrali firmu!");
+					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					odabirFirmeError.setImage(nazivFirmeField.getImage());
+					odabirFirmeError.showHoverText("Niste odabrali firmu!");
+				}
+				
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena pretraga, ponude su u listi ispod.");
 				
 			}
@@ -95,9 +115,7 @@ public class PonudePretragaForm extends Shell {
 		button_2.setText("Fizi\u010Dko lice");
 		button_2.setBounds(54, 32, 78, 16);
 		
-		Combo combo_1 = new Combo(group, SWT.NONE);
-		combo_1.setBounds(394, 84, 149, 23);
-		combo_1.setText("Mercator");
+		
 		
 		Label label_1 = new Label(group, SWT.NONE);
 		label_1.setText("Odabir firme:");

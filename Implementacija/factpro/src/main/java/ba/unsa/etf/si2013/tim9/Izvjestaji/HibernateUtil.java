@@ -1,4 +1,5 @@
-package ba.unsa.etf.si2013.tim9.Klijenti;
+package ba.unsa.etf.si2013.tim9.Izvjestaji;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;

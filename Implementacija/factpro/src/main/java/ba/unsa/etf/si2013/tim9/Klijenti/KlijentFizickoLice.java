@@ -7,11 +7,11 @@ public class KlijentFizickoLice extends Klijenti implements Serializable{
 	String ime, prezime;
 	
 	public KlijentFizickoLice (){}
-	public KlijentFizickoLice (String ime, String prezime, String adresa, String telefon, String mail){
+/*	public KlijentFizickoLice (String ime, String prezime, String adresa, String telefon, String mail){
 		super(adresa, telefon, mail);
 		this.ime=ime;
 		this.prezime=prezime;
-	}
+	}*/
 
 	
 	public String getIme(){

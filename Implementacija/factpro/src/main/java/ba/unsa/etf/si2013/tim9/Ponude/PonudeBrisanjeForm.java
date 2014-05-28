@@ -5,14 +5,34 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class PonudeBrisanjeForm extends Shell {
 
@@ -60,10 +80,17 @@ public class PonudeBrisanjeForm extends Shell {
 		grpPretragaPonude.setText("Pretraga ponude");
 		grpPretragaPonude.setBounds(10, 0, 575, 162);
 		
-		Combo combo = new Combo(grpPretragaPonude, SWT.NONE);
+		Combo combo = new Combo(grpPretragaPonude, SWT.READ_ONLY);
 		combo.setItems(new String[] {"Naziv firme\t", "PDV broj"});
 		combo.setBounds(112, 84, 142, 23);
+		combo.select(0);
 		combo.setText("Naziv firme");
+		
+		final Combo combo_OdabirFirme = new Combo(grpPretragaPonude, SWT.NONE);
+		combo_OdabirFirme.setItems(new String[] {"Interex", "Mercator", "Bh Telecom"});
+		combo_OdabirFirme.setBounds(394, 84, 149, 23);
+		combo_OdabirFirme.select(0);
+		combo_OdabirFirme.setText("Interex");
 		
 		Label label = new Label(grpPretragaPonude, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -74,9 +101,21 @@ public class PonudeBrisanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspješno je izvršena pretraga. Listu ponuda možete vidjeti u tabeli ispod.");
+		
+ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SWT.RIGHT | SWT.TOP);
+				
+				if (combo_OdabirFirme.getText().length()<2 || combo_OdabirFirme.getText()==""){
+					odabirFirmeError.setDescriptionText("Niste odabrali firmu!");
+					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					odabirFirmeError.setImage(nazivFirmeField.getImage());
+					odabirFirmeError.showHoverText("Niste odabrali firmu!");
+				}
+
+				MessageDialog.openInformation(shell, "Info", "Ponude koje odgovaraju pretrazi su ispisane!");
+				
 			}
 		});
+		
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(PonudeBrisanjeForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
 		button.setBounds(427, 117, 116, 35);
@@ -94,9 +133,7 @@ public class PonudeBrisanjeForm extends Shell {
 		button_2.setText("Fizi\u010Dko lice");
 		button_2.setBounds(54, 32, 78, 16);
 		
-		Combo combo_1 = new Combo(grpPretragaPonude, SWT.NONE);
-		combo_1.setBounds(394, 84, 149, 23);
-		combo_1.setText("Interex");
+		
 		
 		Label label_1 = new Label(grpPretragaPonude, SWT.NONE);
 		label_1.setText("Odabir firme:");
@@ -137,6 +174,8 @@ public class PonudeBrisanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				Shell shell = new Shell();
+		
+				
 				MessageDialog.openInformation(shell, "Info", "Uspješno je obrisana ponuda!");
 				
 			}
