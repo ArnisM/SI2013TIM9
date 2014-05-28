@@ -203,6 +203,12 @@ ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP
 					text5Error.setImage(text5Field.getImage());
 					text5Error.showHoverText("Niste unijeli kontakt telefon!");
 				}
+				else if (!text_5.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+					text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text5Error.setImage(text5Field.getImage());
+					text5Error.showHoverText("Telefon nije u ispravnom formatu!");
+				}
 				
 ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
 				
@@ -213,6 +219,13 @@ ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP
 					text6Error.showHoverText("Niste unijeli kontakt e-mail!");
 				}
 				
+				else if (!text_6.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+					text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text6Error.setImage(text6Field.getImage());
+					text6Error.showHoverText("E-mail nije u ispravnom formatu!");
+				}
+				
 ControlDecoration text4Error = new ControlDecoration(text_4, SWT.RIGHT | SWT.TOP);
 				
 				if (text_4.getText().length()<3 || text_4.getText()==""){
@@ -221,10 +234,15 @@ ControlDecoration text4Error = new ControlDecoration(text_4, SWT.RIGHT | SWT.TOP
 					text4Error.setImage(text4Field.getImage());
 					text4Error.showHoverText("Niste unijeli kotakt fax!");
 				}
+				else if (!text_4.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+					text4Error.setDescriptionText("Fax nije u ispravnom formatu!");
+					FieldDecoration text4Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text4Error.setImage(text4Field.getImage());
+					text4Error.showHoverText("Fax nije u ispravnom formatu!");
+				}
 				
 				
-				
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+				//MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
 			}
 		});
 		button_3.setText("Izmjeni");
@@ -286,6 +304,12 @@ ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP
 					text5Error.setImage(text5Field.getImage());
 					text5Error.showHoverText("Niste unijeli kontakt telefon!");
 				}
+				else if (!text_5.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+					text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text5Error.setImage(text5Field.getImage());
+					text5Error.showHoverText("Telefon nije u ispravnom formatu!");
+				}
 				
 ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
 				
@@ -296,6 +320,13 @@ ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP
 					text6Error.showHoverText("Niste unijeli kontakt e-mail!");
 				}
 				
+				else if (!text_6.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+					text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text6Error.setImage(text6Field.getImage());
+					text6Error.showHoverText("E-mail nije u ispravnom formatu!");
+				}
+				
 ControlDecoration text4Error = new ControlDecoration(text_4, SWT.RIGHT | SWT.TOP);
 				
 				if (text_4.getText().length()<3 || text_4.getText()==""){
@@ -304,9 +335,13 @@ ControlDecoration text4Error = new ControlDecoration(text_4, SWT.RIGHT | SWT.TOP
 					text4Error.setImage(text4Field.getImage());
 					text4Error.showHoverText("Niste unijeli kotakt fax!");
 				}
-				
-				
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+				else if (!text_4.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+					text4Error.setDescriptionText("Fax nije u ispravnom formatu!");
+					FieldDecoration text4Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text4Error.setImage(text4Field.getImage());
+					text4Error.showHoverText("Fax nije u ispravnom formatu!");
+				}
+				//MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
 			}
 		});
 		button_1.setText("OK");

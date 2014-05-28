@@ -5,15 +5,16 @@ import java.io.Serializable;
 
 public class KlijentFirma extends Klijenti implements Serializable {
 	
+	long id;
 	String naziv;
 	
 	public KlijentFirma(){}
 	
-	public KlijentFirma (String naziv, String adresa, String telefon, String email){
+/*	public KlijentFirma (long id, String naziv, String adresa, String telefon, String email){
 		super (adresa, telefon, email);
 		this.naziv=naziv;
 	}
-	
+	*/
 	public void setNaziv(String naziv){
 		this.naziv=naziv;
 	}

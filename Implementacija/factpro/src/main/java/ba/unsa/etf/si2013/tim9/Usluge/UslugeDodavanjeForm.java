@@ -1,6 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,6 +15,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import java.util.Scanner; 
+
+import org.hibernate.Transaction; 
+import org.hibernate.Session; 
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Usluge.*;
+
+
 
 public class UslugeDodavanjeForm extends Shell {
 
@@ -36,8 +49,17 @@ public class UslugeDodavanjeForm extends Shell {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+	
 		}
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 dodajUslugu(session);
+		  
+		 session.close(); 
+
 	}
+
+
 
 	/**
 	 * Create the shell.
@@ -102,9 +124,25 @@ public class UslugeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
+ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+				
+				if (text.getText().length()<3 || text.getText()==""){
+					textError.setDescriptionText("Niste unijeli naziv!");
+					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(textField.getImage());
+					textError.showHoverText("Niste unijeli naziv!");
+				}
+				
+				else if (!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+					textError.setDescriptionText("Naziv usluge nije u ispravnom formatu!");
+					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(textField.getImage());
+					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
+				}
+				else{
 				MessageDialog.openInformation(shell, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
-		});
+		} });
 		btnDodaj.setText("Dodaj");
 		btnDodaj.setImage(SWTResourceManager.getImage(UslugeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
 		btnDodaj.setBounds(112, 450, 116, 42);
@@ -125,6 +163,18 @@ public class UslugeDodavanjeForm extends Shell {
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+	private static void dodajUslugu(Session session) {
+		// TODO Auto-generated method stub
+		Transaction t = session.beginTransaction(); 
+		 
+		 Usluga u = new Usluga(); 
+		 
+		 
+		 Long id = (Long) session.save(u); 
+		  
+		 t.commit(); 
+
 	}
 
 }
