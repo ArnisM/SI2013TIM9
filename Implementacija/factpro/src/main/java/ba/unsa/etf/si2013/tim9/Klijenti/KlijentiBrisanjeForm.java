@@ -184,9 +184,7 @@ public class KlijentiBrisanjeForm extends Shell {
 				Klijenti k=new Klijenti();
 				int ind=table.getSelectionIndex();
 				TableItem ti=table.getItem(ind);
-				System.out.print(ti.getText(0));
 				
-				System.out.print("bob");
 				Klijenti myObject = (Klijenti) session.load(Klijenti.class,(long)(Integer.parseInt(ti.getText(0))));
 			    session.delete(myObject);
 			    session.getTransaction().commit();

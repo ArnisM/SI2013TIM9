@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
@@ -15,8 +17,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KlijentiIzmjenaForm extends Shell {
 
@@ -32,6 +40,7 @@ public class KlijentiIzmjenaForm extends Shell {
 	private Text text_3;
 	private Text text_5;
 	private Text text_6;
+	private List<Klijenti> klijenti;
 	
 	public static void main(String args[]) {
 		try {
@@ -72,6 +81,10 @@ public class KlijentiIzmjenaForm extends Shell {
 		table.setHeaderVisible(true);
 		table.setBounds(10, 149, 595, 78);
 		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(33);
+		tblclmnId.setText("ID");
+		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
 		tableColumn.setWidth(91);
 		tableColumn.setText("Ime");
@@ -96,10 +109,10 @@ public class KlijentiIzmjenaForm extends Shell {
 		group.setText("Pretraga");
 		group.setBounds(10, 10, 575, 107);
 		
-		Combo combo = new Combo(group, SWT.NONE);
-		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
+		final Combo combo = new Combo(group, SWT.NONE);
+		combo.setItems(new String[] {"Ime i prezime"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Prezime");
+		combo.setText("Izaberite kriterij pretrage");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -108,17 +121,45 @@ public class KlijentiIzmjenaForm extends Shell {
 		text = new Text(group, SWT.BORDER);
 		text.setBounds(380, 35, 163, 21);
 		
-		Label label_1 = new Label(group, SWT.NONE);
-		label_1.setText("Unesite prezime:");
-		label_1.setBounds(282, 38, 92, 15);
+		Label lblUnesiteImeI = new Label(group, SWT.NONE);
+		lblUnesiteImeI.setText("Unesite ime i prezime:");
+		lblUnesiteImeI.setBounds(282, 38, 92, 15);
 		
 		Button button = new Button(group, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell ();
-				MessageDialog.openInformation(shell, "Pretraga klijenta", "Klijenti su uspješno pretražen i dostupn su u tabel ispod.");
-			}
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        q.setString("naziv", text.getText());
+		        klijenti=q.list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        		        
+		        for (int i=0; i<klijenti.size(); i++){
+		        	k = (Klijenti) klijenti.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        String string = k.getNaziv();
+		        String[] parts = string.split(" ");
+		        String part1 = parts[0]; // 004
+		        String part2 = parts[1]; // 034556
+		        
+		        item.setText(1,part1);
+		        item.setText(2, part2);
+           	   
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getBrojtelefona());
+           	    item.setText(5,k.getEmail());
+           	    
+           	    
+           	    item.setText(0,Integer.toString((int)k.getId()));
+		        }
+		    }}
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KlijentiIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
@@ -168,66 +209,65 @@ public class KlijentiIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell ();
+			
 				
-ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Klijenti k=new Klijenti();
+				int ind=table.getSelectionIndex();
+				TableItem ti=table.getItem(ind);
+				Klijenti klijent = 
+	                    (Klijenti)session.get(Klijenti.class, (long)(Integer.parseInt(ti.getText(0)))); 
+				String string = k.getNaziv();
+		        String[] parts = string.split(" ");
+		        String part1 = parts[0]; // 004
+		        String part2 = parts[1]; // 034556
 				
-				if (text_1.getText().length()<3 || text_1.getText()==""){
-					text1Error.setDescriptionText("Niste unijeli naziv firme!");
-					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text1Error.setImage(text1Field.getImage());
-					text1Error.showHoverText("Niste unijeli naziv firme!");
+				if(text_1.getText()!=""){
+				
+		         klijent.setNaziv( text_1.getText() +" "+ part2);
+				 
 				}
 				
-ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+				if(text_2.getText()!=""){
+					
+			         klijent.setNaziv( part1 + " " + text_2.getText());
+					 
+					}
 				
-				if (text_2.getText().length()<3 || text_2.getText()==""){
-					text2Error.setDescriptionText("Niste unijeli PDV broj!");
-					FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text2Error.setImage(text2Field.getImage());
-					text2Error.showHoverText("Niste unijeli PDV broj!");
-				}
+				if(text_3.getText()!=""){
+					
+			         klijent.setAdresa( text_3.getText());
+					 
+					}
 				
-ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
+				if(text_6.getText()!=""){
+					ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+					if (!text_6.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+						text6Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+						FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text6Error.setImage(text6Field.getImage());
+						text6Error.showHoverText("Telefon nije u ispravnom formatu!");
+					}
+					 klijent.setBrojtelefona( text_6.getText());
+					
+					}
+				if(text_5.getText()!=""){
+					ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
+					if (!text_5.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+						text5Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+						FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text5Error.setImage(text5Field.getImage());
+						text5Error.showHoverText("E-mail nije u ispravnom formatu!");
+					}
+					 klijent.setEmail( text_5.getText());
+					
+					}
 				
-				if (text_3.getText().length()<3 || text_3.getText()==""){
-					text3Error.setDescriptionText("Niste unijeli adresu firme!");
-					FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text3Error.setImage(text3Field.getImage());
-					text3Error.showHoverText("Niste unijeli adresu firme!");
-				}
+				session.update(klijent); 
+		        session.getTransaction().commit();
 				
-ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
-				
-				if (text_5.getText().length()<3 || text_5.getText()==""){
-					text5Error.setDescriptionText("Niste unijeli kontakt telefon!");
-					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text5Error.setImage(text5Field.getImage());
-					text5Error.showHoverText("Niste unijeli kontakt telefon!");
-				}
-				else if (!text_5.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
-					text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
-					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text5Error.setImage(text5Field.getImage());
-					text5Error.showHoverText("Telefon nije u ispravnom formatu!");
-				}
-				
-ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
-				
-				if (text_6.getText().length()<3 || text_6.getText()==""){
-					text6Error.setDescriptionText("Niste unijeli e-mail!");
-					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text6Error.setImage(text6Field.getImage());
-					text6Error.showHoverText("Niste unijeli kontakt e-mail!");
-				}
-				else if (!text_6.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-					text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
-					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text6Error.setImage(text6Field.getImage());
-					text6Error.showHoverText("E-mail nije u ispravnom formatu!");
-				}
-
-				
-				//MessageDialog.openInformation(shell, "Izmjena klijenta", "Podaci o klijentu su uspješno izmijenjeni.");
+				MessageDialog.openInformation(shell, "Izmjena klijenta", "Podaci o klijentu su uspješno izmijenjeni.");
 			}
 		});
 		button_3.setText("Izmjeni");
@@ -245,7 +285,7 @@ ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP
 				
 				Shell shell = new Shell ();
 				
-ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+/*ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
 				
 				if (text_1.getText().length()<3 || text_1.getText()==""){
 					text1Error.setDescriptionText("Niste unijeli naziv firme!");
@@ -302,7 +342,7 @@ ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP
 					text6Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
 
-				
+				*/
 				
 			}
 		});
