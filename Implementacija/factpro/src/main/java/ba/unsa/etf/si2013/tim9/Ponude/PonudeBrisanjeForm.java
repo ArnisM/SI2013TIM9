@@ -1,38 +1,40 @@
 package ba.unsa.etf.si2013.tim9.Ponude;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+
+
+
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DisposeEvent;
 
 public class PonudeBrisanjeForm extends Shell {
 
@@ -42,6 +44,9 @@ public class PonudeBrisanjeForm extends Shell {
 	 */
 //	protected Shell this;
 	private Table table;
+	private List<Ponude> ponude;
+	private Text text_pretraga;
+	
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -80,38 +85,193 @@ public class PonudeBrisanjeForm extends Shell {
 		grpPretragaPonude.setText("Pretraga ponude");
 		grpPretragaPonude.setBounds(10, 0, 575, 162);
 		
-		Combo combo = new Combo(grpPretragaPonude, SWT.READ_ONLY);
+		final Combo combo = new Combo(grpPretragaPonude, SWT.READ_ONLY);
 		combo.setItems(new String[] {"Naziv firme\t", "PDV broj"});
-		combo.setBounds(112, 84, 142, 23);
+		combo.setBounds(112, 84, 122, 23);
 		combo.select(0);
 		combo.setText("Naziv firme");
-		
-		final Combo combo_OdabirFirme = new Combo(grpPretragaPonude, SWT.NONE);
-		combo_OdabirFirme.setItems(new String[] {"Interex", "Mercator", "Bh Telecom"});
-		combo_OdabirFirme.setBounds(394, 84, 149, 23);
-		combo_OdabirFirme.select(0);
-		combo_OdabirFirme.setText("Interex");
 		
 		Label label = new Label(grpPretragaPonude, SWT.NONE);
 		label.setText("Kirterij pretrage:");
 		label.setBounds(10, 87, 96, 15);
 		
+		
+		Group group_1 = new Group(grpPretragaPonude, SWT.NONE);
+		group_1.setText("Odabir");
+		group_1.setBounds(10, 22, 142, 56);
+		
+		final Label lblUnesiteNazivFirme = new Label(grpPretragaPonude, SWT.NONE);
+		lblUnesiteNazivFirme.setText("Unesite naziv firme:");
+		lblUnesiteNazivFirme.setBounds(266, 87, 116, 15);
+		
+		final Button button_1 = new Button(group_1, SWT.RADIO);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				combo.setItem(0, "Naziv firme");
+				combo.select(0);
+				lblUnesiteNazivFirme.setText("Unesite naziv firme:");
+			}
+		});
+		button_1.setText("Firma");
+		button_1.setSelection(true);
+		button_1.setBounds(54, 10, 90, 16);
+		
+		
+		
+		final Button button_2 = new Button(group_1, SWT.RADIO);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				combo.setItem(0, "Ime i prezime");
+				combo.select(0);
+				lblUnesiteNazivFirme.setText("Unesite ime i prezime:");
+			}
+		});
+		button_2.setText("Fizi\u010Dko lice");
+		button_2.setBounds(54, 32, 78, 16);
+		
+		
 		Button button = new Button(grpPretragaPonude, SWT.NONE);
+		
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-		
-ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SWT.RIGHT | SWT.TOP);
 				
-				if (combo_OdabirFirme.getText().length()<2 || combo_OdabirFirme.getText()==""){
-					odabirFirmeError.setDescriptionText("Niste odabrali firmu!");
+		if(button_1.getSelection()){
+				ControlDecoration odabirFirmeError = new ControlDecoration(text_pretraga, SWT.RIGHT | SWT.TOP);
+				
+				if (text_pretraga.getText()==""){
+					odabirFirmeError.setDescriptionText("Niste unijeli naziv firme!");
 					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					odabirFirmeError.setImage(nazivFirmeField.getImage());
-					odabirFirmeError.showHoverText("Niste odabrali firmu!");
+					odabirFirmeError.showHoverText("Niste unijeli naziv firme!");
 				}
 
-				MessageDialog.openInformation(shell, "Info", "Ponude koje odgovaraju pretrazi su ispisane!");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Ponude where naziv=:naziv");
+		        q.setString("naziv", text_pretraga.getText());
+		        ponude=q.list();
+		        t.commit();
+		        session.close();
+		        Ponude k=new Ponude();
+		        		        
+		        for (int i=0; i<ponude.size(); i++){
+		        	k = (Ponude) ponude.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+           	/*    item.setText(0,k.getNaziv());
+           	    item.setText(1,k.(getPdv()));
+             	item.setText(2,k.getPdvbroj());
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getBrojtelefona());
+           	    item.setText(7,k.getEmail());
+           	    item.setText(5,k.getBrojtelefona());
+           	    item.setText(6, k.getFax());*/
+		        } 
+		        }
+				
+				
+				if(combo.getSelectionIndex()==1){
+					
+			        Query q = session.createQuery("from Klijenti where pdvbroj=:pdvbroj");
+			        q.setString("pdvbroj", text_pretraga.getText());
+			        ponude=q.list();
+			        t.commit();
+			        session.close();
+			        Ponude k=new Ponude();
+			        		        
+		        for (int i=0; i<ponude.size(); i++){
+			        	k = (Ponude) ponude.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        
+	           	  /*  item.setText(0,k.getNaziv()); 
+	           	    item.setText(1,k.(getPdv()));
+	             	item.setText(2,k.getPdvbroj());
+	           	    item.setText(3,k.getAdresa());
+	           	    item.setText(4,k.getBrojtelefona());
+	           	    item.setText(7,k.getEmail());
+	           	    item.setText(5,k.getBrojtelefona());
+	           	    item.setText(6, k.getFax());*/
+			        } 
+			        }
+		}
+		
+		else if(button_2.getSelection()){
+		
+			
+			
+			ControlDecoration odabirFirmeError = new ControlDecoration(text_pretraga, SWT.RIGHT | SWT.TOP);
+			
+			if (text_pretraga.getText()==""){
+				odabirFirmeError.setDescriptionText("Niste odabrali firmu!");
+				FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+				odabirFirmeError.setImage(nazivFirmeField.getImage());
+				odabirFirmeError.showHoverText("Niste odabrali firmu!");
+			}
+
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction t = session.beginTransaction();
+			if(combo.getSelectionIndex()==0){
+										
+	        Query q = session.createQuery("from Ponude where naziv=:naziv");
+	        q.setString("naziv", text_pretraga.getText());
+	        ponude=q.list();
+	        t.commit();
+	        session.close();
+	        Ponude k=new Ponude();
+	        		        
+	        for (int i=0; i<ponude.size(); i++){
+	        	k = (Ponude) ponude.get(i);
+	        	
+	        TableItem item = new TableItem(table, 0, i);
+	        
+       	   /* item.setText(0,k.getNaziv());
+       	    item.setText(1,k.(getPdv()));
+         	item.setText(2,k.getPdvbroj());
+       	    item.setText(3,k.getAdresa());
+       	    item.setText(4,k.getBrojtelefona());
+       	    item.setText(7,k.getEmail());
+       	    item.setText(5,k.getBrojtelefona());
+       	    item.setText(6, k.getFax()); */
+	        }
+	        }
+			
+			
+			if(combo.getSelectionIndex()==1){
+				
+		        Query q = session.createQuery("from Klijenti where pdvbroj=:pdvbroj");
+		        q.setString("pdvbroj", text_pretraga.getText());
+		        ponude=q.list();
+		        t.commit();
+		        session.close();
+		        Ponude k=new Ponude();
+		        		        
+		        for (int i=0; i<ponude.size(); i++){
+		        	k = (Ponude) ponude.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+           	   /* item.setText(0,k.getNaziv());
+           	    item.setText(1,k.(getPdv()));
+             	item.setText(2,k.getPdvbroj());
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getBrojtelefona());
+           	    item.setText(7,k.getEmail());
+           	    item.setText(5,k.getBrojtelefona());
+           	    item.setText(6, k.getFax()); */
+		        }
+		        }
+		
+		}
+				
+				//MessageDialog.openInformation(shell, "Info", "Ponude koje odgovaraju pretrazi su ispisane!");
 				
 			}
 		});
@@ -120,24 +280,14 @@ ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SW
 		button.setImage(SWTResourceManager.getImage(PonudeBrisanjeForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
 		button.setBounds(427, 117, 116, 35);
 		
-		Group group_1 = new Group(grpPretragaPonude, SWT.NONE);
-		group_1.setText("Odabir");
-		group_1.setBounds(10, 22, 142, 56);
-		
-		Button button_1 = new Button(group_1, SWT.RADIO);
-		button_1.setText("Firma");
-		button_1.setSelection(true);
-		button_1.setBounds(54, 10, 90, 16);
-		
-		Button button_2 = new Button(group_1, SWT.RADIO);
-		button_2.setText("Fizi\u010Dko lice");
-		button_2.setBounds(54, 32, 78, 16);
+		text_pretraga = new Text(grpPretragaPonude, SWT.BORDER);
+		text_pretraga.setBounds(401, 84, 142, 21);
 		
 		
 		
-		Label label_1 = new Label(grpPretragaPonude, SWT.NONE);
-		label_1.setText("Odabir firme:");
-		label_1.setBounds(302, 87, 91, 15);
+		
+		
+		
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
@@ -148,9 +298,9 @@ ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SW
 		tableColumn.setWidth(100);
 		tableColumn.setText("ID fakture");
 		
-		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(137);
-		tableColumn_1.setText("Ukupna cijena sa pdf");
+		TableColumn tblclmnUkupnaCijenaSa = new TableColumn(table, SWT.NONE);
+		tblclmnUkupnaCijenaSa.setWidth(137);
+		tblclmnUkupnaCijenaSa.setText("Ukupna cijena sa pdv");
 		
 		TableColumn tableColumn_2 = new TableColumn(table, SWT.NONE);
 		tableColumn_2.setWidth(100);
@@ -204,5 +354,4 @@ ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SW
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
 }
