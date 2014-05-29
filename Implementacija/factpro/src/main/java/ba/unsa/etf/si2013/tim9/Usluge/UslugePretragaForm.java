@@ -1,11 +1,15 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+
+//import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -13,7 +17,13 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import ba.unsa.etf.si2013.tim9.*;
+
+import org.eclipse.osgi.util.*;
 public class UslugePretragaForm extends Shell {
 
 	/**
@@ -60,9 +70,10 @@ public class UslugePretragaForm extends Shell {
 		grpPretraga.setText("Pretraga");
 		grpPretraga.setBounds(10, 10, 356, 95);
 		
-		Combo combo = new Combo(grpPretraga, SWT.NONE);
-		combo.setItems(new String[] {"ID usluge", "Naziv", "Datum kreiranja", "Datum promjene", "Tip usluge", "Cijena"});
+		final Combo combo = new Combo(grpPretraga, SWT.NONE);
+		combo.setItems(new String[] {"Naziv"});
 		combo.setBounds(103, 18, 120, 23);
+		combo.setText("Izaberite kriterij pretrage");
 		
 		Label lblPretragaPo = new Label(grpPretraga, SWT.NONE);
 		lblPretragaPo.setBounds(10, 21, 105, 15);
@@ -75,13 +86,34 @@ public class UslugePretragaForm extends Shell {
 		text = new Text(grpPretraga, SWT.BORDER);
 		text.setBounds(100, 59, 123, 21);
 		
+
+		final List list = new List(this, SWT.BORDER);
+		//list.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
+		((Control) list).setBounds(10, 154, 367, 204);
+		
 		Button btnPretraga = new Button(grpPretraga, SWT.NONE);
 		btnPretraga.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Pretraga usluga", "Pretraga je završena. Usluge koje zadovoljavaju kriterij su ispisane.");
-			}
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				java.util.List<Usluga> usluge;
+				if(combo.getSelectionIndex()==0){
+					
+			        Query q = session.createQuery("from Usluga where naziv=:naziv");
+			        q.setString("naziv", text.getText());
+			        usluge=q.list();
+			        t.commit();
+			        session.close();
+			        Usluga k=new Usluga();
+			        		        
+			        for (int i=0; i<usluge.size(); i++){
+			        	k = (Usluga) usluge.get(i);
+			        	list.add(k.getNaziv(), i);
+			       
+			        }}
+				
+				}
 		});
 		btnPretraga.setImage(SWTResourceManager.getImage(UslugePretragaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
 		btnPretraga.setBounds(249, 18, 97, 25);
@@ -91,9 +123,6 @@ public class UslugePretragaForm extends Shell {
 		lblOdaberiteeljeneUsluge.setText("Odaberite \u017Eeljene usluge za ispis:");
 		lblOdaberiteeljeneUsluge.setBounds(10, 133, 183, 15);
 		
-		List list = new List(this, SWT.BORDER);
-		list.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
-		list.setBounds(10, 154, 367, 204);
 		
 		Button button = new Button(this, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {

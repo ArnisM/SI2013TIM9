@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Fakture;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -15,6 +17,12 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 //import org.eclipse.wb.swt.DodavanjeStavkiFaktureForm;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
 public class FaktureDodavanjeForm extends Shell {
 
@@ -81,7 +89,25 @@ public class FaktureDodavanjeForm extends Shell {
 		btnFizikoLice.setBounds(10, 56, 90, 16);
 		btnFizikoLice.setText("Fizi\u010Dko lice");
 		
-		Combo combo = new Combo(grpKlijent, SWT.NONE);
+		final Combo combo = new Combo(grpKlijent, SWT.NONE);
+		combo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				List<Klijenti> klijenti;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				Query q = session.createQuery("from Klijenti where tip=:tip");
+		        q.setString("tip", "firma");
+		        klijenti=q.list();
+				t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		      
+		        k=(Klijenti)klijenti.get(0);
+		       combo.setItem(0, k.getAdresa());
+			}
+		});
 		combo.setBounds(271, 33, 154, 23);
 		combo.setText("Mercator");
 		
