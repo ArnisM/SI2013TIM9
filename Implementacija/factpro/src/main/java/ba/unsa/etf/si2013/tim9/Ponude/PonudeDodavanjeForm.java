@@ -1,5 +1,6 @@
 package ba.unsa.etf.si2013.tim9.Ponude;
 
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,6 +34,17 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Klijenti.*;
+import java.util.List;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class PonudeDodavanjeForm extends Shell {
 
@@ -42,7 +54,9 @@ public class PonudeDodavanjeForm extends Shell {
 	 */
 //	protected Shell this;
 	Table table;
+	private List<Klijenti> klijenti; 
 	private Text text_dodatni_zahtjevi;
+	private Text text;
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -65,6 +79,12 @@ public class PonudeDodavanjeForm extends Shell {
 	 */
 	public PonudeDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellActivated(ShellEvent e) {
+				
+			}
+		});
 		createContents();
 	}
 
@@ -85,27 +105,43 @@ public class PonudeDodavanjeForm extends Shell {
 		grpOdabir.setText("Odabir");
 		grpOdabir.setBounds(10, 20, 123, 82);
 		
-		Button btnFirma = new Button(grpOdabir, SWT.RADIO);
+		final Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
+		lblIzaberiteFirmu.setBounds(170, 36, 106, 15);
+		lblIzaberiteFirmu.setText("Unesite naziv firme:");
+		
+		final Button btnFirma = new Button(grpOdabir, SWT.RADIO);
 		btnFirma.setSelection(true);
 		btnFirma.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				lblIzaberiteFirmu.setVisible(true);
+				text.setVisible(true);
+				//combo_firma.setVisible(false);
+				
 			}
 		});
 		btnFirma.setBounds(10, 23, 90, 16);
 		btnFirma.setText("Firma");
 		
 		Button btnFizikoLice = new Button(grpOdabir, SWT.RADIO);
+		btnFizikoLice.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblIzaberiteFirmu.setVisible(false);
+				text.setVisible(false);
+				//combo_firma.setVisible(false);
+			}
+		});
 		btnFizikoLice.setBounds(10, 56, 90, 16);
 		btnFizikoLice.setText("Fizi\u010Dko lice");
 		
-		final Combo combo_firma = new Combo(grpKlijent, SWT.NONE);
-		combo_firma.setBounds(271, 33, 154, 23);
-		combo_firma.setText("Mercator");
+		text = new Text(grpKlijent, SWT.BORDER);
+		text.setBounds(295, 33, 225, 23);
 		
-		Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
-		lblIzaberiteFirmu.setBounds(170, 36, 95, 15);
-		lblIzaberiteFirmu.setText("Odaberite firmu:");
+		
+		
+		
 		
 		Label lblStavkeFakture = new Label(this, SWT.NONE);
 		lblStavkeFakture.setBounds(10, 158, 132, 15);
@@ -172,13 +208,15 @@ public class PonudeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				
-				ControlDecoration nazivFirmeError = new ControlDecoration(combo_firma, SWT.RIGHT | SWT.TOP);
+				ControlDecoration nazivFirmeError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 				
-				if (combo_firma.getText().length()<3 || combo_firma.getText()==""){
+				if(btnFirma.getSelection()){
+				if (text.getText().length()<3 || text.getText()==""){
 					nazivFirmeError.setDescriptionText("Niste unijeli naziv firme!");
 					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					nazivFirmeError.setImage(nazivFirmeField.getImage());
 					nazivFirmeError.showHoverText("Niste unijeli naziv firme!");
+				}
 				}
 				
 				ControlDecoration dodatniZahtjeviError = new ControlDecoration(text_dodatni_zahtjevi, SWT.RIGHT | SWT.TOP);
@@ -191,7 +229,7 @@ public class PonudeDodavanjeForm extends Shell {
 				
 				// treba uraditi validacije za TEBELU
 				
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je dodana ponuda.");
+				else MessageDialog.openInformation(shell, "Info", "Uspjesno je dodana ponuda.");
 			}
 		});
 		button_1.setText("Dodaj");
@@ -222,5 +260,4 @@ public class PonudeDodavanjeForm extends Shell {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
 }

@@ -20,15 +20,13 @@ import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 @Entity 
-@Table (name = "TB_Ponude")
+@Table (name = "ponuda")
 public class Ponude implements Serializable {
 	
 
 	 @Id 
 	 @GeneratedValue
 	 long id;
-	 
-	 private int idstavka;
 
 	 private int idzaposlenik;
 	 
@@ -36,17 +34,16 @@ public class Ponude implements Serializable {
 	 
 	 private int cijena;
 
-	private String nacin_placanja;
 	private String datum_kreiranja;
 	private String komentar;
 		
 		public Ponude(){} 
-		public Ponude(int idstavka, int idzaposlenik, int idklijent, int cijena, String nacin_placanja, String datum_kreiranja, String komentar) {
-			this.setIDStavka(idstavka);
+		public Ponude(int idzaposlenik, int idklijent, int cijena, String datum_kreiranja, String komentar) {
+			
 			this.setIDZaposlenik(idzaposlenik);
 			this.setIDKlijent(idklijent);
 			this.setCijena(cijena);
-			this.setNacinPlacanja(nacin_placanja);
+			
 			this.setDatumKreiranja(datum_kreiranja);
 			this.setKomentar(komentar);
 					
@@ -60,12 +57,7 @@ public class Ponude implements Serializable {
 				this.id = id;
 			}
 			
-			public int getIDStavka() {
-				return idstavka;
-			}
-			public void setIDStavka(int idstavka) {
-				this.idstavka = idstavka;
-			}
+			
 			
 			public int getIDZaposlenik() {
 				return idzaposlenik;
@@ -88,12 +80,6 @@ public class Ponude implements Serializable {
 				this.cijena = cijena;
 			}
 			
-	public String getNacinPlacanja() {
-		return nacin_placanja;
-	}
-	public void setNacinPlacanja(String nacin_placanja) {
-		this.nacin_placanja = nacin_placanja;
-	}
 	
 	public String getDatumKreiranja() {
 		return datum_kreiranja;

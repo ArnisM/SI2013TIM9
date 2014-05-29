@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 28, 2014 11:32:02 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 29, 2014 8:24:23 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="ba.unsa.etf.si2013.tim9.Ponude.Ponude" table="PONUDE">
+    <class name="ba.unsa.etf.si2013.tim9.Ponude.Ponude" table="PONUDA">
         <id name="id" type="long">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
-        <property name="idstavka" type="int" access="field">
-            <column name="IDSTAVKA" />
-        </property>
         <property name="idzaposlenik" type="int" access="field">
             <column name="IDZAPOSLENIK" />
         </property>
@@ -19,9 +16,6 @@
         </property>
         <property name="cijena" type="int">
             <column name="CIJENA" />
-        </property>
-        <property name="nacin_placanja" type="java.lang.String" access="field">
-            <column name="NACIN_PLACANJA" />
         </property>
         <property name="datum_kreiranja" type="java.lang.String" access="field">
             <column name="DATUM_KREIRANJA" />

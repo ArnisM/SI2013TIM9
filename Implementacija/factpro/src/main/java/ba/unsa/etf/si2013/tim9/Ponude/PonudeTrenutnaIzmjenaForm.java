@@ -87,29 +87,44 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 		Group grpOdabir = new Group(grpKlijent, SWT.NONE);
 		grpOdabir.setText("Odabir");
 		grpOdabir.setBounds(10, 20, 123, 82);
+		final Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
+		lblIzaberiteFirmu.setBounds(170, 36, 137, 15);
+		lblIzaberiteFirmu.setText("Unesite naziv firme:");
+		
+		final Combo combo = new Combo(grpKlijent, SWT.NONE);
+		combo.setItems(new String[] {"Mercator", "Interex", "Bh Telecom", "Telemach"});
+		combo.setBounds(313, 33, 154, 23);
+		combo.setText("Mercator");
 		
 		Button btnFirma = new Button(grpOdabir, SWT.RADIO);
 		btnFirma.setSelection(true);
 		btnFirma.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				lblIzaberiteFirmu.setVisible(false);
+				combo.setVisible(false);
+				
 			}
 		});
 		btnFirma.setBounds(10, 23, 90, 16);
 		btnFirma.setText("Firma");
 		
+		
+		
 		Button btnFizikoLice = new Button(grpOdabir, SWT.RADIO);
+		btnFizikoLice.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblIzaberiteFirmu.setVisible(false);
+				combo.setVisible(false);
+			}
+		});
 		btnFizikoLice.setBounds(10, 56, 90, 16);
 		btnFizikoLice.setText("Fizi\u010Dko lice");
 		
-		final Combo combo_OdabirFirme = new Combo(grpKlijent, SWT.NONE);
-		combo_OdabirFirme.setItems(new String[] {"Mercator", "Interex", "Bh Telecom", "Telemach"});
-		combo_OdabirFirme.setBounds(271, 33, 154, 23);
-		combo_OdabirFirme.setText("Mercator");
 		
-		Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
-		lblIzaberiteFirmu.setBounds(170, 36, 95, 15);
-		lblIzaberiteFirmu.setText("Odaberite firmu:");
+		
+		
 		
 		Label lblStavkeFakture = new Label(this, SWT.NONE);
 		lblStavkeFakture.setBounds(10, 158, 132, 15);
@@ -176,9 +191,9 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				
-ControlDecoration odabirFirmeError = new ControlDecoration(combo_OdabirFirme, SWT.RIGHT | SWT.TOP);
+ControlDecoration odabirFirmeError = new ControlDecoration(combo, SWT.RIGHT | SWT.TOP);
 				
-				if (combo_OdabirFirme.getText().length()<3 || combo_OdabirFirme.getText()==""){
+				if (combo.getText().length()<3 || combo.getText()==""){
 					odabirFirmeError.setDescriptionText("Niste odabrali firme!");
 					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					odabirFirmeError.setImage(nazivFirmeField.getImage());

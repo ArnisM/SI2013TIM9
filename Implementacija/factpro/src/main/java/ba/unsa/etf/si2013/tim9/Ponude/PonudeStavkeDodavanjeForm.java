@@ -9,11 +9,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 
 
+
+import ba.unsa.etf.si2013.tim9.Ponude.PonudeDodavanjeForm;
 
 
 public class PonudeStavkeDodavanjeForm extends Shell {
@@ -46,6 +51,12 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 	 */
 	public PonudeStavkeDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+		
+			}
+		});
 		createContents();
 	}
 
@@ -72,12 +83,12 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				
-				//PonudeDodavanjeForm a = new PonudeDodavanjeForm(null);
-				//a.table.
-				//value.setData(list_dodaj.getSelectionIndex());
+				PonudeDodavanjeForm a = new PonudeDodavanjeForm(getDisplay());
+				int ind = list_dodaj.getSelectionIndex();
 				
-				//a.table.tblclmnOpis.value = list_dodaj.getSelectionIndex();
-				//tblclmnOpis.value = list.getFocusIndex();
+				//TableItem ti = a.table.getItem(2); 
+				//ti.setText(2, list_dodaj.getItem(ind));
+
 				//a.open();
 				
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");

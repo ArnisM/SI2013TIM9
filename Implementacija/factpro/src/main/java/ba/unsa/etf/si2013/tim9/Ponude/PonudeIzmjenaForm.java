@@ -43,6 +43,7 @@ public class PonudeIzmjenaForm extends Shell {
 
 //	protected Shell this;
 	private Table table;
+	private Text text;
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -81,7 +82,7 @@ public class PonudeIzmjenaForm extends Shell {
 		grpPretragaFakture.setText("Pretraga ponude");
 		grpPretragaFakture.setBounds(10, 10, 575, 162);
 		
-		Combo combo = new Combo(grpPretragaFakture, SWT.NONE);
+		final Combo combo = new Combo(grpPretragaFakture, SWT.READ_ONLY);
 		combo.setItems(new String[] {"Naziv firme\t", "PDV broj"});
 		combo.setBounds(112, 84, 142, 23);
 		combo.setText("Naziv firme");
@@ -107,22 +108,39 @@ public class PonudeIzmjenaForm extends Shell {
 		group_1.setText("Odabir");
 		group_1.setBounds(10, 22, 142, 56);
 		
+		final Label lblUnesiteNazivFirme = new Label(grpPretragaFakture, SWT.NONE);
+		lblUnesiteNazivFirme.setText("Unesite naziv firme:");
+		lblUnesiteNazivFirme.setBounds(281, 87, 131, 15);
+		
 		Button button_1 = new Button(group_1, SWT.RADIO);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				combo.setItem(0, "Naziv firme");
+				combo.select(0);
+				lblUnesiteNazivFirme.setText("Unesite naziv firme:");
+			}
+		});
 		button_1.setText("Firma");
 		button_1.setSelection(true);
 		button_1.setBounds(54, 10, 90, 16);
 		
 		Button button_2 = new Button(group_1, SWT.RADIO);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				combo.setItem(0, "Ime i prezime");
+				combo.select(0);
+				lblUnesiteNazivFirme.setText("Unesite ime i prezime:");
+			}
+		});
 		button_2.setText("Fizi\u010Dko lice");
 		button_2.setBounds(54, 32, 78, 16);
 		
-		Combo combo_1 = new Combo(grpPretragaFakture, SWT.NONE);
-		combo_1.setBounds(394, 84, 149, 23);
-		combo_1.setText("Mercator");
 		
-		Label label_1 = new Label(grpPretragaFakture, SWT.NONE);
-		label_1.setText("Odabir firme:");
-		label_1.setBounds(302, 87, 91, 15);
+		
+		text = new Text(grpPretragaFakture, SWT.BORDER);
+		text.setBounds(418, 84, 125, 21);
 		
 		Label lblIzaberiteeljenuFakturu = new Label(this, SWT.NONE);
 		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu ponudu:");

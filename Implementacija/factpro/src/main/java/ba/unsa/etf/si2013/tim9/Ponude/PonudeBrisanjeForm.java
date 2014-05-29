@@ -35,6 +35,10 @@ import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 
 public class PonudeBrisanjeForm extends Shell {
 
@@ -85,7 +89,28 @@ public class PonudeBrisanjeForm extends Shell {
 		grpPretragaPonude.setText("Pretraga ponude");
 		grpPretragaPonude.setBounds(10, 0, 575, 162);
 		
+		final Label lblUnesiteNazivFirme = new Label(grpPretragaPonude, SWT.NONE);
+		lblUnesiteNazivFirme.setText("Unesite naziv firme:");
+		lblUnesiteNazivFirme.setBounds(266, 87, 116, 15);
+		
 		final Combo combo = new Combo(grpPretragaPonude, SWT.READ_ONLY);
+		combo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(combo.getText()=="PDV broj"){
+					lblUnesiteNazivFirme.setText("Unesite PDV broj:");
+				}
+			}
+		});
+		combo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+
+				if(combo.getText()=="PDV broj"){
+					lblUnesiteNazivFirme.setText("Unesite PDV broj:");
+				}
+			}
+		});
 		combo.setItems(new String[] {"Naziv firme\t", "PDV broj"});
 		combo.setBounds(112, 84, 122, 23);
 		combo.select(0);
@@ -100,9 +125,7 @@ public class PonudeBrisanjeForm extends Shell {
 		group_1.setText("Odabir");
 		group_1.setBounds(10, 22, 142, 56);
 		
-		final Label lblUnesiteNazivFirme = new Label(grpPretragaPonude, SWT.NONE);
-		lblUnesiteNazivFirme.setText("Unesite naziv firme:");
-		lblUnesiteNazivFirme.setBounds(266, 87, 116, 15);
+	
 		
 		final Button button_1 = new Button(group_1, SWT.RADIO);
 		button_1.addSelectionListener(new SelectionAdapter() {
@@ -126,6 +149,7 @@ public class PonudeBrisanjeForm extends Shell {
 				combo.setItem(0, "Ime i prezime");
 				combo.select(0);
 				lblUnesiteNazivFirme.setText("Unesite ime i prezime:");
+				
 			}
 		});
 		button_2.setText("Fizi\u010Dko lice");
