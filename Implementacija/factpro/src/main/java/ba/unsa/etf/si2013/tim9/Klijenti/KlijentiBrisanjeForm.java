@@ -191,6 +191,7 @@ public class KlijentiBrisanjeForm extends Shell {
 				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Brisanje klijenta", "Klijent je uspješno obrisan.");
+				table.clear(ind);
 			}
 		});
 		button_1.setText("Bri\u0161i");

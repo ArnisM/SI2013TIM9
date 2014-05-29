@@ -90,7 +90,7 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Naziv"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("PDV broj");
+		combo.setText("Odaberite kriterj pretrage");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -171,11 +171,12 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 	        Shell shell1 = new Shell();
 			MessageDialog.openInformation(shell1, "Brisanje klijenta", "Klijent je uspješno obrisan.");
 			
+			Control [] controls = table.getChildren(); 
 			
+			table.clear(ind);
 			
 			}
 		});
-		
 		
 		
 		Button button = new Button(group, SWT.NONE);

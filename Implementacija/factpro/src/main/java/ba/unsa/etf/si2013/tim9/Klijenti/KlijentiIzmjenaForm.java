@@ -226,19 +226,19 @@ public class KlijentiIzmjenaForm extends Shell {
 				if(text_1.getText()!=""){
 				
 		         klijent.setNaziv( text_1.getText() +" "+ part2);
-				 
+		         ti.setText(1, text_1.getText());
 				}
 				
 				if(text_2.getText()!=""){
 					
 			         klijent.setNaziv( part1 + " " + text_2.getText());
-					 
+			         ti.setText(2, text_2.getText());
 					}
 				
 				if(text_3.getText()!=""){
 					
 			         klijent.setAdresa( text_3.getText());
-					 
+			         ti.setText(3, text_3.getText());
 					}
 				
 				if(text_6.getText()!=""){
@@ -250,7 +250,7 @@ public class KlijentiIzmjenaForm extends Shell {
 						text6Error.showHoverText("Telefon nije u ispravnom formatu!");
 					}
 					 klijent.setBrojtelefona( text_6.getText());
-					
+					 ti.setText(4, text_6.getText());
 					}
 				if(text_5.getText()!=""){
 					ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
@@ -261,7 +261,7 @@ public class KlijentiIzmjenaForm extends Shell {
 						text5Error.showHoverText("E-mail nije u ispravnom formatu!");
 					}
 					 klijent.setEmail( text_5.getText());
-					
+					 ti.setText(5, text_5.getText());
 					}
 				
 				session.update(klijent); 
