@@ -1,6 +1,17 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+
+@Entity 
+@Table (name = "Usluga")
+
 public class Usluga implements Serializable {
 	
 
@@ -8,10 +19,12 @@ public class Usluga implements Serializable {
 	String  naziv, opisUsluge;
 	int cijena, ukupanTrosak;
 	
+    String tipUsluge;
+	
 	public Usluga () {}
 	
-	public Usluga(String naziv, int cijena, int ukupanTrosak,
-			Tip tipUsluge, String opisUsluge) {
+	public Usluga(String naziv, String tipUsluge, int cijena, int ukupanTrosak,
+			 String opisUsluge) {
 		super();
 		this.naziv = naziv;
 		this.cijena = cijena;
@@ -20,8 +33,7 @@ public class Usluga implements Serializable {
 		this.opisUsluge = opisUsluge;
 	}
 	
-	public enum Tip {Servis, Konsultacije};
-    Tip tipUsluge;
+	
 	
 	public long getId() {
 		return id;
@@ -55,13 +67,6 @@ public class Usluga implements Serializable {
 		this.ukupanTrosak = ukupanTrosak;
 	}
 
-	public Tip getTipUsluge() {
-		return tipUsluge;
-	}
-
-	public void setTipUsluge(Tip tipUsluge) {
-		this.tipUsluge = tipUsluge;
-	}
 
 	public String getOpisUsluge() {
 		return opisUsluge;
@@ -70,5 +75,23 @@ public class Usluga implements Serializable {
 	public void setOpisUsluge(String opisUsluge) {
 		this.opisUsluge = opisUsluge;
 	}
+	
+	public String getTipUsluge() {
+		return tipUsluge;
+	}
+
+	public void setTipUsluge(String tipUsluge) {
+		this.tipUsluge = tipUsluge;
+	}
+	
+	public void spasiUBazu() {
+	 	Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(this);
+		t.commit();
+		session.close();
+	 	}
+
+	
 
 }
