@@ -153,13 +153,26 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction t = session.beginTransaction();
 			Klijenti k=new Klijenti();
-			long id=klijenti.get(table.getSelectionIndex()).getId();
+			int index=table.getSelectionIndex();
+			TableItem item=table.getItem(index);
+			int i=Integer.parseInt(item.getText(8));
+			long id=klijenti.get(i).getId();
+			
 			String hql = "delete from Klijenti where id = :id";
+			
 	        Query query = session.createQuery(hql);
+	      
 	        query.setLong("id",id);
-	        int rowCount = query.executeUpdate();
-			table.remove(table.getSelectionIndex());	
+	       
+	        t.commit();
+	        session.close();
+	        Shell shell1 = new Shell();
+			MessageDialog.openInformation(shell1, "Brisanje klijenta", "Klijent je uspješno obrisan.");
+			
+			table.remove(table.getSelectionIndex());
+			
 			}
 		});
 		
@@ -194,6 +207,7 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 	           	    item.setText(7,k.getEmail());
 	           	    item.setText(5,k.getBrojtelefona());
 	           	    item.setText(6, k.getFax());
+	           	    item.setText(8,Integer.toString((int)(k.getId())));
 			        }
 			        }
 					

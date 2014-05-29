@@ -241,8 +241,16 @@ ControlDecoration text4Error = new ControlDecoration(text_4, SWT.RIGHT | SWT.TOP
 					text4Error.showHoverText("Fax nije u ispravnom formatu!");
 				}
 				
-				
+				else{
+					
+					if(text_1.getText()!=""){
+						
+					}
+					
 				//MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+				
+				
+				}
 			}
 		});
 		button_3.setText("Izmjeni");

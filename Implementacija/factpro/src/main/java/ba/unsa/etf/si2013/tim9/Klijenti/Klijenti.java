@@ -20,7 +20,7 @@ import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 @Entity 
-@Table (name = "TB_Klijenti")
+@Table (name = "Klijenti")
 public class Klijenti implements Serializable {
 	
 
