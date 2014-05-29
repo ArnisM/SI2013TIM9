@@ -1,5 +1,11 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.Transaction;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
@@ -7,19 +13,21 @@ import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import java.util.Scanner; 
 
-import org.hibernate.Transaction; 
+
+
 import org.hibernate.Session; 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Usluge.*;
@@ -35,6 +43,8 @@ public class UslugeDodavanjeForm extends Shell {
 //	protected Shell this;
 	private Text text;
 	private Text text_1;
+	private Text text_2;
+	private Text text_3;
 
 	public static void main(String args[]) {
 		try {
@@ -52,10 +62,7 @@ public class UslugeDodavanjeForm extends Shell {
 	
 		}
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		 dodajUslugu(session);
-		  
-		 session.close(); 
+		 
 
 	}
 
@@ -90,8 +97,9 @@ public class UslugeDodavanjeForm extends Shell {
 		grpTipUsluge.setText("Tip usluge");
 		grpTipUsluge.setBounds(28, 104, 252, 82);
 		
-		Button btnServis = new Button(grpTipUsluge, SWT.RADIO);
-		btnServis.setBounds(88, 22, 90, 16);
+		final Button btnServis = new Button(grpTipUsluge, SWT.RADIO);
+		btnServis.setSelection(true);
+		btnServis.setBounds(88, 24, 90, 16);
 		btnServis.setText("Servis");
 		
 		Button btnKonsultacije = new Button(grpTipUsluge, SWT.RADIO);
@@ -109,15 +117,9 @@ public class UslugeDodavanjeForm extends Shell {
 		lblCijenaUsluge.setBounds(28, 195, 100, 15);
 		lblCijenaUsluge.setText("Cijena usluge(KM):");
 		
-		Spinner spinner = new Spinner(this, SWT.BORDER);
-		spinner.setBounds(189, 192, 91, 22);
-		
 		Label lblTroakIzvrenjakm = new Label(this, SWT.NONE);
 		lblTroakIzvrenjakm.setText("Tro\u0161ak izvr\u0161enja usluge(KM):");
 		lblTroakIzvrenjakm.setBounds(28, 234, 150, 15);
-		
-		Spinner spinner_1 = new Spinner(this, SWT.BORDER);
-		spinner_1.setBounds(189, 227, 91, 22);
 		
 		Button btnDodaj = new Button(this, SWT.NONE);
 		btnDodaj.addSelectionListener(new SelectionAdapter() {
@@ -133,14 +135,29 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.showHoverText("Niste unijeli naziv!");
 				}
 				
-				else if (!text.getText().matches("[A-Za-z0-9 ]*")){
+				else if (!text.getText().matches("[A-Za-z ]*")){
 					textError.setDescriptionText("Naziv usluge nije u ispravnom formatu!");
 					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					textError.setImage(textField.getImage());
 					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
 				}
-				else{
-				MessageDialog.openInformation(shell, "Doodavanje usluga", "Usluga je uspješno dodana.");
+				else {
+					Usluga novaUsluga = new Usluga ();
+					novaUsluga.setNaziv(text.getText());
+					if(btnServis.getSelection()==true){
+						novaUsluga.setTipUsluge("Servis");
+						}
+					else { novaUsluga.setTipUsluge("Konsultacije"); }
+					novaUsluga.setCijena (Integer.parseInt(text_2.getText()));
+					novaUsluga.setUkupanTrosak(Integer.parseInt(text_3.getText()));
+					novaUsluga.setOpisUsluge(text_1.getText());
+					
+					novaUsluga.spasiUBazu();
+					Shell shell1 = new Shell();
+					
+					
+				
+				MessageDialog.openInformation(shell1, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
 		} });
 		btnDodaj.setText("Dodaj");
@@ -157,6 +174,12 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 		button_1.setText("Izlaz");
 		button_1.setImage(SWTResourceManager.getImage(UslugeDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
 		button_1.setBounds(242, 450, 116, 42);
+		
+		text_2 = new Text(this, SWT.BORDER);
+		text_2.setBounds(204, 192, 76, 21);
+		
+		text_3 = new Text(this, SWT.BORDER);
+		text_3.setBounds(204, 228, 76, 21);
 
 	}
 
@@ -164,17 +187,5 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-	private static void dodajUslugu(Session session) {
-		// TODO Auto-generated method stub
-		Transaction t = session.beginTransaction(); 
-		 
-		 Usluga u = new Usluga(); 
-		 
-		 
-		 Long id = (Long) session.save(u); 
-		  
-		 t.commit(); 
-
-	}
-
+	
 }
