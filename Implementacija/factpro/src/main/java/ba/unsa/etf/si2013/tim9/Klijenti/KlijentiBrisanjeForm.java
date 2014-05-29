@@ -99,6 +99,7 @@ public class KlijentiBrisanjeForm extends Shell {
 		lblUnesitePrezime.setBounds(282, 38, 92, 15);
 		
 		Button button = new Button(group, SWT.NONE);
+		
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
