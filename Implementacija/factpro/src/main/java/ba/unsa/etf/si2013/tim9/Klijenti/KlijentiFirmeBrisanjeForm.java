@@ -26,6 +26,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
+
+
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 import org.eclipse.swt.events.DisposeListener;
@@ -119,6 +121,10 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 		table.setHeaderVisible(true);
 		table.setBounds(10, 158, 626, 179);
 		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(100);
+		tblclmnId.setText("ID");
+		
 		
 		final TableColumn tblclmnNazivFirme = new TableColumn(table, SWT.NONE);
 		tblclmnNazivFirme.setWidth(80);
@@ -137,11 +143,11 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 		tblclmnAdresa.setText("Adresa");
 		
 		TableColumn tableColumn_4 = new TableColumn(table, SWT.NONE);
-		tableColumn_4.setWidth(129);
+		tableColumn_4.setWidth(93);
 		tableColumn_4.setText("Broj telefona");
 		
 		TableColumn tblclmnFax = new TableColumn(table, SWT.NONE);
-		tblclmnFax.setWidth(106);
+		tblclmnFax.setWidth(56);
 		tblclmnFax.setText("Fax");
 		
 		TableColumn tblclmnEmail = new TableColumn(table, SWT.NONE);
@@ -155,23 +161,19 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction t = session.beginTransaction();
 			Klijenti k=new Klijenti();
-			int index=table.getSelectionIndex();
-			TableItem item=table.getItem(index);
-			int i=Integer.parseInt(item.getText(8));
-			long id=klijenti.get(i).getId();
+			int ind=table.getSelectionIndex();
+			TableItem ti=table.getItem(ind);
+			System.out.print(ti.getText(0));
 			
-			String hql = "delete from Klijenti where id = :id";
-			
-	        Query query = session.createQuery(hql);
-	      
-	        query.setLong("id",id);
-	       
-	        t.commit();
-	        session.close();
+			System.out.print("bob");
+			Klijenti myObject = (Klijenti) session.load(Klijenti.class,(long)(Integer.parseInt(ti.getText(0))));
+		    session.delete(myObject);
+		    session.getTransaction().commit();
+
 	        Shell shell1 = new Shell();
 			MessageDialog.openInformation(shell1, "Brisanje klijenta", "Klijent je uspješno obrisan.");
 			
-			table.remove(table.getSelectionIndex());
+			
 			
 			}
 		});
@@ -199,43 +201,20 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 			        	
 			        TableItem item = new TableItem(table, 0, i);
 			        
-	           	    item.setText(0,k.getNaziv());
-	           	    /*item.setText(1,k.(getPdv()));
-	             	item.setText(2,k.getPdvbroj());*/
-	           	    item.setText(3,k.getAdresa());
-	           	    item.setText(4,k.getBrojtelefona());
-	           	    item.setText(7,k.getEmail());
+			        item.setText(1,k.getNaziv());
+	           	    item.setText(2,Integer.toString(k.getPdv()));
+	             	item.setText(3,Integer.toString(k.getPdvbroj()));
+	           	    item.setText(4,k.getAdresa());
 	           	    item.setText(5,k.getBrojtelefona());
-	           	    item.setText(6, k.getFax());
-	           	    item.setText(8,Integer.toString((int)(k.getId())));
+	           	    item.setText(8,k.getEmail());
+	           	    item.setText(6,k.getBrojtelefona());
+	           	    item.setText(7, k.getFax());
+	           	    item.setText(0,Integer.toString((int)k.getId()));
 			        }
-			        }
+			    }
 					
 					
-					if(combo.getSelectionIndex()==1){
-						
-				        Query q = session.createQuery("from Klijenti where pdvbroj=:pdvbroj");
-				        q.setString("pdvbroj", text.getText());
-				        klijenti=q.list();
-				        t.commit();
-				        session.close();
-				        Klijenti k=new Klijenti();
-				        		        
-				        for (int i=0; i<klijenti.size(); i++){
-				        	k = (Klijenti) klijenti.get(i);
-				        	
-				        TableItem item = new TableItem(table, 0, i);
-				        
-		           	    item.setText(0,k.getNaziv());
-		           	    /*item.setText(1,k.(getPdv()));
-		             	item.setText(2,k.getPdvbroj());*/
-		           	    item.setText(3,k.getAdresa());
-		           	    item.setText(4,k.getBrojtelefona());
-		           	    item.setText(7,k.getEmail());
-		           	    item.setText(5,k.getBrojtelefona());
-		           	    item.setText(6, k.getFax());
-				        }
-				        }
+					
 					
 					
 			}

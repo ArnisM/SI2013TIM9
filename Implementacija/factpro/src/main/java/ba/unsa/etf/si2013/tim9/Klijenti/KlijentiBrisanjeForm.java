@@ -85,7 +85,7 @@ public class KlijentiBrisanjeForm extends Shell {
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Ime  i prezime"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Prezime");
+		combo.setText("Izaberi kriterij");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -117,43 +117,25 @@ public class KlijentiBrisanjeForm extends Shell {
 		        	k = (Klijenti) klijenti.get(i);
 		        	
 		        TableItem item = new TableItem(table, 0, i);
+		        String string = k.getNaziv();
+		        String[] parts = string.split(" ");
+		        String part1 = parts[0]; // 004
+		        String part2 = parts[1]; // 034556
 		        
-           	    item.setText(0,k.getNaziv());
-           	    /*item.setText(1,k.(getPdv()));
-             	item.setText(2,k.getPdvbroj());*/
+		        item.setText(1,part1);
+		        item.setText(2, part2);
+           	   
            	    item.setText(3,k.getAdresa());
            	    item.setText(4,k.getBrojtelefona());
-           	    item.setText(7,k.getEmail());
-           	    item.setText(5,k.getBrojtelefona());
-           	    item.setText(6, k.getFax());
+           	    item.setText(5,k.getEmail());
+           	    
+           	    
+           	    item.setText(0,Integer.toString((int)k.getId()));
 		        }
-		        }
+		    }
 				
 				
-				if(combo.getSelectionIndex()==1){
-					
-			        Query q = session.createQuery("from Klijenti where pdvbroj=:pdvbroj");
-			        q.setString("pdvbroj", text.getText());
-			        klijenti=q.list();
-			        t.commit();
-			        session.close();
-			        Klijenti k=new Klijenti();
-			        		        
-			        for (int i=0; i<klijenti.size(); i++){
-			        	k = (Klijenti) klijenti.get(i);
-			        	
-			        TableItem item = new TableItem(table, 0, i);
-			        
-	           	    item.setText(0,k.getNaziv());
-	           	    /*item.setText(1,k.(getPdv()));
-	             	item.setText(2,k.getPdvbroj());*/
-	           	    item.setText(3,k.getAdresa());
-	           	    item.setText(4,k.getBrojtelefona());
-	           	    item.setText(7,k.getEmail());
-	           	    item.setText(5,k.getBrojtelefona());
-	           	    item.setText(6, k.getFax());
-			        }
-			        }
+				
 				
 				
 		}
@@ -167,6 +149,10 @@ public class KlijentiBrisanjeForm extends Shell {
 		table.setBounds(10, 163, 595, 163);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(41);
+		tblclmnId.setText("ID");
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.setWidth(91);
@@ -192,6 +178,19 @@ public class KlijentiBrisanjeForm extends Shell {
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				Klijenti k=new Klijenti();
+				int ind=table.getSelectionIndex();
+				TableItem ti=table.getItem(ind);
+				System.out.print(ti.getText(0));
+				
+				System.out.print("bob");
+				Klijenti myObject = (Klijenti) session.load(Klijenti.class,(long)(Integer.parseInt(ti.getText(0))));
+			    session.delete(myObject);
+			    session.getTransaction().commit();
+				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Brisanje klijenta", "Klijent je uspješno obrisan.");
 			}
