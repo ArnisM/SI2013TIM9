@@ -3,6 +3,7 @@ package ba.unsa.etf.si2013.tim9.Korisnici;
 ///import java.awt.FileDialog;
 
 import java.io.File;
+import java.util.Date;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -322,11 +323,21 @@ public class KorisniciDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
-				if(Validacija())
-				{
-					MessageDialog.openInformation(shell, "Dodavanje", text_Ime.getText());
-					close();
+				if(_operater.getSelection()){
+				Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
+				noviK.spasiUBazu();
+				Shell shell1 = new Shell();
+				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
+				
 				}
+				
+				if(_rukovodilac.getSelection()){
+					Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
+					noviK.spasiUBazu();
+					Shell shell1 = new Shell();
+					 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
+					
+					}
 				
 			}
 		});
