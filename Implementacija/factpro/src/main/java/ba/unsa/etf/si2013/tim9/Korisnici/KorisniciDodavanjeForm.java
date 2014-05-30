@@ -324,12 +324,15 @@ public class KorisniciDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				if(_operater.getSelection()){
+				
+					if(Validacija()){
+					
 				Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
 				noviK.spasiUBazu();
 				Shell shell1 = new Shell();
 				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
 				
-				}
+				}}
 				
 				if(_rukovodilac.getSelection()){
 					Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());

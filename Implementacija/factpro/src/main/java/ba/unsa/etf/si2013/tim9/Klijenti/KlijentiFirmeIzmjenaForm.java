@@ -253,22 +253,22 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 						
 					}
 					
-					if(text_5.getText()!=""){
-						ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
-						if (!text_5.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+					if(text_6.getText()!=""){
+						ControlDecoration text5Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+						if (!text_6.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
 							text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
 							FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 							text5Error.setImage(text5Field.getImage());
 							text5Error.showHoverText("Telefon nije u ispravnom formatu!");
 						}
 					
-						 klijent.setBrojtelefona( (text_5.getText()) );
-						 ti.setText(5, text_5.getText());
+						 klijent.setBrojtelefona( (text_6.getText()) );
+						 ti.setText(5, text_6.getText());
 						
 					}
 					
-					if(text_6.getText()!=""){
-						ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+					if(text_5.getText()!=""){
+						ControlDecoration text6Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
 						if (!text_5.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
 							text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
 							FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -277,8 +277,8 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 						}
 						
 				 
-			         klijent.setEmail( (text_6.getText()) );
-			         ti.setText(6, text_6.getText());	
+			         klijent.setEmail( (text_5.getText()) );
+			         ti.setText(6, text_5.getText());	
 						
 					}
 					

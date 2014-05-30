@@ -83,7 +83,7 @@ public class KorisniciIzmjenaForm extends Shell {
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Ime");
+		combo.setText("Izaberite kriterij");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -214,6 +214,10 @@ if(combo.getSelectionIndex()==2){
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 134, 626, 84);
+		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(26);
+		tblclmnId.setText("ID");
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
 		tableColumn.setWidth(100);

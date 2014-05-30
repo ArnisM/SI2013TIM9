@@ -1,5 +1,10 @@
 package ba.unsa.etf.si2013.tim9.Izvjestaji;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -14,10 +19,27 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import ba.unsa.etf.si2013.tim9.Fakture.*;
 
 public class IzvjestajiPerdiodForm {
 
 	protected Shell shell;
+	private Text text;
+	private Table table;
+	private Text text_1;
+	private Table table_1;
+	//List<Faktura>fakture;
 
 	/**
 	 * Launch the application.
@@ -53,11 +75,11 @@ public class IzvjestajiPerdiodForm {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1396674755_519958-021_Document_Text.png"));
-		shell.setSize(408, 490);
+		shell.setSize(523, 490);
 		shell.setText("Izvje\u0161taji periodi\u010Dni");
 		
 		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds(10, 10, 375, 432);
+		tabFolder.setBounds(10, 10, 495, 443);
 		
 		TabItem tbtmGodinji = new TabItem(tabFolder, SWT.NONE);
 		tbtmGodinji.setText("Godi\u0161nji");
@@ -67,7 +89,7 @@ public class IzvjestajiPerdiodForm {
 		
 		Group group_2 = new Group(group, SWT.NONE);
 		group_2.setText("Rezultat izvje\u0161taja");
-		group_2.setBounds(10, 74, 355, 285);
+		group_2.setBounds(10, 74, 467, 285);
 		
 		Label label_1 = new Label(group_2, SWT.NONE);
 		label_1.setText("Ukupni promet:");
@@ -76,31 +98,82 @@ public class IzvjestajiPerdiodForm {
 		final Label label_2 = new Label(group_2, SWT.NONE);
 		label_2.setBounds(116, 30, 55, 15);
 		
-		final List list = new List(group_2, SWT.BORDER);
-		list.setItems(new String[] {});
-		list.setBounds(10, 71, 335, 204);
-		
 		Label label_3 = new Label(group_2, SWT.NONE);
 		label_3.setText("Izlazne fakture:");
 		label_3.setBounds(10, 50, 92, 15);
 		
-		Button button_2 = new Button(group, SWT.NONE);
-		button_2.addSelectionListener(new SelectionAdapter() {
+		table = new Table(group_2, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBounds(10, 71, 447, 177);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn.setWidth(68);
+		tblclmnNewColumn.setText("ID fakture");
+		
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_1.setWidth(83);
+		tblclmnNewColumn_1.setText("Ukupna cijena");
+		
+		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_2.setWidth(115);
+		tblclmnNewColumn_2.setText("Datum kreiranja");
+		
+		TableColumn tblclmnNewColumn_3 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_3.setWidth(111);
+		tblclmnNewColumn_3.setText("Naziv klijenta");
+		
+		TableColumn tblclmnKomentar = new TableColumn(table, SWT.NONE);
+		tblclmnKomentar.setWidth(100);
+		tblclmnKomentar.setText("PDV broj");
+		
+		Button btnGenerisiIzvjestaj = new Button(group, SWT.NONE);
+		btnGenerisiIzvjestaj.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list.removeAll();
-				list.add("Mercator, 19.03.2014, 700KM");
-				list.add("Interex, 20.01.2014, 800KM");
-				list.add("Robot, 28.01.2014, 900KM");
-				label_2.setText("2400");				
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = (Transaction) session.beginTransaction();
+				Query q = session.createQuery("from Faktura where year(datum)=:godina");
+		        q.setString("godina",text.getText() );		        
+		        //fakture=q.list(); //trebao bih da radim sa fakturama tj. treba mi klasa
+		        //t.commit();
+		        session.close();
+		        //Faktura f=new Faktura();
+		        
+		        
+		        /*
+		        for (int i=0; i<fakture.size(); i++){
+		        f = (Faktura) fakture.get(i);        	
+		        	
+		         TableItem item = new TableItem(table, 0, i);
+		        
+		        
+		        item.setText(0,k.getID());
+           	    item.setText(1,k.(getCijena()));
+             	item.setText(2,k.getDatum());
+           	    item.setText(3,k.getNazivKlijenta());
+           	    item.setText(4,k.getPdvBroj());
+           	    
+           	    
+		        
+           	    
+		        }
+		        
+		        */
+			
+		        
+		        
+				
+								
 				Shell shell = new Shell ();
 				MessageDialog.openInformation(shell, "Generisanje izvje�taja", "Uspje�no je kreiran godi�nji izvje�taj.");
 				
 			}
 		});
-		button_2.setText("Ok");
-		button_2.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195801_tick_32.png"));
-		button_2.setBounds(119, 365, 117, 38);
+		btnGenerisiIzvjestaj.setText("Generisi izvjestaj");
+		btnGenerisiIzvjestaj.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195801_tick_32.png"));
+		btnGenerisiIzvjestaj.setBounds(183, 365, 133, 38);
 		
 		Button button_3 = new Button(group, SWT.NONE);
 		button_3.addSelectionListener(new SelectionAdapter() {
@@ -111,17 +184,63 @@ public class IzvjestajiPerdiodForm {
 		});
 		button_3.setText("Izlaz");
 		button_3.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195841_DeleteRed.png"));
-		button_3.setBounds(248, 365, 117, 38);
-		
-		Spinner spinner = new Spinner(group, SWT.BORDER);
-		spinner.setMaximum(5000);
-		spinner.setMinimum(1);
-		spinner.setSelection(2014);
-		spinner.setBounds(125, 28, 70, 22);
+		button_3.setBounds(360, 365, 117, 38);
 		
 		Label lblIzaberiteGodinu = new Label(group, SWT.NONE);
-		lblIzaberiteGodinu.setBounds(23, 31, 96, 15);
-		lblIzaberiteGodinu.setText("Izaberite godinu:");
+		lblIzaberiteGodinu.setBounds(10, 31, 96, 15);
+		lblIzaberiteGodinu.setText("Unesite godinu:");
+		
+		text = new Text(group, SWT.BORDER);
+		text.setText("2014");
+		text.setBounds(133, 28, 76, 19);
+		
+		Button button_2 = new Button(group, SWT.NONE);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			      FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=table.getSelectionIndex();
+			      document.addTitle("Podaci o fakturama");
+			      //document.add(new Paragraph("ID fakture: " + klijenti.get(i).getID() ));
+			      //document.add(new Paragraph("Cijena: " + klijenti.get(i).getCijena() ));
+			      //document.add(new Paragraph("Datum: " + klijenti.get(i).getDatum(); ));
+			      //document.add(new Paragraph("Naziv klijenta: " + klijenti.get(i).getNazivKlijenta(); ));
+			      //document.add(new Paragraph("PDV broj: " + klijenti.get(i).getPdvBroj()() ));
+			      //document.add(new Paragraph(new Date().toString()));
+		
+			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+		
+				
+			}
+		});
+		button_2.setText("Generi\u0161i .pdf");
+		button_2.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398206257_pdf.png"));
+		button_2.setBounds(10, 365, 132, 42);
 		
 		TabItem tbtmMjeseni = new TabItem(tabFolder, SWT.NONE);
 		tbtmMjeseni.setText("Mjese\u010Dni");
@@ -131,7 +250,7 @@ public class IzvjestajiPerdiodForm {
 		
 		Group group_3 = new Group(group_1, SWT.NONE);
 		group_3.setText("Rezultat izvje\u0161taja");
-		group_3.setBounds(10, 74, 355, 285);
+		group_3.setBounds(10, 74, 467, 285);
 		
 		Label label = new Label(group_3, SWT.NONE);
 		label.setText("Ukupni promet:");
@@ -140,32 +259,79 @@ public class IzvjestajiPerdiodForm {
 		final Label label_4 = new Label(group_3, SWT.NONE);
 		label_4.setBounds(116, 30, 55, 15);
 		
-		final List list_1 = new List(group_3, SWT.BORDER);
-		list_1.setItems(new String[] {});
-		list_1.setBounds(10, 71, 335, 204);
-		
 		Label label_5 = new Label(group_3, SWT.NONE);
 		label_5.setText("Izlazne fakture:");
 		label_5.setBounds(10, 50, 92, 15);
 		
-		Button button = new Button(group_1, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
+		table_1 = new Table(group_3, SWT.BORDER | SWT.FULL_SELECTION);
+		table_1.setLinesVisible(true);
+		table_1.setHeaderVisible(true);
+		table_1.setBounds(10, 70, 447, 177);
+		
+		TableColumn tableColumn = new TableColumn(table_1, SWT.NONE);
+		tableColumn.setWidth(68);
+		tableColumn.setText("ID fakture");
+		
+		TableColumn tableColumn_1 = new TableColumn(table_1, SWT.NONE);
+		tableColumn_1.setWidth(83);
+		tableColumn_1.setText("Ukupna cijena");
+		
+		TableColumn tableColumn_2 = new TableColumn(table_1, SWT.NONE);
+		tableColumn_2.setWidth(115);
+		tableColumn_2.setText("Datum kreiranja");
+		
+		TableColumn tableColumn_3 = new TableColumn(table_1, SWT.NONE);
+		tableColumn_3.setWidth(111);
+		tableColumn_3.setText("Naziv klijenta");
+		
+		TableColumn tableColumn_4 = new TableColumn(table_1, SWT.NONE);
+		tableColumn_4.setWidth(100);
+		tableColumn_4.setText("PDV broj");
+		
+		Button btnGenerisiIzvjestaj_1 = new Button(group_1, SWT.NONE);
+		btnGenerisiIzvjestaj_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list_1.removeAll();
-				list_1.add("Mercator, 19.03.2014, 700KM");
-				list_1.add("Interex, 19.03.2014, 800KM");
-				list_1.add("Bingo, 19.03.2014, 900KM");
-				list_1.add("�kafa, 19.03.2014, 1000KM");
-				label_4.setText("3400");
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = (Transaction) session.beginTransaction();
+				Query q = session.createQuery("from Faktura where month(datum)=:mjesec");
+		        q.setString("mjesec",text_1.getText() );		        
+		        //fakture=q.list(); //trebao bih da radim sa fakturama tj. treba mi klasa
+		        //t.commit();
+		        session.close();
+		        //Faktura f=new Faktura();
+		        
+		        
+		        /*
+		        for (int i=0; i<fakture.size(); i++){
+		        f = (Faktura) fakture.get(i);        	
+		        	
+		         TableItem item = new TableItem(table, 0, i);
+		        
+		        
+		        item.setText(0,k.getID());
+           	    item.setText(1,k.(getCijena()));
+             	item.setText(2,k.getDatum());
+           	    item.setText(3,k.getNazivKlijenta());
+           	    item.setText(4,k.getPdvBroj());
+           	    
+           	    
+		        
+           	    
+		        }
+		        
+		        */
+				
+				
 				Shell shell = new Shell ();
 				MessageDialog.openInformation(shell, "Generisanje izvje�taja", "Uspje�no je kreiran mjesecni izvje�taj.");
 		
 			}
 		});
-		button.setText("Ok");
-		button.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195801_tick_32.png"));
-		button.setBounds(119, 365, 117, 38);
+		btnGenerisiIzvjestaj_1.setText("Generisi izvjestaj");
+		btnGenerisiIzvjestaj_1.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195801_tick_32.png"));
+		btnGenerisiIzvjestaj_1.setBounds(198, 365, 133, 38);
 		
 		Button button_1 = new Button(group_1, SWT.NONE);
 		button_1.addSelectionListener(new SelectionAdapter() {
@@ -176,18 +342,60 @@ public class IzvjestajiPerdiodForm {
 		});
 		button_1.setText("Izlaz");
 		button_1.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398195841_DeleteRed.png"));
-		button_1.setBounds(248, 365, 117, 38);
-		
-		Spinner spinner_1 = new Spinner(group_1, SWT.BORDER);
-		spinner_1.setMaximum(5000);
-		spinner_1.setMinimum(1);
-		spinner_1.setSelection(3);
-		spinner_1.setBounds(125, 28, 70, 22);
+		button_1.setBounds(360, 365, 117, 38);
 		
 		Label lblIzaberiteMjesec = new Label(group_1, SWT.NONE);
-		lblIzaberiteMjesec.setText("Izaberite mjesec:");
+		lblIzaberiteMjesec.setText("Unesite mjesec:");
 		lblIzaberiteMjesec.setBounds(23, 31, 96, 15);
+		
+		text_1 = new Text(group_1, SWT.BORDER);
+		text_1.setText("1");
+		text_1.setBounds(133, 28, 76, 19);
+		
+		Button btnGenerisipdf = new Button(group_1, SWT.NONE);
+		btnGenerisipdf.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			      FileOutputStream file;
+					try {
+						file = new FileOutputStream(new File("D:\\fakture2.pdf"));
+					
+				      Document document = new Document();
+				      PdfWriter.getInstance(document, file);
+				      document.open();
+				      int i=table_1.getSelectionIndex();
+				      document.addTitle("Podaci o fakturama");
+				      //document.add(new Paragraph("ID fakture: " + klijenti.get(i).getID() ));
+				      //document.add(new Paragraph("Cijena: " + klijenti.get(i).getCijena() ));
+				      //document.add(new Paragraph("Datum: " + klijenti.get(i).getDatum(); ));
+				      //document.add(new Paragraph("Naziv klijenta: " + klijenti.get(i).getNazivKlijenta(); ));
+				      //document.add(new Paragraph("PDV broj: " + klijenti.get(i).getPdvBroj()() ));
+				      //document.add(new Paragraph(new Date().toString()));
+			
+				      document.close();
+				      file.close();
+				      
+				      Shell shell1 = new Shell();
+					MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+			}
+		});
+		btnGenerisipdf.setText("Generisi .pdf");
+		btnGenerisipdf.setImage(SWTResourceManager.getImage(IzvjestajiPerdiodForm.class, "/images/1398206257_pdf.png"));
+		btnGenerisipdf.setBounds(20, 361, 132, 42);
 
 	}
-
 }
