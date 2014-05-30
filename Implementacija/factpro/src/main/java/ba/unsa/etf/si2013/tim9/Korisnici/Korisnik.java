@@ -21,6 +21,7 @@ public class Korisnik implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	long id;
+	private int deleted=0;
 	String  Adresa,
 			Telefon,
 			Pozicija,
@@ -99,5 +100,13 @@ public class Korisnik implements Serializable {
 
 	public void setUsername(String username) {
 		Username = username;
+	}
+
+	public int getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
 	}
 }

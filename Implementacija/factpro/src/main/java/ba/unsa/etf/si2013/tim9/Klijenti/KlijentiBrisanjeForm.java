@@ -186,7 +186,8 @@ public class KlijentiBrisanjeForm extends Shell {
 				TableItem ti=table.getItem(ind);
 				
 				Klijenti myObject = (Klijenti) session.load(Klijenti.class,(long)(Integer.parseInt(ti.getText(0))));
-			    session.delete(myObject);
+				myObject.setDeleted(1);
+				session.update(myObject);
 			    session.getTransaction().commit();
 				
 				Shell shell = new Shell();

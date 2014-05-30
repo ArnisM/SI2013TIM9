@@ -249,12 +249,11 @@ if(combo.getSelectionIndex()==2){
 				TableItem ti=table.getItem(ind);
 				
 				Korisnik myObject = (Korisnik) session.load(Korisnik.class,(long)(Integer.parseInt(ti.getText(0))));
-			    session.delete(myObject);
+			    myObject.setDeleted(1);
+				session.update(myObject);
 			    session.getTransaction().commit();
 
-		        Shell shell1 = new Shell();
-				MessageDialog.openInformation(shell1, "Brisanje klijenta", "Klijent je uspješno obrisan.");
-				
+		        
 				//Control [] controls = table.getChildren(); 
 				
 				table.clear(ind);

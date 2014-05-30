@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 30, 2014 2:38:31 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 30, 2014 3:39:29 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si2013.tim9.Korisnici.Korisnik" table="KORISNIK">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
+        <property name="deleted" type="int">
+            <column name="DELETED" />
+        </property>
         <property name="Adresa" type="java.lang.String">
             <column name="ADRESA" />
         </property>
@@ -23,7 +26,7 @@
         <property name="Prezime" type="java.lang.String">
             <column name="PREZIME" />
         </property>
-        <property name="Username" type="java.lang.String" access="field">
+        <property name="Username" type="java.lang.String">
             <column name="USERNAME" />
         </property>
         <property name="Password" type="java.lang.String" access="field">

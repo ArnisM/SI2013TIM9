@@ -86,7 +86,18 @@ public class UslugeIzmjenaForm extends Shell {
 		
 		list1 = new List(group, SWT.BORDER);
 		list1.setBounds(26, 48, 311, 65);
-
+		Group group_1 = new Group(group, SWT.NONE);
+		group_1.setText("Tip usluge");
+		group_1.setBounds(26, 166, 239, 65);
+		
+		final Button button_1 = new Button(group_1, SWT.RADIO);
+		button_1.setText("Servis");
+		button_1.setSelection(true);
+		button_1.setBounds(89, 24, 90, 16);
+		
+		final Button button_2 = new Button(group_1, SWT.RADIO);
+		button_2.setText("Konsultacije");
+		button_2.setBounds(89, 46, 90, 16);
 		
 		Label lblOdaberiteUslugu = new Label(group, SWT.NONE);
 		lblOdaberiteUslugu.setBounds(26, 10, 105, 15);
@@ -96,12 +107,49 @@ public class UslugeIzmjenaForm extends Shell {
 		btnIzmjeni.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Usluga k=new Usluga();
+				int ind=list.getSelectionIndex();
+				String s=list.getItem(ind);
+				 String[] parts = s.split(" ");
+			        String part1 = parts[0]; // 004
+			        String part2 = parts[1]; // 034556
+				//TableItem ti=table.getItem(ind);
+				Usluga ku = 
+	                    (Usluga)session.get(Usluga.class, (long)(Integer.parseInt(part1))); 
 				
+				if(text.getText()!=""){
 				
+		         ku.setNaziv( text.getText() );
+		         list.add(text.getText(), ind);
+				 					
+				}
 				
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Izmjena usluga", "Otvara se forma gdje se unosee novi podaci za uslugu.");
+				if(text_1.getText()!=""){
+					
+			         ku.setCijena( Integer.parseInt(text_1.getText()) );
+			         list.add(text_1.getText(), ind);
+					 					
+					}
 				
+				if(button_1.getEnabled()){
+					
+			         ku.setTipUsluge( (button_1.getText()) );
+			         
+					 				
+					}
+				if(button_2.getEnabled()){
+					
+			         ku.setTipUsluge( (button_2.getText()) );
+			         
+					 				
+					}
+				session.update(ku); 
+		        session.getTransaction().commit();
+		        Shell shell=new Shell();
+			MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+			
 			}
 		});
 		btnIzmjeni.setBounds(248, 279, 105, 50);
@@ -144,18 +192,9 @@ public class UslugeIzmjenaForm extends Shell {
 		text = new Text(group, SWT.BORDER);
 		text.setBounds(114, 130, 223, 21);
 		
-		Group group_1 = new Group(group, SWT.NONE);
-		group_1.setText("Tip usluge");
-		group_1.setBounds(26, 166, 239, 65);
 		
-		Button button_1 = new Button(group_1, SWT.RADIO);
-		button_1.setText("Servis");
-		button_1.setSelection(true);
-		button_1.setBounds(89, 24, 90, 16);
 		
-		Button button_2 = new Button(group_1, SWT.RADIO);
-		button_2.setText("Konsultacije");
-		button_2.setBounds(89, 46, 90, 16);
+		
 		
 		Label label_1 = new Label(group, SWT.NONE);
 		label_1.setText("Cijena usluge(KM):");

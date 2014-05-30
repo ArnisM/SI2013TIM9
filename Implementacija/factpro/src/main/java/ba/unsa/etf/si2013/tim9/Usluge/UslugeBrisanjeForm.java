@@ -108,7 +108,8 @@ public class UslugeBrisanjeForm extends Shell {
 			        String part2 = parts[1]; // 034556
 				
 				Usluga myObject = (Usluga) session.load(Usluga.class,(long)(Integer.parseInt(part1)));
-			    session.delete(myObject);
+			    myObject.setDeleted(1);
+				session.update(myObject);
 			    session.getTransaction().commit();
 				
 				list.remove(ind);

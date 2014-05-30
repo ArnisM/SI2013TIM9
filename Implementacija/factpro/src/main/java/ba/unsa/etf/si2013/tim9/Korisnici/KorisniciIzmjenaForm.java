@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,8 +14,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KorisniciIzmjenaForm extends Shell {
 
@@ -69,7 +77,7 @@ public class KorisniciIzmjenaForm extends Shell {
 		group.setText("Pretraga");
 		group.setBounds(10, 21, 575, 107);
 		
-		Combo combo = new Combo(group, SWT.NONE);
+		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
 		combo.setText("Ime");
@@ -92,10 +100,111 @@ public class KorisniciIzmjenaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell=new Shell();
-				MessageDialog.openInformation(shell, "Pretraga", "Uspjesna pretraga, korisnicu su u listi ispod.");
+				
+				List<Korisnik> korisnici;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Korisnik where ime=:ime");
+		        q.setString("ime", text.getText());
+		        korisnici=q.list();
+		        t.commit();
+		        session.close();
+		        Korisnik k=new Korisnik();
+		        		        
+		        for (int i=0; i<korisnici.size(); i++){
+		        	k = (Korisnik) korisnici.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        item.setText(0,Integer.toString((int)k.getId()));
+           	    item.setText(1,k.getIme());
+             	item.setText(2,k.getPrezime());
+             	item.setText(3,k.getUsername());
+           	    item.setText(4,k.getAdresa());
+           	    item.setText(5,k.getTelefon()); 
+           	    item.setText(6, k.getPozicija());
+		       }
+		        
+			}
+				
+				if(combo.getSelectionIndex()==1){
+					
+			        Query q = session.createQuery("from Korisnik where prezime=:prezime");
+			        q.setString("prezime", text.getText());
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+				if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "operater");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "rukovodilac");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+				
 				
 			}
+				
+			
 		});
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);

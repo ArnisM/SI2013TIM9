@@ -27,7 +27,7 @@ public class Klijenti implements Serializable {
 	 @Id 
 	 @GeneratedValue
 	 long id;
-	 
+	 private int deleted=0;
 	 private String naziv;
 
 	private String adresa;
@@ -132,6 +132,12 @@ public class Klijenti implements Serializable {
 	}
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+	public int getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
 	}
 	
 	
