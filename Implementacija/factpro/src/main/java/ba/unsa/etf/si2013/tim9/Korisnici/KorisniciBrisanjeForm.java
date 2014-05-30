@@ -141,7 +141,7 @@ public class KorisniciBrisanjeForm extends Shell {
 		        		        
 		        for (int i=0; i<korisnici.size(); i++){
 		        	k = (Korisnik) korisnici.get(i);
-		        	
+		        	if(k.getDeleted()==0){
 		        TableItem item = new TableItem(table, 0, i);
 		        item.setText(0,Integer.toString((int)k.getId()));
            	    item.setText(1,k.getIme());
@@ -150,7 +150,7 @@ public class KorisniciBrisanjeForm extends Shell {
            	    item.setText(4,k.getAdresa());
            	    item.setText(5,k.getTelefon()); 
            	    item.setText(6, k.getPozicija());
-		       }
+		       }}
 		        
 			}
 				

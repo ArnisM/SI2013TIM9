@@ -109,6 +109,7 @@ public class UslugePretragaForm extends Shell {
 			        		        
 			        for (int i=0; i<usluge.size(); i++){
 			        	k = (Usluga) usluge.get(i);
+			        	if(k.getDeleted()==0)
 			        	list.add(k.getNaziv(), i);
 			       
 			        }}

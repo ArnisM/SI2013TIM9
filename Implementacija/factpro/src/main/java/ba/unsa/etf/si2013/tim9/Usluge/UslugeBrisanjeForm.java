@@ -151,7 +151,8 @@ public class UslugeBrisanjeForm extends Shell {
 			        		        
 			        for (int i=0; i<usluge.size(); i++){
 			        	k = (Usluga) usluge.get(i);
-			        	list.add(k.getNaziv(), i);
+			        	if(k.getDeleted()==0){
+			        	list.add(k.getNaziv(), i);}
 			       
 			        }
 			}

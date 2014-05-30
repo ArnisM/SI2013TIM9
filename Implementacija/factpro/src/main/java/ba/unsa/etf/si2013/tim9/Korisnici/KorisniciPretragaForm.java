@@ -131,7 +131,7 @@ public class KorisniciPretragaForm extends Shell {
 		        		        
 		        for (int i=0; i<korisnici.size(); i++){
 		        	k = (Korisnik) korisnici.get(i);
-		        	
+		        	if(k.getDeleted()==0){
 		        TableItem item = new TableItem(table, 0, i);
 		        
            	 //  item.setText(0,Integer.toString(k.getId()));
@@ -141,7 +141,7 @@ public class KorisniciPretragaForm extends Shell {
            	    item.setText(4,k.getTelefon());
            	    
            	    
-           	    item.setText(5, k.getPozicija());
+           	    item.setText(5, k.getPozicija());}
 		       }
 		        }
 				

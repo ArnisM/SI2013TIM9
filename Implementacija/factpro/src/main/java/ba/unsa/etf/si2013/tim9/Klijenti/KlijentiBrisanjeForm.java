@@ -115,6 +115,7 @@ public class KlijentiBrisanjeForm extends Shell {
 		        		        
 		        for (int i=0; i<klijenti.size(); i++){
 		        	k = (Klijenti) klijenti.get(i);
+		        	if(k.getDeleted()==0){
 		        	
 		        TableItem item = new TableItem(table, 0, i);
 		        String string = k.getNaziv();
@@ -130,7 +131,7 @@ public class KlijentiBrisanjeForm extends Shell {
            	    item.setText(5,k.getEmail());
            	    
            	    
-           	    item.setText(0,Integer.toString((int)k.getId()));
+           	    item.setText(0,Integer.toString((int)k.getId()));}
 		        }
 		    }
 				

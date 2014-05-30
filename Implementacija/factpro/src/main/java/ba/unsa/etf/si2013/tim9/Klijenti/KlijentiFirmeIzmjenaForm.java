@@ -117,7 +117,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 		        		        
 		        for (int i=0; i<klijenti.size(); i++){
 		        	k = (Klijenti) klijenti.get(i);
-		        	
+		        	if(k.getDeleted()==0){
 		        TableItem item = new TableItem(table, 0, i);
 		        
 		        item.setText(1,k.getNaziv());
@@ -129,7 +129,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
            	    item.setText(6,k.getBrojtelefona());
            	    item.setText(7, k.getFax());
            	    item.setText(0,Integer.toString((int)k.getId()));
-		        }
+		        }}
 		    }
 				
 				
