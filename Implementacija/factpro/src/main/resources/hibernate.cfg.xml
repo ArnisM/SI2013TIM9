@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory>
+ <session-factory name="">
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
   <property name="hibernate.connection.url">jdbc:mysql://localhost/factpro</property>
@@ -10,6 +10,6 @@
   <property name="show_sql">true</property>
   <mapping resource="ba/unsa/etf/si2013/tim9/Klijenti/Klijenti.hbm.xml"/>
   <mapping resource="ba/unsa/etf/si2013/tim9/Usluge/Usluga.hbm.xml"/>
-<mapping resource="ba/unsa/etf/si2013/tim9/Ponude/Ponude.hbm.xml"/>
+  <mapping resource="ba/unsa/etf/si2013/tim9/Ponude/Ponuda.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

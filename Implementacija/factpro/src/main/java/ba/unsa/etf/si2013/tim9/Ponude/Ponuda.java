@@ -20,8 +20,8 @@ import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 @Entity 
-@Table (name = "ponuda")
-public class Ponude implements Serializable {
+@Table (name = "Ponuda")
+public class Ponuda implements Serializable {
 	
 
 	 @Id 
@@ -37,8 +37,8 @@ public class Ponude implements Serializable {
 	private String datum_kreiranja;
 	private String komentar;
 		
-		public Ponude(){} 
-		public Ponude(int idzaposlenik, int idklijent, int cijena, String datum_kreiranja, String komentar) {
+		public Ponuda(){} 
+		public Ponuda(int idzaposlenik, int idklijent, int cijena, String datum_kreiranja, String komentar) {
 			
 			this.setIDZaposlenik(idzaposlenik);
 			this.setIDKlijent(idklijent);
@@ -106,7 +106,7 @@ public class Ponude implements Serializable {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
  
-        List ponude = session.createQuery("from Ponude").list();
+        List ponude = session.createQuery("from Ponuda").list();
         t.commit();
         session.close();
         return ponude;

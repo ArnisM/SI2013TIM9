@@ -228,8 +228,28 @@ public class PonudeDodavanjeForm extends Shell {
 				}
 				
 				// treba uraditi validacije za TEBELU
-				
-				else MessageDialog.openInformation(shell, "Info", "Uspjesno je dodana ponuda.");
+				else {
+					Ponuda novaPonuda = new Ponuda ();
+					novaPonuda.setIDZaposlenik(1);
+					novaPonuda.setIDKlijent(11);
+					/*if(btnServis.getSelection()==true){
+						novaPonuda.setTipUsluge("Servis");
+						}
+					else { novaPonuda.setTipUsluge("Konsultacije"); }*/
+					
+					//novaPonuda.setCijena (Integer.parseInt(text_2.getText()));
+					novaPonuda.setCijena(100);
+					
+					//novaPonuda.setUkupanTrosak(Integer.parseInt(text_3.getText()));
+					
+					novaPonuda.setDatumKreiranja("2014-05-30");
+					novaPonuda.setKomentar(text_dodatni_zahtjevi.getText());
+					
+					novaPonuda.spasiUBazu();
+					Shell shell1 = new Shell();
+					
+				MessageDialog.openInformation(shell, "Info", "Uspjesno je dodana ponuda.");
+				}
 			}
 		});
 		button_1.setText("Dodaj");

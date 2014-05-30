@@ -48,7 +48,7 @@ public class PonudeBrisanjeForm extends Shell {
 	 */
 //	protected Shell this;
 	private Table table;
-	private List<Ponude> ponude;
+	private List<Ponuda> ponude;
 	private Text text_pretraga;
 	
 	public static void main(String args[]) {
@@ -182,10 +182,10 @@ public class PonudeBrisanjeForm extends Shell {
 		        ponude=q.list();
 		        t.commit();
 		        session.close();
-		        Ponude k=new Ponude();
+		        Ponuda k=new Ponuda();
 		        		        
 		        for (int i=0; i<ponude.size(); i++){
-		        	k = (Ponude) ponude.get(i);
+		        	k = (Ponuda) ponude.get(i);
 		        	
 		        TableItem item = new TableItem(table, 0, i);
 		        
@@ -208,10 +208,10 @@ public class PonudeBrisanjeForm extends Shell {
 			        ponude=q.list();
 			        t.commit();
 			        session.close();
-			        Ponude k=new Ponude();
+			        Ponuda k=new Ponuda();
 			        		        
 		        for (int i=0; i<ponude.size(); i++){
-			        	k = (Ponude) ponude.get(i);
+			        	k = (Ponuda) ponude.get(i);
 			        	
 			        TableItem item = new TableItem(table, 0, i);
 			        
@@ -249,10 +249,10 @@ public class PonudeBrisanjeForm extends Shell {
 	        ponude=q.list();
 	        t.commit();
 	        session.close();
-	        Ponude k=new Ponude();
+	        Ponuda k=new Ponuda();
 	        		        
 	        for (int i=0; i<ponude.size(); i++){
-	        	k = (Ponude) ponude.get(i);
+	        	k = (Ponuda) ponude.get(i);
 	        	
 	        TableItem item = new TableItem(table, 0, i);
 	        
@@ -275,10 +275,10 @@ public class PonudeBrisanjeForm extends Shell {
 		        ponude=q.list();
 		        t.commit();
 		        session.close();
-		        Ponude k=new Ponude();
+		        Ponuda k=new Ponuda();
 		        		        
 		        for (int i=0; i<ponude.size(); i++){
-		        	k = (Ponude) ponude.get(i);
+		        	k = (Ponuda) ponude.get(i);
 		        	
 		        TableItem item = new TableItem(table, 0, i);
 		        
