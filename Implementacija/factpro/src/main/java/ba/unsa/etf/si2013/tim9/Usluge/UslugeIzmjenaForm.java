@@ -78,7 +78,7 @@ public class UslugeIzmjenaForm extends Shell {
 				
 			}
 		});
-		btnIzmjeni.setBounds(26, 279, 105, 50);
+		btnIzmjeni.setBounds(248, 279, 105, 50);
 		btnIzmjeni.setImage(SWTResourceManager.getImage(UslugeIzmjenaForm.class, "/images/1396674353_services.png"));
 		btnIzmjeni.setText("Izmijeni");
 		
