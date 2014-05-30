@@ -40,7 +40,7 @@ import ba.unsa.etf.si2013.tim9.Usluge.UslugeDodavanjeForm;
 import ba.unsa.etf.si2013.tim9.Usluge.UslugeIzmjenaForm;
 import ba.unsa.etf.si2013.tim9.Usluge.UslugePretragaForm;
 
-
+import ba.unsa.etf.si2013.tim9.Klijenti.*;
 public class GlavnaForm {
 
 	protected Shell shell;
@@ -175,7 +175,7 @@ public class GlavnaForm {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				KlijentiIzmjenaForm a = new KlijentiIzmjenaForm(null);
-				a.close();
+				a.open();
 			}
 		});
 		mntmFizikaLica_1.setText("Fizi\u010Dka lica");
@@ -218,17 +218,31 @@ public class GlavnaForm {
 		});
 		mntmFizikaLica.setText("Fizi\u010Dka lica");
 		
-		MenuItem mntmPretraga_1 = new MenuItem(menu_7, SWT.NONE);
-		mntmPretraga_1.addSelectionListener(new SelectionAdapter() {
+		MenuItem mntmPretragaIIspis_2 = new MenuItem(menu_7, SWT.CASCADE);
+		mntmPretragaIIspis_2.setText("Pretraga i ispis");
+		
+		Menu menu_10 = new Menu(mntmPretragaIIspis_2);
+		mntmPretragaIIspis_2.setMenu(menu_10);
+		
+		MenuItem mntmFizikaLica_2 = new MenuItem(menu_10, SWT.NONE);
+		mntmFizikaLica_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				KlijentiPretragaForm a = new KlijentiPretragaForm(null);
-				a.open();
-				//PretragaKlijenataForm pk = new PretragaKlijenataForm ();
-				//pk.open();
+				KlijentiPretragaForm k=new KlijentiPretragaForm(null);
+				k.open();
 			}
 		});
-		mntmPretraga_1.setText("Pretraga i ispis");
+		mntmFizikaLica_2.setText("Fizi\u010Dka lica");
+		
+		MenuItem mntmFirma = new MenuItem(menu_10, SWT.NONE);
+		mntmFirma.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				KlijentiFirmePretragaForm k=new KlijentiFirmePretragaForm(null);
+				k.open();
+			}
+		});
+		mntmFirma.setText("Firma");
 		
 		MenuItem mntmUsluge = new MenuItem(menu, SWT.CASCADE);
 		mntmUsluge.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674353_services.png"));
@@ -324,8 +338,6 @@ public class GlavnaForm {
 			public void widgetSelected(SelectionEvent e) {
 				PonudePretragaForm a = new PonudePretragaForm (null);
 				a.open();
-				//PretragaPonudaForm p = new PretragaPonudaForm();
-				//p.open();
 			}
 		});
 		mntmPretragaIIspis_1.setText("Pretraga i ispis ponude");
