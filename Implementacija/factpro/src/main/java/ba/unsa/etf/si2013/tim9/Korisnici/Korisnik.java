@@ -25,9 +25,9 @@ public class Korisnik implements Serializable {
 			Telefon,
 			Pozicija,
 			Ime,
-			Prezime,
-			Username,
-			Password;
+			Prezime;
+	private String Username;
+	String Password;
 	Date DatumZaposlenja;
 	
 	public Korisnik(){}
@@ -38,7 +38,7 @@ public class Korisnik implements Serializable {
 		this.Pozicija=pozicija;
 		this.Telefon=telefon;
 		this.Adresa=adresa;
-		this.Username=username;
+		this.setUsername(username);
 		this.Password=password;
 		this.DatumZaposlenja=datumzaposlenja;
 	}
@@ -92,4 +92,12 @@ public class Korisnik implements Serializable {
 		t.commit();
 		session.close();
 	 	}
+
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
+	}
 }

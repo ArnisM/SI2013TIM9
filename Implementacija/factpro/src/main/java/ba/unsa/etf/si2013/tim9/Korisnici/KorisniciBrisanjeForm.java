@@ -143,23 +143,90 @@ public class KorisniciBrisanjeForm extends Shell {
 		        	k = (Korisnik) korisnici.get(i);
 		        	
 		        TableItem item = new TableItem(table, 0, i);
-		        
-           	 //  item.setText(0,Integer.toString(k.getId()));
+		        item.setText(0,Integer.toString((int)k.getId()));
            	    item.setText(1,k.getIme());
              	item.setText(2,k.getPrezime());
-           	    item.setText(3,k.getAdresa());
-           	    item.setText(4,k.getTelefon());
-           	    
-           	    
-           	    item.setText(5, k.getPozicija());
+             	item.setText(3,k.getUsername());
+           	    item.setText(4,k.getAdresa());
+           	    item.setText(5,k.getTelefon()); 
+           	    item.setText(6, k.getPozicija());
 		       }
-		        }
+		        
+			}
+				
+				if(combo.getSelectionIndex()==1){
+					
+			        Query q = session.createQuery("from Korisnik where prezime=:prezime");
+			        q.setString("prezime", text.getText());
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+				if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "operater");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "rukovodilac");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
 				
 				
-			
-				
-				Shell shell=new Shell();
-				MessageDialog.openInformation(shell, "Pretraga", "Uspjesna pretraga, korisnici su u listi ispod.");
 				
 			}
 		});
