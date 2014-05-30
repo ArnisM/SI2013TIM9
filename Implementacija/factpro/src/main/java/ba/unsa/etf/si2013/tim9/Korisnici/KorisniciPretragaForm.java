@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -11,9 +13,15 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KorisniciPretragaForm extends Shell {
 
@@ -56,6 +64,10 @@ public class KorisniciPretragaForm extends Shell {
 		table.setHeaderVisible(true);
 		table.setBounds(10, 134, 626, 206);
 		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(30);
+		tblclmnId.setText("ID");
+		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
 		tableColumn.setWidth(100);
 		tableColumn.setText("Ime");
@@ -85,8 +97,8 @@ public class KorisniciPretragaForm extends Shell {
 		group.setText("Pretraga");
 		group.setBounds(10, 10, 575, 107);
 		
-		Combo combo = new Combo(group, SWT.NONE);
-		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
+		final Combo combo = new Combo(group, SWT.NONE);
+		combo.setItems(new String[] {"Ime ", "Prezime", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
 		combo.setText("Ime");
 		
@@ -97,11 +109,45 @@ public class KorisniciPretragaForm extends Shell {
 		text_1 = new Text(group, SWT.BORDER);
 		text_1.setBounds(380, 35, 163, 21);
 		
-		Label label_1 = new Label(group, SWT.NONE);
-		label_1.setText("Unesite ime:");
-		label_1.setBounds(292, 38, 65, 15);
+		Label lblUnesiteImeI = new Label(group, SWT.NONE);
+		lblUnesiteImeI.setText("Unesite podatatk:");
+		lblUnesiteImeI.setBounds(292, 38, 65, 15);
 		
 		Button button = new Button(group, SWT.NONE);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				List<Korisnik> korisnici;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Korisnik where ime=:ime");
+		        q.setString("ime", text.getText());
+		        korisnici=q.list();
+		        t.commit();
+		        session.close();
+		        Korisnik k=new Korisnik();
+		        		        
+		        for (int i=0; i<korisnici.size(); i++){
+		        	k = (Korisnik) korisnici.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+           	 //  item.setText(0,Integer.toString(k.getId()));
+           	    item.setText(1,k.getIme());
+             	item.setText(2,k.getPrezime());
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getTelefon());
+           	    
+           	    
+           	    item.setText(5, k.getPozicija());
+		       }
+		        }
+				
+				
+			}
+		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KorisniciPretragaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
 		button.setBounds(427, 62, 116, 35);
