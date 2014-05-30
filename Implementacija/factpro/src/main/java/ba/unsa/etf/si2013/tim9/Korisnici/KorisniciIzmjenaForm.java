@@ -1,6 +1,11 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,8 +17,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KorisniciIzmjenaForm extends Shell {
 
@@ -69,10 +80,10 @@ public class KorisniciIzmjenaForm extends Shell {
 		group.setText("Pretraga");
 		group.setBounds(10, 21, 575, 107);
 		
-		Combo combo = new Combo(group, SWT.NONE);
+		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Ime");
+		combo.setText("Izaberite kriterij");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");
@@ -92,16 +103,121 @@ public class KorisniciIzmjenaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell=new Shell();
-				MessageDialog.openInformation(shell, "Pretraga", "Uspjesna pretraga, korisnicu su u listi ispod.");
+				
+				List<Korisnik> korisnici;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Korisnik where ime=:ime");
+		        q.setString("ime", text.getText());
+		        korisnici=q.list();
+		        t.commit();
+		        session.close();
+		        Korisnik k=new Korisnik();
+		        		        
+		        for (int i=0; i<korisnici.size(); i++){
+		        	k = (Korisnik) korisnici.get(i);
+		        	if(k.getDeleted()==0){
+		        TableItem item = new TableItem(table, 0, i);
+		        item.setText(0,Integer.toString((int)k.getId()));
+           	    item.setText(1,k.getIme());
+             	item.setText(2,k.getPrezime());
+             	item.setText(3,k.getUsername());
+           	    item.setText(4,k.getAdresa());
+           	    item.setText(5,k.getTelefon()); 
+           	    item.setText(6, k.getPozicija());
+		       }
+		        }
+			}
+				
+				if(combo.getSelectionIndex()==1){
+					
+			        Query q = session.createQuery("from Korisnik where prezime=:prezime");
+			        q.setString("prezime", text.getText());
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+				if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "operater");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+if(combo.getSelectionIndex()==2){
+					
+			        Query q = session.createQuery("from Korisnik where pozicija=:pozicija");
+			        q.setString("pozicija", "rukovodilac");
+			        korisnici=q.list();
+			        t.commit();
+			        session.close();
+			        Korisnik k=new Korisnik();
+			        		        
+			        for (int i=0; i<korisnici.size(); i++){
+			        	k = (Korisnik) korisnici.get(i);
+			        	
+			        TableItem item = new TableItem(table, 0, i);
+			        item.setText(0,Integer.toString((int)k.getId()));
+	           	    item.setText(1,k.getIme());
+	             	item.setText(2,k.getPrezime());
+	             	item.setText(3,k.getUsername());
+	           	    item.setText(4,k.getAdresa());
+	           	    item.setText(5,k.getTelefon()); 
+	           	    item.setText(6, k.getPozicija());
+			       }
+			        
+				}
+				
+				
 				
 			}
+				
+			
 		});
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 134, 626, 84);
+		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(26);
+		tblclmnId.setText("ID");
 		
 		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
 		tableColumn.setWidth(100);
@@ -192,7 +308,78 @@ public class KorisniciIzmjenaForm extends Shell {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Shell shell=new Shell();
+				Shell shell = new Shell();
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Korisnik k=new Korisnik();
+				int ind=table.getSelectionIndex();
+				TableItem ti=table.getItem(ind);
+				Korisnik kor = 
+	                    (Korisnik)session.get(Korisnik.class, (long)(Integer.parseInt(ti.getText(0)))); 
+				
+				if(text_1.getText()!=""){
+				
+		         kor.setIme( text_1.getText() );
+				 ti.setText(1, text_1.getText());
+					
+				}
+				if(text_2.getText()!=""){
+				
+		         kor.setPrezime( (text_2.getText()) );
+		         ti.setText(2, text_2.getText());
+					
+				}
+				
+				if(text_3.getText()!=""){
+				 
+		         kor.setUsername( (text_3.getText()) );
+		         ti.setText(3, text_3.getText());
+					
+				}
+				
+				if(text_4.getText()!=""){
+				
+		         kor.setPassword( (text_4.getText()) );
+		         ti.setText(4, text_4.getText());
+					
+				}
+				
+				if(text_6.getText()!=""){
+					ControlDecoration text5Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+					if (!text_6.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+						text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+						FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text5Error.setImage(text5Field.getImage());
+						text5Error.showHoverText("Telefon nije u ispravnom formatu!");
+					}
+				
+					 kor.setTelefon( (text_6.getText()) );
+					 ti.setText(5, text_6.getText());
+					
+				}
+				
+				if(text_5.getText()!=""){
+					ControlDecoration text6Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
+					if (!text_5.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+						text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+						FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text6Error.setImage(text6Field.getImage());
+						text6Error.showHoverText("E-mail nije u ispravnom formatu!");
+					}
+					
+			 
+		         kor.setAdresa( (text_5.getText()) );
+		         ti.setText(6, text_5.getText());	
+					
+				}
+				
+				session.update(kor); 
+		        session.getTransaction().commit();
+			MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+			
+			
+			//	Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Izmjena", "Uspjesno izmjenjeni atributi korisnika.");
 				
 			}

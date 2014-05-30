@@ -182,6 +182,7 @@ public class KlijentiFirmePretragaForm extends Shell {
 		        		        
 		        for (int i=0; i<klijenti.size(); i++){
 		        	k = (Klijenti) klijenti.get(i);
+		        	if(k.getDeleted()==0){
 		        	
 		        TableItem item = new TableItem(table, 0, i);
 		        
@@ -193,7 +194,7 @@ public class KlijentiFirmePretragaForm extends Shell {
            	    item.setText(7,k.getEmail());
            	    item.setText(5,k.getBrojtelefona());
            	    item.setText(6, k.getFax());
-		        }
+		        }}
 		        }
 				
 				

@@ -18,7 +18,7 @@ public class Usluga implements Serializable {
 	long id;
 	String  naziv, opisUsluge;
 	int cijena, ukupanTrosak;
-	
+	private int deleted=0;
     String tipUsluge;
 	
 	public Usluga () {}
@@ -91,6 +91,14 @@ public class Usluga implements Serializable {
 		t.commit();
 		session.close();
 	 	}
+
+	public int getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
+	}
 
 	
 
