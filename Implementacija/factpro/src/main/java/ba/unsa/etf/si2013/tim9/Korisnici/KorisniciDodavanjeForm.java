@@ -112,7 +112,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorIme.showHoverText("Niste unijeli ime!");
 			rez = false;
 		}		
-		else if (a.ValidacijaImeFormatDobar(text_Ime.getText())){
+		if (a.ValidacijaImeFormatDobar(text_Ime.getText())){
 			textErrorIme.setDescriptionText("Ime nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorIme.setImage(textField.getImage());
@@ -131,7 +131,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorPrezime.showHoverText("Niste unijeli prezime!");
 			rez = false;
 		}		
-		else if (a.ValidacijaPrezimeFormatDobar(text_Prezime.getText())){
+		if (a.ValidacijaPrezimeFormatDobar(text_Prezime.getText())){
 			textErrorPrezime.setDescriptionText("Prezime nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorPrezime.setImage(textField.getImage());
@@ -151,7 +151,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorTelefon.showHoverText("Niste unijeli Telefon!");
 			rez = false;
 		}		
-		else if (a.ValidacijaTelefonFormatDobar(text_Telefon.getText())){
+		if (a.ValidacijaTelefonFormatDobar(text_Telefon.getText())){
 			textErrorTelefon.setDescriptionText("Telefon nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorTelefon.setImage(textField.getImage());
@@ -168,7 +168,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorEmail.showHoverText("Niste unijeli Email!");
 			rez = false;
 		}		
-		else if (a.ValidacijaEmailFormatDobar(text_Email.getText())){
+		if (a.ValidacijaEmailFormatDobar(text_Email.getText())){
 			textErrorEmail.setDescriptionText("Email nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorEmail.setImage(textField.getImage());
@@ -185,7 +185,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorPassword.showHoverText("Niste unijeli Password!");
 			rez = false;
 		}		
-		else if (a.ValidacijaPasswordFormatDobar(text_Password.getText())){
+		if (a.ValidacijaPasswordFormatDobar(text_Password.getText())){
 			textErrorPassword.setDescriptionText("Password nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorPassword.setImage(textField.getImage());
@@ -202,7 +202,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textErrorPasswordPotvrda.showHoverText("Niste unijeli PasswordPotvrda!");
 			rez = false;
 		}		
-		else if (a.ValidacijaPasswordPotvrda(text_Password.getText(),text_PasswordPotvrda.getText())){
+		if (a.ValidacijaPasswordPotvrda(text_Password.getText(),text_PasswordPotvrda.getText())){
 			textErrorPasswordPotvrda.setDescriptionText("PasswordPotvrda nije u ispravnom formatu!");
 			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textErrorPasswordPotvrda.setImage(textField.getImage());
