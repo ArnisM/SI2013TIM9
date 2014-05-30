@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,8 +14,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KorisniciBrisanjeForm extends Shell {
 
@@ -63,6 +71,10 @@ public class KorisniciBrisanjeForm extends Shell {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
+		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
+		tblclmnId.setWidth(30);
+		tblclmnId.setText("ID");
+		
 		TableColumn tblclmnIme = new TableColumn(table, SWT.NONE);
 		tblclmnIme.setWidth(100);
 		tblclmnIme.setText("Ime");
@@ -92,7 +104,7 @@ public class KorisniciBrisanjeForm extends Shell {
 		grpPretraga.setBounds(10, 10, 575, 107);
 		
 		
-		Combo combo = new Combo(grpPretraga, SWT.NONE);
+		final Combo combo = new Combo(grpPretraga, SWT.NONE);
 		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
 		combo.setText("Ime");
@@ -115,6 +127,37 @@ public class KorisniciBrisanjeForm extends Shell {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				List<Korisnik> korisnici;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				if(combo.getSelectionIndex()==0){
+											
+		        Query q = session.createQuery("from Korisnik where ime=:ime");
+		        q.setString("ime", text.getText());
+		        korisnici=q.list();
+		        t.commit();
+		        session.close();
+		        Korisnik k=new Korisnik();
+		        		        
+		        for (int i=0; i<korisnici.size(); i++){
+		        	k = (Korisnik) korisnici.get(i);
+		        	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+           	 //  item.setText(0,Integer.toString(k.getId()));
+           	    item.setText(1,k.getIme());
+             	item.setText(2,k.getPrezime());
+           	    item.setText(3,k.getAdresa());
+           	    item.setText(4,k.getTelefon());
+           	    
+           	    
+           	    item.setText(5, k.getPozicija());
+		       }
+		        }
+				
+				
+			
+				
 				Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Pretraga", "Uspjesna pretraga, korisnici su u listi ispod.");
 				
@@ -132,6 +175,22 @@ public class KorisniciBrisanjeForm extends Shell {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
+				Korisnik k=new Korisnik();
+				int ind=table.getSelectionIndex();
+				TableItem ti=table.getItem(ind);
+				
+				Korisnik myObject = (Korisnik) session.load(Korisnik.class,(long)(Integer.parseInt(ti.getText(0))));
+			    session.delete(myObject);
+			    session.getTransaction().commit();
+
+		        Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Brisanje klijenta", "Klijent je uspješno obrisan.");
+				
+				//Control [] controls = table.getChildren(); 
+				
+				table.clear(ind);
 				Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Brisanje", "Izabrani korisnik je obrisan.");
 				

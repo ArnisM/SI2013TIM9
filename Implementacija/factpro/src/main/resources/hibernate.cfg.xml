@@ -10,7 +10,9 @@
   <property name="show_sql">true</property>
   <mapping resource="ba/unsa/etf/si2013/tim9/Ponude/Ponude.hbm.xml"/>
   <mapping resource="ba/unsa/etf/si2013/tim9/Klijenti/Klijenti.hbm.xml"/>
-  <mapping resource="ba/unsa/etf/si2013/tim9/Usluge/Usluga.hbm.xml"/>
+  
+  
    <mapping resource="ba/unsa/etf/si2013/tim9/Korisnici/Korisnik.hbm.xml"/>
+   <mapping resource="ba/unsa/etf/si2013/tim9/Usluge/Usluga.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

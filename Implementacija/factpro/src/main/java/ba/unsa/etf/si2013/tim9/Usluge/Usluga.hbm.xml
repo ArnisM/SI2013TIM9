@@ -1,61 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 29, 2014 11:26:37 PM by Hibernate Tools 3.4.0.CR1 -->
-<hibernate-mapping>
-    <class name="ba.unsa.etf.si2013.tim9.Usluge.Usluga" table="USLUGA">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="naziv" type="java.lang.String">
-            <column name="NAZIV" />
-        </property>
-        <property name="opisUsluge" type="java.lang.String">
-            <column name="OPISUSLUGE" />
-        </property>
-        <property name="cijena" type="int">
-            <column name="CIJENA" />
-        </property>
-        <property name="ukupanTrosak" type="int">
-            <column name="UKUPANTROSAK" />
-        </property>
-        <property name="tipUsluge" type="java.lang.String">
-            <column name="TIPUSLUGE" />
-        </property>
-    </class>
-</hibernate-mapping>
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 29, 2014 5:55:10 PM by Hibernate Tools 3.4.0.CR1 -->
-<hibernate-mapping>
-    <class name="ba.unsa.etf.si2013.tim9.Usluge.Usluga" table="USLUGA">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="naziv" type="java.lang.String">
-            <column name="NAZIV" />
-        </property>
-        <property name="opisUsluge" type="java.lang.String">
-            <column name="OPISUSLUGE" />
-        </property>
-        <property name="cijena" type="int">
-            <column name="CIJENA" />
-        </property>
-        <property name="ukupanTrosak" type="int">
-            <column name="UKUPANTROSAK" />
-        </property>
-        <property name="tipUsluge" type="java.lang.String">
-            <column name="TIPUSLUGE" />
-        </property>
-    </class>
-</hibernate-mapping>
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 29, 2014 5:55:10 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 30, 2014 2:53:57 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si2013.tim9.Usluge.Usluga" table="USLUGA">
         <id name="id" type="long">
