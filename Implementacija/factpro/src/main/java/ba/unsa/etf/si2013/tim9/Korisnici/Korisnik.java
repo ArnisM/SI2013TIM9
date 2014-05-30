@@ -28,7 +28,7 @@ public class Korisnik implements Serializable {
 			Ime,
 			Prezime;
 	private String Username;
-	String Password;
+	private String Password;
 	Date DatumZaposlenja;
 	
 	public Korisnik(){}
@@ -40,7 +40,7 @@ public class Korisnik implements Serializable {
 		this.Telefon=telefon;
 		this.Adresa=adresa;
 		this.setUsername(username);
-		this.Password=password;
+		this.setPassword(password);
 		this.DatumZaposlenja=datumzaposlenja;
 	}
 	
@@ -108,5 +108,13 @@ public class Korisnik implements Serializable {
 
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
 	}
 }
