@@ -232,9 +232,9 @@ public class PonudePretragaForm extends Shell {
 		tableColumn_4.setWidth(132);
 		tableColumn_4.setText("PDV broj");
 		
-		Label label_2 = new Label(this, SWT.NONE);
-		label_2.setText("Izaberite \u017Eeljenu fakturu:");
-		label_2.setBounds(10, 162, 136, 15);
+		Label lblIzaberiteeljenuPonudu = new Label(this, SWT.NONE);
+		lblIzaberiteeljenuPonudu.setText("Izaberite \u017Eeljenu ponudu:");
+		lblIzaberiteeljenuPonudu.setBounds(10, 162, 136, 15);
 		
 		Button button_3 = new Button(this, SWT.NONE);
 		button_3.addSelectionListener(new SelectionAdapter() {

@@ -101,7 +101,7 @@ public class PonudeDodavanjeForm extends Shell {
 		
 		lblStavkeFakture= new Label(this, SWT.NONE);
 		lblStavkeFakture.setBounds(10, 158, 132, 15);
-		lblStavkeFakture.setText("Dodavanje stavki fakture:");
+		lblStavkeFakture.setText("Dodavanje stavki ponude:");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setSelection(-1);
@@ -187,7 +187,7 @@ public class PonudeDodavanjeForm extends Shell {
 		
 		this.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1396674611_invoice.png"));
 		this.setSize(697, 677);
-		this.setText("Dodavanje nove fakture");
+		this.setText("Dodavanje nove ponude");
 		
 		
 		
@@ -295,21 +295,6 @@ public class PonudeDodavanjeForm extends Shell {
 		btnNewButton.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398624464_plus-sign.png"));
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
-		
-		
-		
-		Button button = new Button(this, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
-				
-			}
-		});
-		button.setText("Generi\u0161i .pdf");
-		button.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398206257_pdf.png"));
-		button.setBounds(10, 591, 132, 42);
 		
 		// TEXTUALNO POLJEEE
 				text = new Text(this, SWT.BORDER);
@@ -440,7 +425,7 @@ public class PonudeDodavanjeForm extends Shell {
 		
 		Label lblDodatniZahtjeviVezani = new Label(this, SWT.NONE);
 		lblDodatniZahtjeviVezani.setBounds(10, 420, 258, 15);
-		lblDodatniZahtjeviVezani.setText("Dodatni zahtjevi vezani za fakturu(tekstualno):");
+		lblDodatniZahtjeviVezani.setText("Dodatni zahtjevi vezani za ponudu(tekstualno):");
 		
 		// DUGME ZA BRISANJE NSTAVKI
 		Button btnNewButton_1 = new Button(this, SWT.NONE);

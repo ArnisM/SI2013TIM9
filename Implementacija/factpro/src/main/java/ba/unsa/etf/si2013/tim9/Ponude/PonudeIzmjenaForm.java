@@ -210,7 +210,7 @@ public class PonudeIzmjenaForm extends Shell {
 		
 		
 		Label lblIzaberiteeljenuFakturu = new Label(this, SWT.NONE);
-		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu fakturu:");
+		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu ponudu:");
 		lblIzaberiteeljenuFakturu.setBounds(10, 177, 136, 15);
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);

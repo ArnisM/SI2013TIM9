@@ -87,7 +87,7 @@ public class PonudeStavkeDodavanjeForm2 extends Shell {
 //		this = new Shell();
 		this.setImage(SWTResourceManager.getImage(PonudeStavkeDodavanjeForm2.class, "/images/1396674611_invoice.png"));
 		this.setSize(351, 402);
-		this.setText("Dodavanje stavki fakture");
+		this.setText("Dodavanje stavki ponude");
 		
 		
 		

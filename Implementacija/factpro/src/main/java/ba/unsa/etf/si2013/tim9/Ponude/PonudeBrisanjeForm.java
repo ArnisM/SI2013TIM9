@@ -85,7 +85,7 @@ public class PonudeBrisanjeForm extends Shell {
 //		this = new Shell();
 		this.setImage(SWTResourceManager.getImage(PonudeBrisanjeForm.class, "/images/1396674611_invoice.png"));
 		this.setSize(612, 469);
-		this.setText("Brisanje fakture");
+		this.setText("Brisanje ponude");
 		
 		Group group = new Group(this, SWT.NONE);
 		group.setText("Pretraga fakture");
@@ -256,9 +256,9 @@ public class PonudeBrisanjeForm extends Shell {
 		tableColumn_4.setWidth(132);
 		tableColumn_4.setText("PDV broj");
 		
-		Label label_2 = new Label(this, SWT.NONE);
-		label_2.setText("Izaberite \u017Eeljenu fakturu:");
-		label_2.setBounds(10, 164, 136, 15);
+		Label lblIzaberiteeljenuPonudu = new Label(this, SWT.NONE);
+		lblIzaberiteeljenuPonudu.setText("Izaberite \u017Eeljenu ponudu:");
+		lblIzaberiteeljenuPonudu.setBounds(10, 164, 136, 15);
 		
 		
 		// BRISANJEEEE
