@@ -75,13 +75,13 @@ public class Klijenti implements Serializable {
 	public void setBrojtelefona(String brojtelefona) {
 		this.brojtelefona = brojtelefona;
 	}
-	String getTip() {
+	public String getTip() {
 		return tip;
 	}
 	void setTip(String tip) {
 		this.tip = tip;
 	}
-	String getNaziv() {
+	public String getNaziv() {
 		return naziv;
 	}
 	void setNaziv(String naziv) {

@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureBrisanjeForm;
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureDodavanjeForm;
-import ba.unsa.etf.si2013.tim9.Fakture.FaktureDodavanjePrekoPonudeForm;
+
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureIzmjenaForm;
 import ba.unsa.etf.si2013.tim9.Fakture.FakturePretragaForm;
 import ba.unsa.etf.si2013.tim9.Izvjestaji.IzvjestajPoKlijentForm;
@@ -385,18 +385,6 @@ public class GlavnaForm {
 			}
 		});
 		mntmDodavanjeNoveFakture.setText("Dodavanje nove fakture");
-		
-		MenuItem mntmDodavanjaFaktureNa = new MenuItem(menu_5, SWT.NONE);
-		mntmDodavanjaFaktureNa.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				FaktureDodavanjePrekoPonudeForm a = new FaktureDodavanjePrekoPonudeForm(null);
-				a.open();
-				//DodavanjeFakturePrekoPonudeForm dp = new DodavanjeFakturePrekoPonudeForm();
-				//dp.open();
-			}
-		});
-		mntmDodavanjaFaktureNa.setText("Dodavanja fakture na osnovu ponude");
 		
 		MenuItem mntmIzmjenaFakture = new MenuItem(menu_5, SWT.NONE);
 		mntmIzmjenaFakture.addSelectionListener(new SelectionAdapter() {
