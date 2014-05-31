@@ -1,8 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Fakture;
 
-import java.util.List;
-
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -17,22 +18,62 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 //import org.eclipse.wb.swt.DodavanjeStavkiFaktureForm;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.hibernate.Query;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DisposeEvent;
+
+
+
+
+
+
+
+
+import javax.persistence.GeneratedValue; 
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import java.util.Date;	
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
+import org.hibernate.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.widgets.TableItem;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
+
+
 public class FaktureDodavanjeForm extends Shell {
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
+	
 //	protected Shell this;
+	// SVI FINI ATRBIBUTI !!!
 	private Table table;
 	private Text text;
+	private ArrayList<String> _usluge;
+	private	Label lblStavkeFakture ;
+	private List stavka;
+	private ArrayList<Long> _uzete;
+	private int br_stavki;
+	
+	
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -49,77 +90,21 @@ public class FaktureDodavanjeForm extends Shell {
 		}
 	}
 
-	/**
-	 * Create the shell.
-	 * @param display
-	 */
+	
+	// KONSTRUKTOR DA SE FINO SVE MOZE KORISTIT
 	public FaktureDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
-		createContents();
-	}
-
-	/**
-	 * Create contents of the shell.
-	 */
-	protected void createContents() {
-//		this = new Shell();
-		this.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1396674611_invoice.png"));
-		this.setSize(697, 677);
-		this.setText("Dodavanje nove fakture");
 		
-		Group grpKlijent = new Group(this, SWT.NONE);
-		grpKlijent.setText("Klijent");
-		grpKlijent.setBounds(10, 10, 649, 123);
+		_usluge=new ArrayList<String>();
+		_uzete=new ArrayList<Long>();
+		br_stavki=0;
 		
-		Group grpOdabir = new Group(grpKlijent, SWT.NONE);
-		grpOdabir.setText("Odabir");
-		grpOdabir.setBounds(10, 20, 123, 82);
-		
-		Button btnFirma = new Button(grpOdabir, SWT.RADIO);
-		btnFirma.setSelection(true);
-		btnFirma.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		btnFirma.setBounds(10, 23, 90, 16);
-		btnFirma.setText("Firma");
-		
-		Button btnFizikoLice = new Button(grpOdabir, SWT.RADIO);
-		btnFizikoLice.setBounds(10, 56, 90, 16);
-		btnFizikoLice.setText("Fizi\u010Dko lice");
-		
-		final Combo combo = new Combo(grpKlijent, SWT.NONE);
-		combo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				List<Klijenti> klijenti;
-				Session session = HibernateUtil.getSessionFactory().openSession();
-				Transaction t = session.beginTransaction();			
-				Query q = session.createQuery("from Klijenti where tip=:tip");
-		        q.setString("tip", "firma");
-		        klijenti=q.list();
-				t.commit();
-		        session.close();
-		        Klijenti k=new Klijenti();
-		        
-		      
-		        k=(Klijenti)klijenti.get(0);
-		       combo.setItem(0, k.getAdresa());
-			}
-		});
-		combo.setBounds(271, 33, 154, 23);
-		combo.setText("Mercator");
-		
-		Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
-		lblIzaberiteFirmu.setBounds(170, 36, 95, 15);
-		lblIzaberiteFirmu.setText("Odaberite firmu:");
-		
-		Label lblStavkeFakture = new Label(this, SWT.NONE);
+		lblStavkeFakture= new Label(this, SWT.NONE);
 		lblStavkeFakture.setBounds(10, 158, 132, 15);
 		lblStavkeFakture.setText("Dodavanje stavki fakture:");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setSelection(-1);
 		table.setBounds(10, 194, 660, 207);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -148,19 +133,170 @@ public class FaktureDodavanjeForm extends Shell {
 		tblclmnCijenaSaPdv.setWidth(94);
 		tblclmnCijenaSaPdv.setText("Cijena sa pdv");
 		
+		
+		createContents();
+	}
+
+	
+	// FUNKCIJA POZOVE CHILD FORMA DA POPUNI INSTANTO
+	public void Provjeri()
+	{
+		
+		if(!_usluge.isEmpty())
+		{
+		 
+		String x=new String();	
+		x =(String)_usluge.get(0);
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+        Query q = session.createQuery("from Usluga where naziv=:naziv");
+        q.setString("naziv", x);
+        stavka=q.list();
+        t.commit();
+        session.close();
+        Usluga k=new Usluga();
+		
+        
+        
+        
+        k = (Usluga) stavka.get(0);
+        _uzete.add(k.getId());
+        TableItem item = new TableItem(table, 0, br_stavki);
+        item.setText(0,Integer.toString(br_stavki+1));
+        item.setText(1,k.getNaziv());
+        item.setText(2, k.getOpisUsluge());
+        item.setText(3, Integer.toString(k.getCijena()));
+        item.setText(4, "1");
+        double cijena= k.getCijena() + k.getCijena()*0.17;
+        item.setText(5,Double.toString(cijena) );
+   	    
+        
+        stavka.clear();
+   	    _usluge.clear();
+   	    br_stavki++;
+		}
+        
+	}
+	/**
+	 * Create contents of the shell.
+	 */
+	protected void createContents() {
+       // this = new Shell();
+		
+		
+		this.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1396674611_invoice.png"));
+		this.setSize(697, 677);
+		this.setText("Dodavanje nove fakture");
+		
+		
+		
+		final Group grpKlijent = new Group(this, SWT.NONE);
+		grpKlijent.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent arg0) {
+			}
+		});
+		
+		grpKlijent.setText("Klijent");
+		grpKlijent.setBounds(10, 10, 649, 123);
+		
+		final Label lblIzaberiteFirmu = new Label(grpKlijent, SWT.NONE);
+		lblIzaberiteFirmu.setBounds(170, 36, 95, 15);
+		lblIzaberiteFirmu.setText("Odaberite firmu:");
+		
+		final Combo combo = new Combo(grpKlijent, SWT.NONE);
+		
+		combo.setBounds(271, 33, 141, 23);
+		
+		Group grpOdabir = new Group(grpKlijent, SWT.NONE);
+		grpOdabir.setText("Odabir");
+		grpOdabir.setBounds(10, 20, 123, 82);
+		
+		
+		// ZA FIRMA RADIO BUTTON
+		Button btnFirma = new Button(grpOdabir, SWT.RADIO);
+		btnFirma.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				lblIzaberiteFirmu.setText("Odaberite firmu:");
+				combo.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				List klijenti = session.createQuery("from Klijenti where tip='firma'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!klijenti.isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo.add(k.getNaziv(),i);
+		        
+		        }
+				}
+		        
+			}});
+		btnFirma.setBounds(10, 23, 90, 16);
+		btnFirma.setText("Firma");
+		
+		
+		//ZA FIZICKO LICE RADIO 
+		Button btnFizikoLice = new Button(grpOdabir, SWT.RADIO);
+		btnFizikoLice.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblIzaberiteFirmu.setText("Izaberite lice:");
+				combo.removeAll();
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				List klijenti = session.createQuery("from Klijenti where tip='fizickoLice'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!klijenti.isEmpty())
+		        {
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo.add(k.getNaziv(),i);
+		        
+		        }
+				}
+				
+				
+				
+			}
+		});
+		btnFizikoLice.setBounds(10, 56, 90, 16);
+		btnFizikoLice.setText("Fizi\u010Dko lice");
+		
+		
+	    //BITNO !!!!
+		final FaktureDodavanjeForm f =this;
+		
+		
+		// DODAVANJE USLUGA REFERENCIRANJE U NOVOJ FORMI MAJKAAAAAAAAAAAAAAAAA
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null);
+				
+				FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null,_usluge,f);
 				a.open();
-//				DodavanjeStavkiFaktureForm f =new DodavanjeStavkiFaktureForm();
-//				f.open();
+			
 			}
 		});
 		btnNewButton.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398624464_plus-sign.png"));
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
+		
+		
 		
 		Button button = new Button(this, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
@@ -168,24 +304,106 @@ public class FaktureDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
+				
 			}
 		});
 		button.setText("Generi\u0161i .pdf");
 		button.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398206257_pdf.png"));
 		button.setBounds(10, 591, 132, 42);
 		
+		// TEXTUALNO POLJEEE
+				text = new Text(this, SWT.BORDER);
+				text.setBounds(10, 441, 611, 135);
+		
+		//DODAVANJE U BAZU USPJESNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 		Button button_1 = new Button(this, SWT.NONE);
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				
+				ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+				if (text.getText().length()>199)
+				{
+					textError.setDescriptionText("Manje od 200 karaktera mora komentar  biti!");
+					FieldDecoration text10Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					textError.setImage(text10Field.getImage());
+					textError.showHoverText("Manje od 200 karaktera mora biti komentar!");
+				}
+				else
+				{
+				if(br_stavki!=0 && combo.getSelectionIndex()!=-1)
+				{
+				//trazim id od klijenta
+				List broj;
+				String value=combo.getItem(combo.getSelectionIndex()).toString();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        q.setString("naziv", value);
+		        broj=q.list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        if(!broj.isEmpty())
+		        {
+		          k=(Klijenti)broj.get(0);
+		        }
+		        long id =k.getId();
+		        
+				Date d=new Date();
+				int random = 5 + (int)(Math.random() * ((50000 - 10000) + 1));
+				//UPIS u bazu
+				Faktura f=new Faktura(1,id,3,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),random , "Sarajevo",d,text.getText());
+				f.spasiUBazu();
+				
+				//DIO ZA ID FAKTURE SPASENE
+				List vidi_broj;
+				session = HibernateUtil.getSessionFactory().openSession();
+				t = session.beginTransaction();			
+				q = session.createQuery("from Faktura where broj_fakture=:brojic");
+		        q.setString("brojic", Integer.toString(random));
+		        vidi_broj=q.list();
+		        t.commit();
+		        session.close();
+		        
+				Faktura ff=new Faktura();
+				
+				if(!vidi_broj.isEmpty())
+				{
+				ff=(Faktura)vidi_broj.get(0);
+				
+				// dodavanje stavka_faktura u bazu
+				for(int i = 0; i<br_stavki;i++)
+				{
+					Long x= (Long)_uzete.get(i);
+					Stavka_faktura s=new Stavka_faktura(ff.getId(),x);
+					s.spasiUBazu();
+				}
+				
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno dodana faktura.");
-			}
-		});
+			    MessageDialog.openInformation(shell, "Info", "Uspjesno dodana faktura!");
+			    table.removeAll();
+			    br_stavki=0;
+			    text.setText("");
+				}
+				}
+				else
+				{
+					Shell shell = new Shell();
+				    MessageDialog.openInformation(shell, "Info", "Niste unijeli sva polja.");
+				}
+				
+				}
+			
+			
+			}});
 		button_1.setText("Dodaj");
 		button_1.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398195801_tick_32.png"));
 		button_1.setBounds(431, 591, 116, 42);
 		
+		
+		// ZATVARANJE FORMEEEE
 		Button button_2 = new Button(this, SWT.NONE);
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -197,12 +415,58 @@ public class FaktureDodavanjeForm extends Shell {
 		button_2.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
 		button_2.setBounds(554, 591, 116, 42);
 		
-		text = new Text(this, SWT.BORDER);
-		text.setBounds(10, 441, 611, 135);
+		
 		
 		Label lblDodatniZahtjeviVezani = new Label(this, SWT.NONE);
 		lblDodatniZahtjeviVezani.setBounds(10, 420, 258, 15);
 		lblDodatniZahtjeviVezani.setText("Dodatni zahtjevi vezani za fakturu(tekstualno):");
+		
+		// DUGME ZA BRISANJE NSTAVKI
+		Button btnNewButton_1 = new Button(this, SWT.NONE);
+		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(table.getSelectionIndex()!=-1)
+				{
+					int iti = table.getSelectionIndex();
+					TableItem ti=table.getItem(iti);
+					String xn=ti.getText(1);
+					double xc=Double.parseDouble(ti.getText(3));
+					
+					List lbroj;
+					Session session = HibernateUtil.getSessionFactory().openSession();
+					Transaction t = session.beginTransaction();
+			        Query q = session.createQuery("from Usluga where naziv=:naziv and cijena=:cijena");
+			        q.setString("naziv", xn);
+			        q.setString("cijena", Double.toString(xc));
+			        lbroj=q.list();
+			        t.commit();
+			        session.close();
+			        Usluga k=new Usluga();
+			        k=(Usluga)lbroj.get(0);
+			        for(int i = 0; i<_uzete.size();i++)
+			        {
+			        	long x= _uzete.get(i);
+			        	if(x==k.getId())
+			        	{
+			        		_uzete.remove(i);
+			        		br_stavki--;
+			        		break;
+			        	}
+			        }
+			        table.remove(iti);
+			        table.setSelection(-1);
+			        
+				}
+				else 
+				{
+					Shell shell = new Shell();
+				    MessageDialog.openInformation(shell, "Info", "Nije selektovana stavka.");
+				}
+			}
+		});
+		btnNewButton_1.setBounds(288, 146, 116, 38);
+		btnNewButton_1.setText("Bri\u0161i stavku");
 
 	}
 
@@ -210,5 +474,4 @@ public class FaktureDodavanjeForm extends Shell {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
 }

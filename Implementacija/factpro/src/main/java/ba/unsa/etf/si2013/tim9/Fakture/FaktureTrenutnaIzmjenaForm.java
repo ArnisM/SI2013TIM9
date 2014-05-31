@@ -127,8 +127,8 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null);
-				a.open();
+			//	FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null);
+			//	a.open();
 //				DodavanjeStavkiFaktureForm f =new DodavanjeStavkiFaktureForm();
 //				f.open();
 			}

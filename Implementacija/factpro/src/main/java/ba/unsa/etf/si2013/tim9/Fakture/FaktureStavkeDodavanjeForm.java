@@ -10,7 +10,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
+
+import java.util.ArrayList;
+import java.util.ArrayList;
 public class FaktureStavkeDodavanjeForm extends Shell {
 
 	/**
@@ -18,11 +26,14 @@ public class FaktureStavkeDodavanjeForm extends Shell {
 	 * @param args
 	 */
 //	protected Shell this;
+	private ArrayList<String> b;
+	private FaktureDodavanjeForm z;
+	private List list;
+	
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			FaktureStavkeDodavanjeForm shell = new FaktureStavkeDodavanjeForm(
-					display);
+			FaktureStavkeDodavanjeForm shell = new FaktureStavkeDodavanjeForm(display,null,null);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -39,10 +50,35 @@ public class FaktureStavkeDodavanjeForm extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public FaktureStavkeDodavanjeForm(Display display) {
+	
+	public FaktureStavkeDodavanjeForm(Display display , ArrayList<String> a, FaktureDodavanjeForm f) {
+		
 		super(display, SWT.SHELL_TRIM);
+		b=new ArrayList<String>();
+		b=a;
+		z=f;
+	    list = new List(this, SWT.BORDER);
+		list.setItems(new String[] {});
+		list.setBounds(10, 57, 310, 249);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		java.util.List<Usluga> usluge;
+		
+			
+	        Query q = session.createQuery("from Usluga");
+	        usluge=q.list();
+	        t.commit();
+	        session.close();
+	        Usluga k=new Usluga();		        		        
+	        for (int i=0; i<usluge.size(); i++){
+	        	k = (Usluga) usluge.get(i);
+	        	list.add(k.getNaziv(), i);
+	        }
+		
 		createContents();
 	}
+	
 
 	/**
 	 * Create contents of the shell.
@@ -53,20 +89,27 @@ public class FaktureStavkeDodavanjeForm extends Shell {
 		this.setSize(351, 402);
 		this.setText("Dodavanje stavki fakture");
 		
-		List list = new List(this, SWT.BORDER);
-		list.setItems(new String[] {"Servisiranje ra\u010Dunara ", "Instalacija microsoft oficce-a", "Instaliranje i pode\u0161avanje operativnog sistema", "Promjena licence"});
-		list.setBounds(10, 57, 310, 249);
+		
+		
 		
 		Label lblOdaberiteStavkuKoju = new Label(this, SWT.NONE);
 		lblOdaberiteStavkuKoju.setText("Odaberite stavku koju \u017Eelite dodati:");
 		lblOdaberiteStavkuKoju.setBounds(10, 36, 204, 15);
 		
+		//UBACIVANJE U LISTU PROSLJEDDJENU KONSTRUKTORU iz FAKTURA DODAJ
 		Button button = new Button(this, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				
+				String x=list.getItem(list.getSelectionIndex());
+				b.add(x);
+				
+				z.Provjeri();
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");
+				
 			}
 		});
 		button.setText("Dodaj");
