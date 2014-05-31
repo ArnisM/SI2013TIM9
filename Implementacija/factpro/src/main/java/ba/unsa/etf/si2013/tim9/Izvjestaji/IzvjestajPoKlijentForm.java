@@ -1,5 +1,14 @@
 package ba.unsa.etf.si2013.tim9.Izvjestaji;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -15,11 +24,26 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import ba.unsa.etf.si2013.tim9.Fakture.Faktura;
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
 public class IzvjestajPoKlijentForm {
 
 	protected Shell shell;
-
+	java.util.List klijenti;
+	java.util.List fakture;
+	java.util.List faktureg;
+	java.util.List fakturem;
+	java.util.List faktured;
 	/**
 	 * Launch the application.
 	 * @param args
@@ -71,32 +95,73 @@ public class IzvjestajPoKlijentForm {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				
+				
 			}
 		});
-		combo.setItems(new String[] {"Mercator", "Interex", "Robot", "Bingo"});
-		combo.setBounds(205, 69, 126, 23);
+		//combo.setItems(new String[] {"Mercator", "Interex", "Robot", "Bingo"});
+		combo.setBounds(203, 41, 126, 23);
 		
 		Group grpKlijenti = new Group(group, SWT.NONE);
 		grpKlijenti.setText("Klijenti");
 		grpKlijenti.setBounds(10, 10, 154, 82);
+		
+		final Label lblIzaberiteKlijenta = new Label(group, SWT.NONE);
+		lblIzaberiteKlijenta.setBounds(203, 20, 88, 15);
+		lblIzaberiteKlijenta.setText("Izaberite klijenta:");
 		
 		Button btnFirme = new Button(grpKlijenti, SWT.RADIO);
 		btnFirme.setSelection(true);
 		btnFirme.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-			}
+				lblIzaberiteKlijenta.setText("Izaberite klijenta:");
+				combo.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				java.util.List<Klijenti> klijenti =  session.createQuery("from Klijenti where tip='firma'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!((java.util.List) klijenti).isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo.add(k.getNaziv(),i);
+		        }
+			}}
 		});
 		btnFirme.setBounds(29, 24, 90, 16);
 		btnFirme.setText("Firme");
 		
 		Button btnFizikaLica = new Button(grpKlijenti, SWT.RADIO);
+		btnFizikaLica.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				lblIzaberiteKlijenta.setText("Izaberite klijenta:");
+				combo.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				java.util.List<Klijenti> klijenti =  session.createQuery("from Klijenti where tip='fizickoLice'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!((java.util.List) klijenti).isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo.add(k.getNaziv(),i);
+		        }
+		        }}
+		});
 		btnFizikaLica.setBounds(29, 46, 90, 16);
 		btnFizikaLica.setText("Fizi\u010Dka lica");
 		
-		Label lblIzaberiteKlijenta = new Label(group, SWT.NONE);
-		lblIzaberiteKlijenta.setBounds(205, 46, 88, 15);
-		lblIzaberiteKlijenta.setText("Izaberite klijenta:");
+		
 		
 		Group grpRezultatIzvjetaja = new Group(group, SWT.NONE);
 		grpRezultatIzvjetaja.setText("Rezultat izvje\u0161taja");
@@ -125,45 +190,54 @@ public class IzvjestajPoKlijentForm {
 		lblFakture.setBounds(10, 50, 92, 15);
 		
 		Button btnOk = new Button(group, SWT.NONE);
-		btnOk.setBounds(119, 365, 117, 38);
+		btnOk.setBounds(20, 365, 117, 38);
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list.removeAll();
-				if(combo.getSelectionIndex()==0) {
-				list.add("01.01.2014, 500KM");
-				list.add("07.02.2014, 700KM");
-				list.add("08.08.2014, 800KM");
-				label.setText("2000");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			      FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=list.getSelectionIndex();
+			       document.addTitle("Godišnji izvještaj po klijentu");
+			       document.add((new Paragraph("Izvještaj po klijentu")));
+			      document.add(new Paragraph("ID fakture: " + ((Faktura) faktureg.get(i)).getId() ));
+			     document.add(new Paragraph("Cijena: " + ((Faktura) faktureg.get(i)).getCijena() ));
+			      document.add(new Paragraph("Datum: " + ((Faktura) faktureg.get(i)).getDatum_izdavanja()));
+			      document.add(new Paragraph(new Date().toString()));
+			      			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
-				if(combo.getSelectionIndex()==1) {
-					list.add("02.02.2014, 600KM");
-					list.add("08.02.2014, 800KM");
-					list.add("10.08.2014, 900KM");
-					label.setText("2300");
-					}
 				
-				if(combo.getSelectionIndex()==2) {
-					list.add("03.01.2014, 700KM");
-					list.add("09.02.2014, 800KM");
-					list.add("11.08.2014, 900KM");
-					label.setText("2400");
-					}
 				
-				if(combo.getSelectionIndex()==3) {
-					list.add("04.01.2014, 800KM");
-					list.add("10.02.2014, 900KM");
-					list.add("12.08.2014, 1000KM");
-					label.setText("2700");
-					}
+		
+				
+			
 				Shell shell = new Shell ();
 				MessageDialog.openInformation(shell, "Generisanje izvještaja", "Uspješno je kreiran godišnji izvještaj za klijenta na osnovu izabranih podataka.");
 				
 			}
 		});
-		btnOk.setText("Ok");
-		btnOk.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398195801_tick_32.png"));
+		btnOk.setText("Generiši .pdf");
+		btnOk.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398206257_pdf.png"));
 		
 		Button button_1 = new Button(group, SWT.NONE);
 		button_1.addSelectionListener(new SelectionAdapter() {
@@ -182,31 +256,123 @@ public class IzvjestajPoKlijentForm {
 		Group group_1 = new Group(tabFolder, SWT.NONE);
 		tbtmMjeseni.setControl(group_1);
 		
-		Combo combo_1 = new Combo(group_1, SWT.NONE);
+		final Combo combo_1 = new Combo(group_1, SWT.NONE);
 		combo_1.setItems(new String[] {"Interex", "Bingo", "Robot"});
-		combo_1.setBounds(205, 43, 126, 23);
+		combo_1.setBounds(239, 17, 126, 23);
 		combo_1.setText("Mercator\r\n");
-		
-		Group group_2 = new Group(group_1, SWT.NONE);
-		group_2.setText("Klijenti");
-		group_2.setBounds(10, 10, 154, 82);
-		
-		Button button = new Button(group_2, SWT.RADIO);
-		button.setText("Firme");
-		button.setSelection(true);
-		button.setBounds(29, 24, 90, 16);
-		
-		Button button_2 = new Button(group_2, SWT.RADIO);
-		button_2.setText("Fizi\u010Dka lica");
-		button_2.setBounds(29, 46, 90, 16);
-		
-		Label label_1 = new Label(group_1, SWT.NONE);
-		label_1.setText("Izaberite klijenta:");
-		label_1.setBounds(205, 22, 88, 15);
 		
 		Group group_3 = new Group(group_1, SWT.NONE);
 		group_3.setText("Rezultat izvje\u0161taja");
 		group_3.setBounds(10, 108, 355, 251);
+		
+		final List list_1 = new List(group_3, SWT.BORDER);
+		list_1.setItems(new String[] {});
+		list_1.setBounds(10, 71, 171, 170);
+		
+		Button btnIspisiFakture = new Button(group, SWT.NONE);
+		btnIspisiFakture.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = (Transaction) session.beginTransaction();
+				Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        q.setString("naziv",combo.getItem(combo.getSelectionIndex()));		        
+		        klijenti= q.list(); 
+		        t.commit();
+		        Klijenti kk=new Klijenti();
+		        kk=(Klijenti)klijenti.get(0);
+		        
+		        Transaction t1 = (Transaction) session.beginTransaction();
+				Query q1 = session.createQuery("from Faktura where idklijent=:idklijent");
+		        q1.setLong("idklijent",kk.getId());	
+		        	
+		        faktureg= q1.list(); 
+		        t1.commit();
+		        
+		        Faktura f=new Faktura();
+		        
+		        for (int i=0; i<faktureg.size(); i++){
+		        f =(Faktura)faktureg.get(i);        	
+		       
+		         String s = Objects.toString(f.getId(), null);
+		        list.add(s, i);
+		       session.close();
+				
+				
+			}}
+		});
+		btnIspisiFakture.setBounds(203, 67, 126, 25);
+		btnIspisiFakture.setText("Ispisi fakture");
+		
+	
+		
+	
+		
+		Group group_2 = new Group(group_1, SWT.NONE);
+		group_2.setText("Klijenti");
+		group_2.setBounds(10, 10, 154, 82);
+		final Label label_1 = new Label(group_1, SWT.NONE);
+		label_1.setText("Izaberite klijenta:");
+		label_1.setBounds(170, 20, 55, 15);
+		Button button = new Button(group_2, SWT.RADIO);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				label_1.setText("Izaberite klijenta:");
+				combo_1.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				java.util.List<Klijenti> klijenti =  session.createQuery("from Klijenti where tip='firma'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!((java.util.List) klijenti).isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo_1.add(k.getNaziv(),i);
+		        }
+		        }}
+			
+		});
+		button.setText("Firme");
+		button.setSelection(true);
+		button.setBounds(29, 24, 90, 16);
+		
+		
+		
+		Button button_2 = new Button(group_2, SWT.RADIO);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				label_1.setText("Izaberite klijenta:");
+				combo_1.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				java.util.List<Klijenti> klijenti =  session.createQuery("from Klijenti where tip='firma'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!((java.util.List) klijenti).isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo_1.add(k.getNaziv(),i);
+		        
+		        }}
+			}
+		});
+		button_2.setText("Fizi\u010Dka lica");
+		button_2.setBounds(29, 46, 90, 16);
+		
+		
+		
+		
 		
 		Label label_2 = new Label(group_3, SWT.NONE);
 		label_2.setText("Ukupni promet:");
@@ -216,33 +382,58 @@ public class IzvjestajPoKlijentForm {
 		label_3.setText("0");
 		label_3.setBounds(116, 30, 55, 15);
 		
-		final List list_1 = new List(group_3, SWT.BORDER);
-		list_1.setItems(new String[] {});
-		list_1.setBounds(10, 71, 171, 170);
+		
 		
 		Label label_4 = new Label(group_3, SWT.NONE);
 		label_4.setText("Izlazne fakture:");
 		label_4.setBounds(10, 50, 92, 15);
 		
-		Button button_3 = new Button(group_1, SWT.NONE);
-		button_3.addSelectionListener(new SelectionAdapter() {
+		Button btnGeneriipdf = new Button(group_1, SWT.NONE);
+		btnGeneriipdf.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list_1.removeAll();
-				list_1.add("19.03.2014, 500KM");
-				list_1.add("20.01.2014, 600KM");
-				list_1.add("21.01.2014, 700KM");
-				list_1.add("22.01.2014, 800KM");
-				list_1.add("23.01.2014, 900KM");
-				list_1.add("24.01.2014, 1000KM");
-				label_3.setText("4500");			
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			      FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=list.getSelectionIndex();
+			       document.addTitle("Mjesečni izvještaj po klijentu");
+			       document.add((new Paragraph("Izvještaj po klijentu")));
+			      document.add(new Paragraph("ID fakture: " + ((Faktura) fakturem.get(i)).getId() ));
+			     document.add(new Paragraph("Cijena: " + ((Faktura) fakturem.get(i)).getCijena() ));
+			      document.add(new Paragraph("Datum: " + ((Faktura) fakturem.get(i)).getDatum_izdavanja()));
+			      document.add(new Paragraph(new Date().toString()));
+			      			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
 				Shell shell = new Shell ();
 				MessageDialog.openInformation(shell, "Generisanje izvjestaja", "Uspješno je kreiran mjesečni izvještaj.");
 			}
 		});
-		button_3.setText("Ok");
-		button_3.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398195801_tick_32.png"));
-		button_3.setBounds(119, 365, 117, 38);
+		btnGeneriipdf.setText("Generiši .pdf");
+		btnGeneriipdf.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398195801_tick_32.png"));
+		btnGeneriipdf.setBounds(10, 365, 117, 38);
 		
 		Button button_4 = new Button(group_1, SWT.NONE);
 		button_4.addSelectionListener(new SelectionAdapter() {
@@ -256,97 +447,53 @@ public class IzvjestajPoKlijentForm {
 		button_4.setBounds(248, 365, 117, 38);
 		
 		Label lblMjesec = new Label(group_1, SWT.NONE);
-		lblMjesec.setBounds(205, 83, 55, 15);
+		lblMjesec.setBounds(170, 44, 55, 15);
 		lblMjesec.setText("Mjesec:");
 		
-		Spinner spinner = new Spinner(group_1, SWT.BORDER);
+		final Spinner spinner = new Spinner(group_1, SWT.BORDER);
 		spinner.setMaximum(12);
 		spinner.setMinimum(1);
 		spinner.setSelection(3);
-		spinner.setBounds(261, 80, 47, 22);
+		spinner.setBounds(239, 46, 47, 22);
 		
-		TabItem tbtmSedmini = new TabItem(tabFolder, SWT.NONE);
-		tbtmSedmini.setText("Sedmični");
-		
-		Group group_4 = new Group(tabFolder, SWT.NONE);
-		tbtmSedmini.setControl(group_4);
-		
-		Group group_5 = new Group(group_4, SWT.NONE);
-		group_5.setBounds(0, 0, 375, 415);
-		
-		Combo combo_2 = new Combo(group_5, SWT.NONE);
-		combo_2.setItems(new String[] {"Interex", "Bingo", "Robot"});
-		combo_2.setBounds(205, 43, 126, 21);
-		combo_2.setText("Mercator\r\n");
-		
-		Group group_6 = new Group(group_5, SWT.NONE);
-		group_6.setText("Klijenti");
-		group_6.setBounds(10, 10, 154, 82);
-		
-		Button button_5 = new Button(group_6, SWT.RADIO);
-		button_5.setText("Firme");
-		button_5.setSelection(true);
-		button_5.setBounds(29, 24, 90, 16);
-		
-		Button button_6 = new Button(group_6, SWT.RADIO);
-		button_6.setText("Fizička lica");
-		button_6.setBounds(29, 46, 90, 16);
-		
-		Label label_5 = new Label(group_5, SWT.NONE);
-		label_5.setText("Izaberite klijenta:");
-		label_5.setBounds(205, 22, 88, 15);
-		
-		Group group_7 = new Group(group_5, SWT.NONE);
-		group_7.setText("Rezultat izvještaja");
-		group_7.setBounds(10, 108, 355, 251);
-		
-		Label label_6 = new Label(group_7, SWT.NONE);
-		label_6.setText("Ukupni promet:");
-		label_6.setBounds(10, 30, 92, 15);
-		
-		final Label label_7 = new Label(group_7, SWT.NONE);
-		label_7.setText("0");
-		label_7.setBounds(116, 30, 55, 15);
-		
-		final List list_2 = new List(group_7, SWT.BORDER);
-		list_2.setItems(new String[] {});
-		list_2.setBounds(10, 71, 171, 170);
-		
-		Label label_8 = new Label(group_7, SWT.NONE);
-		label_8.setText("Izlazne fakture:");
-		label_8.setBounds(10, 50, 92, 15);
-		
-		Button button_7 = new Button(group_5, SWT.NONE);
-		button_7.addSelectionListener(new SelectionAdapter() {
+		Button btnIspisFaktura = new Button(group_1, SWT.NONE);
+		btnIspisFaktura.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list_2.removeAll();
-				list_2.add("01.03.2014, 500KM");
-				list_2.add("02.01.2014, 600KM");
-				list_2.add("03.01.2014, 700KM");
-				list_2.add("04.01.2014, 800KM");
-				list_2.add("05.01.2014, 900KM");
-				list_2.add("06.01.2014, 1000KM");
-				label_7.setText("4500");			
-				Shell shell = new Shell ();
-				MessageDialog.openInformation(shell, "Generisanje izvjestaja", "Uspješno je kreiran sedmični izvještaj");
-			
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = (Transaction) session.beginTransaction();
+				Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        q.setString("naziv",combo_1.getItem(combo_1.getSelectionIndex()));		        
+		        klijenti= q.list(); 
+		        t.commit();
+		        Klijenti kk=new Klijenti();
+		        kk=(Klijenti)klijenti.get(0);
+		        
+		        Transaction t1 = (Transaction) session.beginTransaction();
+				Query q1 = session.createQuery("from Faktura where idklijent=:idklijent");
+		        q1.setLong("idklijent",kk.getId());	
+		        //q1.setString("mjesec", Integer.toString(spinner.getSelection()));	
+		        fakturem= q1.list(); 
+		        t1.commit();
+		        
+		        Faktura f=new Faktura();
+		        
+		        for (int i=0; i<fakturem.size(); i++){
+		        f =(Faktura)fakturem.get(i);        	
+		       
+		         String s = Objects.toString(f.getId(), null);
+		         list_1.add(s, i);
+		       
+           	   
+				
+				
+			}
+				
 			}
 		});
-		button_7.setText("Ok");
-		button_7.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398195801_tick_32.png"));
-		button_7.setBounds(119, 365, 117, 38);
-		
-		Button button_8 = new Button(group_5, SWT.NONE);
-		button_8.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shell.close();
-			}
-		});
-		button_8.setText("Izlaz");
-		button_8.setImage(SWTResourceManager.getImage(IzvjestajPoKlijentForm.class, "/images/1398195841_DeleteRed.png"));
-		button_8.setBounds(248, 365, 117, 38);
+		btnIspisFaktura.setBounds(292, 67, 75, 25);
+		btnIspisFaktura.setText("Ispis faktura");
 		
 		
 
