@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -16,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -28,9 +33,11 @@ import org.hibernate.Transaction;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import ba.unsa.etf.si2013.tim9.Fakture.*;
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
 public class IzvjestajiPerdiodForm {
 
@@ -40,6 +47,7 @@ public class IzvjestajiPerdiodForm {
 	private Text text_1;
 	private Table table_1;
 	//List<Faktura>fakture;
+	private java.util.List <Faktura> fakture;
 
 	/**
 	 * Launch the application.
@@ -112,7 +120,7 @@ public class IzvjestajiPerdiodForm {
 		tblclmnNewColumn.setText("ID fakture");
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(83);
+		tblclmnNewColumn_1.setWidth(93);
 		tblclmnNewColumn_1.setText("Ukupna cijena");
 		
 		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
@@ -131,43 +139,46 @@ public class IzvjestajiPerdiodForm {
 		btnGenerisiIzvjestaj.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+			
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = (Transaction) session.beginTransaction();
-				Query q = session.createQuery("from Faktura where year(datum)=:godina");
+				Query q = session.createQuery("from Faktura where year(datum_izdavanja)=:godina");
 		        q.setString("godina",text.getText() );		        
-		        //fakture=q.list(); //trebao bih da radim sa fakturama tj. treba mi klasa
-		        //t.commit();
-		        session.close();
-		        //Faktura f=new Faktura();
+		        fakture= q.list(); 
+		        t.commit();
 		        
+		        Faktura f=new Faktura();
 		        
-		        /*
 		        for (int i=0; i<fakture.size(); i++){
-		        f = (Faktura) fakture.get(i);        	
-		        	
+		        f = (Faktura) ((java.util.List) fakture).get(i);        	
+		        Transaction t1 = (Transaction) session.beginTransaction();
 		         TableItem item = new TableItem(table, 0, i);
-		        
-		        
-		        item.setText(0,k.getID());
-           	    item.setText(1,k.(getCijena()));
-             	item.setText(2,k.getDatum());
-           	    item.setText(3,k.getNazivKlijenta());
-           	    item.setText(4,k.getPdvBroj());
+		         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		         String datum = df.format(f.getDatum_izdavanja());
+		         String s = Objects.toString(f.getId(), null);
+		        item.setText(0,s);
+           	    item.setText(1,Double.toString(f.getCijena()));
+             	item.setText(2,datum);
+             	Query q1= session.createQuery("from Klijenti where id=:id");
+             	q1.setLong("id",f.getIdklijent());
+             	java.util.List <Klijenti> k = q1.list();
+             	t1.commit();
+           	    item.setText(3,k.get(0).getNaziv());
+           	    item.setText(4,Integer.toString(k.get(0).getPdvbroj()));
            	    
-           	    
+           	 
 		        
            	    
 		        }
 		        
-		        */
-			
+		        
+		        session.close();
 		        
 		        
 				
 								
 				Shell shell = new Shell ();
-				MessageDialog.openInformation(shell, "Generisanje izvje�taja", "Uspje�no je kreiran godi�nji izvje�taj.");
+				MessageDialog.openInformation(shell, "Generisanje izvjeï¿½taja", "Uspjeï¿½no je kreiran godiï¿½nji izvjeï¿½taj.");
 				
 			}
 		});
@@ -198,7 +209,7 @@ public class IzvjestajiPerdiodForm {
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
 					file = new FileOutputStream(new File("D:\\fakture.pdf"));
@@ -207,14 +218,21 @@ public class IzvjestajiPerdiodForm {
 			      PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=table.getSelectionIndex();
-			      document.addTitle("Podaci o fakturama");
-			      //document.add(new Paragraph("ID fakture: " + klijenti.get(i).getID() ));
-			      //document.add(new Paragraph("Cijena: " + klijenti.get(i).getCijena() ));
-			      //document.add(new Paragraph("Datum: " + klijenti.get(i).getDatum(); ));
-			      //document.add(new Paragraph("Naziv klijenta: " + klijenti.get(i).getNazivKlijenta(); ));
-			      //document.add(new Paragraph("PDV broj: " + klijenti.get(i).getPdvBroj()() ));
-			      //document.add(new Paragraph(new Date().toString()));
-		
+			       document.addTitle("Godišnji izvještaj");
+			      document.add(new Paragraph("ID fakture: " + fakture.get(i).getId() ));
+			      document.add(new Paragraph("Cijena: " + fakture.get(i).getCijena() ));
+			      document.add(new Paragraph("Datum: " + fakture.get(i).getDatum_izdavanja()));
+			      
+			      Transaction t1 = (Transaction) session.beginTransaction();
+			      Query q1= session.createQuery("from Klijenti where id=:id");
+	             	q1.setLong("id",fakture.get(1).getIdklijent());
+	             	java.util.List <Klijenti> k = q1.list();
+	             	t1.commit();
+	             	session.close();
+			     document.add(new Paragraph("Naziv klijenta: " + k.get(0).getNaziv() ));
+			     document.add(new Paragraph("PDV broj: " + k.get(0).getPdvbroj()));
+			      document.add(new Paragraph(new Date().toString()));
+			      
 			      document.close();
 			      file.close();
 			      
@@ -293,40 +311,47 @@ public class IzvjestajiPerdiodForm {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = (Transaction) session.beginTransaction();
-				Query q = session.createQuery("from Faktura where month(datum)=:mjesec");
-		        q.setString("mjesec",text_1.getText() );		        
-		        //fakture=q.list(); //trebao bih da radim sa fakturama tj. treba mi klasa
-		        //t.commit();
-		        session.close();
-		        //Faktura f=new Faktura();
+				Query q = session.createQuery("from Faktura where month(datum_izdavanja)=:mjesec");
+		        q.setString("mjesec",text.getText() );		        
+		        fakture= q.list(); 
+		        t.commit();
 		        
+		        Faktura f=new Faktura();
 		        
-		        /*
 		        for (int i=0; i<fakture.size(); i++){
-		        f = (Faktura) fakture.get(i);        	
-		        	
+		        f = (Faktura) ((java.util.List) fakture).get(i);        	
+		        Transaction t1 = (Transaction) session.beginTransaction();
 		         TableItem item = new TableItem(table, 0, i);
-		        
-		        
-		        item.setText(0,k.getID());
-           	    item.setText(1,k.(getCijena()));
-             	item.setText(2,k.getDatum());
-           	    item.setText(3,k.getNazivKlijenta());
-           	    item.setText(4,k.getPdvBroj());
+		         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		         String datum = df.format(f.getDatum_izdavanja());
+		         String s = Objects.toString(f.getId(), null);
+		        item.setText(0,s);
+           	    item.setText(1,Double.toString(f.getCijena()));
+             	item.setText(2,datum);
+             	Query q1= session.createQuery("from Klijenti where id=:id");
+             	q1.setLong("id",f.getIdklijent());
+             	java.util.List <Klijenti> k = q1.list();
+             	t1.commit();
+           	    item.setText(3,k.get(0).getNaziv());
+           	    item.setText(4,Integer.toString(k.get(0).getPdvbroj()));
            	    
-           	    
+           	 
 		        
            	    
 		        }
 		        
-		        */
+		        
+		        session.close();
+		        
+		        
 				
-				
+								
 				Shell shell = new Shell ();
-				MessageDialog.openInformation(shell, "Generisanje izvje�taja", "Uspje�no je kreiran mjesecni izvje�taj.");
-		
+				MessageDialog.openInformation(shell, "Generisanje izvjeï¿½taja", "Uspjeï¿½no je kreiran mjesecni izvjeï¿½taj.");
+				
 			}
 		});
 		btnGenerisiIzvjestaj_1.setText("Generisi izvjestaj");
@@ -356,41 +381,51 @@ public class IzvjestajiPerdiodForm {
 		btnGenerisipdf.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
-					try {
-						file = new FileOutputStream(new File("D:\\fakture2.pdf"));
+				try {
+					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=table.getSelectionIndex();
+			       document.addTitle("Godišnji izvještaj");
+			      document.add(new Paragraph("ID fakture: " + fakture.get(i).getId() ));
+			      document.add(new Paragraph("Cijena: " + fakture.get(i).getCijena() ));
+			      document.add(new Paragraph("Datum: " + fakture.get(i).getDatum_izdavanja()));
+			      
+			      Transaction t1 = (Transaction) session.beginTransaction();
+			      Query q1= session.createQuery("from Klijenti where id=:id");
+	             	q1.setLong("id",fakture.get(1).getIdklijent());
+	             	java.util.List <Klijenti> k = q1.list();
+	             	t1.commit();
+	             	session.close();
+			     document.add(new Paragraph("Naziv klijenta: " + k.get(0).getNaziv() ));
+			     document.add(new Paragraph("PDV broj: " + k.get(0).getPdvbroj()));
+			      document.add(new Paragraph(new Date().toString()));
+			      
+			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
 					
-				      Document document = new Document();
-				      PdfWriter.getInstance(document, file);
-				      document.open();
-				      int i=table_1.getSelectionIndex();
-				      document.addTitle("Podaci o fakturama");
-				      //document.add(new Paragraph("ID fakture: " + klijenti.get(i).getID() ));
-				      //document.add(new Paragraph("Cijena: " + klijenti.get(i).getCijena() ));
-				      //document.add(new Paragraph("Datum: " + klijenti.get(i).getDatum(); ));
-				      //document.add(new Paragraph("Naziv klijenta: " + klijenti.get(i).getNazivKlijenta(); ));
-				      //document.add(new Paragraph("PDV broj: " + klijenti.get(i).getPdvBroj()() ));
-				      //document.add(new Paragraph(new Date().toString()));
-			
-				      document.close();
-				      file.close();
-				      
-				      Shell shell1 = new Shell();
-					MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
-						
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (DocumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+		
+				
 			}
 		});
 		btnGenerisipdf.setText("Generisi .pdf");
