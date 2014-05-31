@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 31, 2014 2:03:07 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ba.unsa.etf.si2013.tim9.Fakture.Stavka_faktura" table="STAVKA_FAKTURA">
+        <id name="ID" type="long" access="field">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="IDfaktura" type="long">
+            <column name="IDFAKTURA" />
+        </property>
+        <property name="IDUsluga" type="long">
+            <column name="IDUSLUGA" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -17,7 +17,7 @@
   
   
    <mapping resource="ba/unsa/etf/si2013/tim9/Korisnici/Korisnik.hbm.xml"/>
-   <mapping resource="ba/unsa/etf/si2013/tim9/Usluge/Usluga.hbm.xml"/>
+
 
  </session-factory>
 </hibernate-configuration>

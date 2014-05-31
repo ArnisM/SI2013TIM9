@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Fakture;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -103,10 +105,12 @@ public class FakturePretragaForm extends Shell {
 		        	
 		        	f = (Faktura) _fakture.get(i);	
 		        TableItem item = new TableItem(table, 0, i);
-		        
+		       
+		         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		         String datum = df.format(f.getDatum_izdavanja());
 		        item.setText(0,Long.toString(f.getId()));
 		        item.setText(1,Double.toString(f.getCijena()));
-		        item.setText(2, f.getDatum_izdavanja().toString());
+		        item.setText(2, datum);
            	    item.setText(3,f.getNaziv_firme());
            	    item.setText(4,f.getIdpdv_firme());
 		        }
@@ -216,9 +220,9 @@ public class FakturePretragaForm extends Shell {
 		tableColumn.setWidth(100);
 		tableColumn.setText("ID fakture");
 		
-		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(137);
-		tableColumn_1.setText("Ukupna cijena sa pdf");
+		TableColumn tblclmnUkupnaCijena = new TableColumn(table, SWT.NONE);
+		tblclmnUkupnaCijena.setWidth(137);
+		tblclmnUkupnaCijena.setText("Ukupna cijena");
 		
 		TableColumn tableColumn_2 = new TableColumn(table, SWT.NONE);
 		tableColumn_2.setWidth(100);

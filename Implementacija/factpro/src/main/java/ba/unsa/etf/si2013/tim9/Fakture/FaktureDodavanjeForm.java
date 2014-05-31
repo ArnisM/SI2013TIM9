@@ -351,10 +351,28 @@ public class FaktureDodavanjeForm extends Shell {
 		        }
 		        long id =k.getId();
 		        
+		        List _usluge;
+				Usluga ug= new Usluga();
+				double cijena=0;
+				for(int i =0; i<_uzete.size(); i++)
+				{
+					
+					long id_u=_uzete.get(i);
+					session = HibernateUtil.getSessionFactory().openSession();
+					t = session.beginTransaction();			
+					q = session.createQuery("from Usluga where id=:brojic");
+			        q.setString("brojic", Long.toString(id_u));
+			       _usluge=q.list();
+			        t.commit();
+			        session.close();
+			        ug=(Usluga)_usluge.get(0);
+			        cijena+=ug.getCijena();
+				}
+		        
 				Date d=new Date();
 				int random = 5 + (int)(Math.random() * ((50000 - 10000) + 1));
 				//UPIS u bazu
-				Faktura f=new Faktura(1,id,3,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),random , "Sarajevo",d,text.getText());
+				Faktura f=new Faktura(1,id,cijena,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),random , "Sarajevo",d,text.getText());
 				f.spasiUBazu();
 				
 				//DIO ZA ID FAKTURE SPASENE

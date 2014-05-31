@@ -116,9 +116,9 @@ public class FaktureIzmjenaForm extends Shell {
 		tblclmnIdFakture.setWidth(100);
 		tblclmnIdFakture.setText("ID fakture");
 		
-		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
-		tableColumn_1.setWidth(137);
-		tableColumn_1.setText("Ukupna cijena sa pdf");
+		TableColumn tblclmnUkupnaCijena = new TableColumn(table, SWT.NONE);
+		tblclmnUkupnaCijena.setWidth(137);
+		tblclmnUkupnaCijena.setText("Ukupna cijena");
 		
 		TableColumn tableColumn_2 = new TableColumn(table, SWT.NONE);
 		tableColumn_2.setWidth(100);
