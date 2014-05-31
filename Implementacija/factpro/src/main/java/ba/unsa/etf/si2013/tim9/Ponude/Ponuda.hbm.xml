@@ -1,27 +1,51 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 30, 2014 1:44:01 AM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Jun 1, 2014 12:03:16 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si2013.tim9.Ponude.Ponuda" table="PONUDA">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <property name="idzaposlenik" type="int" access="field">
+        <property name="idzaposlenik" type="long">
             <column name="IDZAPOSLENIK" />
         </property>
-        <property name="idklijent" type="int" access="field">
+        <property name="idklijent" type="long">
             <column name="IDKLIJENT" />
         </property>
-        <property name="cijena" type="int">
+        <property name="cijena" type="double">
             <column name="CIJENA" />
         </property>
-        <property name="datum_kreiranja" type="java.lang.String" access="field">
-            <column name="DATUM_KREIRANJA" />
+        <property name="broj_usluga" type="int">
+            <column name="BROJ_USLUGA" />
+        </property>
+        <property name="naziv_firme" type="java.lang.String">
+            <column name="NAZIV_FIRME" />
+        </property>
+        <property name="adresa_firme" type="java.lang.String">
+            <column name="ADRESA_FIRME" />
+        </property>
+        <property name="id_firme" type="java.lang.String">
+            <column name="ID_FIRME" />
+        </property>
+        <property name="idpdv_firme" type="java.lang.String">
+            <column name="IDPDV_FIRME" />
+        </property>
+        <property name="broj_ponude" type="int">
+            <column name="BROJ_PONUDE" />
+        </property>
+        <property name="mjesto_izdavanja" type="java.lang.String">
+            <column name="MJESTO_IZDAVANJA" />
+        </property>
+        <property name="datum_izdavanja" type="java.util.Date">
+            <column name="DATUM_IZDAVANJA" />
         </property>
         <property name="komentar" type="java.lang.String">
             <column name="KOMENTAR" />
+        </property>
+        <property name="deleted" type="int">
+            <column name="DELETED" />
         </property>
     </class>
 </hibernate-mapping>

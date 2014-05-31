@@ -167,7 +167,8 @@ public class UslugePretragaForm extends Shell {
 				
 				FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\example.pdf"));
+					
+					file = new FileOutputStream(new File("D:/usluge.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
