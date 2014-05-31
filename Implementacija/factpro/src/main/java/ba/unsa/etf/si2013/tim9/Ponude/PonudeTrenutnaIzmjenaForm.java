@@ -368,18 +368,6 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
 		
-		Button button = new Button(this, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' ponude.");
-			}
-		});
-		button.setText("Generi\u0161i .pdf");
-		button.setImage(SWTResourceManager.getImage(PonudeTrenutnaIzmjenaForm.class, "/images/1398206257_pdf.png"));
-		button.setBounds(10, 591, 132, 42);
-		
 		Button btnIzmjeni = new Button(this, SWT.NONE);
 		btnIzmjeni.addSelectionListener(new SelectionAdapter() {
 			@Override
