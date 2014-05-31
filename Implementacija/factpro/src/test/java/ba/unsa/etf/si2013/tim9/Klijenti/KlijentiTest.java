@@ -10,21 +10,17 @@ import org.junit.Test;
 
 public class KlijentiTest {
 	
-	@Test
+	
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+
 
 	/**
 	 * @throws java.lang.Exception
