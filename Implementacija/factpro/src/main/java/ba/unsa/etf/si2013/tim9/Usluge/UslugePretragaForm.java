@@ -1,5 +1,11 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 
 //import java.util.List;
@@ -24,6 +30,11 @@ import org.hibernate.Transaction;
 import ba.unsa.etf.si2013.tim9.*;
 
 import org.eclipse.osgi.util.*;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 public class UslugePretragaForm extends Shell {
 
 	/**
@@ -32,6 +43,7 @@ public class UslugePretragaForm extends Shell {
 	 */
 //	protected Shell this;
 	private Text text;
+	java.util.List<Usluga> usluge;
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -97,7 +109,7 @@ public class UslugePretragaForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
-				java.util.List<Usluga> usluge;
+				
 				if(combo.getSelectionIndex()==0){
 					
 			        Query q = session.createQuery("from Usluga where naziv=:naziv");
@@ -152,6 +164,40 @@ public class UslugePretragaForm extends Shell {
 		btnGeneriipdf.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\example.pdf"));
+				
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=list.getSelectionIndex();
+			      document.addTitle("Podaci o klijentu");
+			      document.add(new Paragraph("Naziv usluge: " + usluge.get(i).getNaziv() ));
+			      document.add(new Paragraph("Cijena: " + usluge.get(i).getCijena() ));
+			      document.add(new Paragraph(new Date().toString()));
+		
+			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			  
+			
+		
+				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Ispis usluga", "PDF je uspješno kreiran.");
 			}
