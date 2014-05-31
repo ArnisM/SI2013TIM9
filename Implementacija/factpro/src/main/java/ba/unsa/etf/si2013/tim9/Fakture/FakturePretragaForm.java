@@ -1,5 +1,9 @@
 package ba.unsa.etf.si2013.tim9.Fakture;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,8 +26,18 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
+import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 public class FakturePretragaForm extends Shell {
 
@@ -33,6 +47,7 @@ public class FakturePretragaForm extends Shell {
 	 */
 //	protected Shell this;
 	private Table table;
+	 List<Faktura> _fakture;
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
@@ -80,7 +95,7 @@ public class FakturePretragaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-                List _fakture;
+               
 				
 				if(combo_1.getSelectionIndex()!=-1)
 				{
@@ -255,6 +270,135 @@ public class FakturePretragaForm extends Shell {
 		button_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				List<Faktura> fakture;
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			      FileOutputStream file;
+				try {
+					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+				List<Stavka_faktura>stavka_fakture;
+				List<Usluga>usluge;
+				List<Klijenti>klijenti;
+			      Document document = new Document();
+			      PdfWriter.getInstance(document, file);
+			      document.open();
+			      int i=table.getSelectionIndex();
+			       document.addTitle("Faktura");
+			       Transaction tk = session.beginTransaction();			
+	        		Query qk = session.createQuery("from Klijenti where id=:id");
+	        		qk.setLong("id",_fakture.get(i).getIdklijent());
+	                klijenti=qk.list();
+	                tk.commit();
+	               
+		        		//Session session = HibernateUtil.getSessionFactory().openSession();
+		        				             	
+		             	Klijenti k=klijenti.get(0);
+				     document.add(new Paragraph("Naziv klijenta: " + k.getNaziv() ));
+				     document.add(new Paragraph("PDV broj: " + k.getPdvbroj()));
+				      
+			      Paragraph p=new Paragraph("Mjesto izdavanja:"+_fakture.get(i).getMjesto_izdavanja());
+			      p.setAlignment(Element.ALIGN_RIGHT);
+			      document.add(p);
+			      Paragraph p1=new Paragraph("Datum izdavanja:"+_fakture.get(i).getDatum_izdavanja());
+			      p1.setAlignment(Element.ALIGN_RIGHT);
+			      document.add(p1);
+			      
+			      Paragraph fi=new Paragraph("FAKTURA");
+			      fi.setAlignment(Element.ALIGN_CENTER);
+			      document.add(fi);
+			      
+			      Paragraph p2=new Paragraph("Broj faktura:"+_fakture.get(i).getBroj_fakture());
+			      p2.setAlignment(Element.ALIGN_LEFT);
+			      document.add(p2);
+			      
+			     
+		            
+		            PdfPTable my_first_table = new PdfPTable(5);            
+		            
+		            my_first_table.addCell("Pos"); 
+		            my_first_table.addCell(new PdfPCell(new Phrase("Opis"))); 
+		            my_first_table.addCell(new PdfPCell(new Phrase("Količina"))); 
+		            my_first_table.addCell(new PdfPCell(new Phrase("Jed.cijena bez PDV"))); 
+		            my_first_table.addCell(new PdfPCell(new Phrase("Cijena sa PDV"))); 
+		            Transaction t = session.beginTransaction();			
+	        		Query q = session.createQuery("from Faktura where id=:brojic");
+	        		q.setLong("brojic",_fakture.get(i).getId());
+	                fakture=q.list();
+	                t.commit();
+	                session.close();
+	                Faktura f=new Faktura();
+	                
+	                f=(Faktura)fakture.get(0);
+	                
+
+	               List _ss;
+	        		session = HibernateUtil.getSessionFactory().openSession();
+	        		t = session.beginTransaction();			
+	        		q = session.createQuery("from Stavka_faktura where idfaktura=:idfaktura");
+	                q.setLong("idfaktura",_fakture.get(i).getId());
+	               _ss=q.list();
+	                t.commit();
+	               session.close();
+	               
+
+	               Stavka_faktura s = new Stavka_faktura();
+	               
+	               List _usluge1;
+	               for(int ilj=0; ilj<_ss.size(); ilj++)
+	               {
+	            	   s=(Stavka_faktura)_ss.get(ilj);
+	            	   
+	            	   session = HibernateUtil.getSessionFactory().openSession();
+	           		   t = session.beginTransaction();			
+	           		   q = session.createQuery("from Usluga where id=:id");
+	                   q.setString("id",Long.toString(s.getIDUsluga()));
+	                   
+	                  
+	                   _usluge1=q.list();
+	                   t.commit();
+	                  session.close();
+	                  for (int ui=0; ui<_usluge1.size(); ui++){
+	                  Usluga u= new Usluga();
+	                  u=(Usluga)_usluge1.get(0);
+	                  my_first_table.completeRow();
+	                  my_first_table.addCell(new PdfPCell(new Phrase(u.getId()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(u.getNaziv()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(f.getBroj_usluga()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena())));
+	                  
+	                  }
+	               }
+		             	
+	               my_first_table.completeRow();
+		            
+		          
+		            document.add(my_first_table);                       
+		            document.add(new Paragraph("Ukupna cijena sa PDV:" + _fakture.get(i).getCijena())); 
+		            document.add(new Paragraph(_fakture.get(i).getKomentar()));
+			      
+			      document.close();
+			      file.close();
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+		
+				
+			
+				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je kreiran '.pdf' fakture.");
 			
