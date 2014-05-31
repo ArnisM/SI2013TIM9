@@ -1,4 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Ponude;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,13 +24,13 @@ import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 
-@Table (name = "ponuda")
-public class Ponuda implements Serializable {
+@Table (name = "faktura")
+public class Predracuni implements Serializable {
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	long id;
 
-	long idzaposlenika;
+	long idzaposlenik;
 	long idklijent;
 	double cijena;
 	int broj_usluga;
@@ -38,25 +38,24 @@ public class Ponuda implements Serializable {
 	private String adresa_firme;
 	private String id_firme;
 	private String idpdv_firme;
-	private int broj_ponude;
-	
+	private int broj_Predracuni;
 	private String mjesto_izdavanja;
 	private Date datum_izdavanja;
 	private String komentar;
 	private int deleted;
 	
 	
-	public Ponuda() {}
-	public Ponuda(int idz, long idk, double cij, String n, String adr, String id, String idpdv , int broj, String mjesto, Date datum, String kom)
+	public Predracuni() {}
+	public Predracuni(int idz, long idk, double cij, String n, String adr, String id, String idpdv , int broj, String mjesto, Date datum, String kom)
 	{
-		idzaposlenika=idz;
+		idzaposlenik=idz;
 		idklijent=idk;
 		cijena=cij;
 		naziv_firme=n;
 		adresa_firme=adr;
 		id_firme=id;
 		idpdv_firme=idpdv;
-		broj_ponude=broj;
+		broj_Predracuni=broj;
 		mjesto_izdavanja=mjesto;
 		datum_izdavanja=datum;
 		komentar=kom;
@@ -74,14 +73,14 @@ public class Ponuda implements Serializable {
 		session.close();
 	 	}
 	
-	private static List dajFakture() { 
+	private static List dajPredracuni() { 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
  
-        List fakture = session.createQuery("from ponuda").list();
+        List Predracuni = session.createQuery("from faktura").list();
         t.commit();
         session.close();
-        return fakture;
+        return Predracuni;
 		 }
 	public void izbrisiIzBaze(){
 		
@@ -93,12 +92,7 @@ public class Ponuda implements Serializable {
 	}
 	
 	
-	public int getBroj_ponude() {
-		return broj_ponude;
-	}
-	public void setBroj_ponude(int broj_ponude) {
-		this.broj_ponude = broj_ponude;
-	}
+	
 	public int getDeleted() {
 		return deleted;
 	}
@@ -111,11 +105,11 @@ public class Ponuda implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getIdzaposlenika() {
-		return idzaposlenika;
+	public long getIdzaposlenik() {
+		return idzaposlenik;
 	}
-	public void setIdzaposlenika(long idzaposlenika) {
-		this.idzaposlenika = idzaposlenika;
+	public void setIdzaposlenik(long idzaposlenika) {
+		this.idzaposlenik = idzaposlenika;
 	}
 	public long getIdklijent() {
 		return idklijent;
@@ -159,7 +153,12 @@ public class Ponuda implements Serializable {
 	public void setIdpdv_firme(String idpdv_firme) {
 		this.idpdv_firme = idpdv_firme;
 	}
-	
+	public int getBroj_Predracuni() {
+		return broj_Predracuni;
+	}
+	public void setBroj_Predracuni(int broj_Predracuni) {
+		this.broj_Predracuni = broj_Predracuni;
+	}
 	public String getMjesto_izdavanja() {
 		return mjesto_izdavanja;
 	}

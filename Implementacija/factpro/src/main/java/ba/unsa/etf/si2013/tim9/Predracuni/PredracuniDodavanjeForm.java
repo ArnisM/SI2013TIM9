@@ -1,4 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Ponude;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-//import org.eclipse.wb.swt.DodavanjeStavkiFaktureForm;
+//import org.eclipse.wb.swt.DodavanjeStavkipredracuniForm;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -60,7 +60,7 @@ import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 
-public class PonudeDodavanjeForm extends Shell {
+public class PredracuniDodavanjeForm extends Shell {
 
 	
 //	protected Shell this;
@@ -68,7 +68,7 @@ public class PonudeDodavanjeForm extends Shell {
 	private Table table;
 	private Text text;
 	private ArrayList<String> _usluge;
-	private	Label lblStavkeFakture ;
+	private	Label lblStavkepredracuni ;
 	private List stavka;
 	private ArrayList<Long> _uzete;
 	private int br_stavki;
@@ -77,7 +77,7 @@ public class PonudeDodavanjeForm extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			PonudeDodavanjeForm shell = new PonudeDodavanjeForm(display);
+			PredracuniDodavanjeForm shell = new PredracuniDodavanjeForm(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -92,16 +92,16 @@ public class PonudeDodavanjeForm extends Shell {
 
 	
 	// KONSTRUKTOR DA SE FINO SVE MOZE KORISTIT
-	public PonudeDodavanjeForm(Display display) {
+	public PredracuniDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		
 		_usluge=new ArrayList<String>();
 		_uzete=new ArrayList<Long>();
 		br_stavki=0;
 		
-		lblStavkeFakture= new Label(this, SWT.NONE);
-		lblStavkeFakture.setBounds(10, 158, 132, 15);
-		lblStavkeFakture.setText("Dodavanje stavki fakture:");
+		lblStavkepredracuni= new Label(this, SWT.NONE);
+		lblStavkepredracuni.setBounds(10, 158, 132, 15);
+		lblStavkepredracuni.setText("Dodavanje stavki predracuni:");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setSelection(-1);
@@ -185,9 +185,9 @@ public class PonudeDodavanjeForm extends Shell {
        // this = new Shell();
 		
 		
-		this.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1396674611_invoice.png"));
+		this.setImage(SWTResourceManager.getImage(PredracuniDodavanjeForm.class, "/images/1396674611_invoice.png"));
 		this.setSize(697, 677);
-		this.setText("Dodavanje nove fakture");
+		this.setText("Dodavanje nove predracuni");
 		
 		
 		
@@ -278,7 +278,7 @@ public class PonudeDodavanjeForm extends Shell {
 		
 		
 	    //BITNO !!!!
-		final PonudeDodavanjeForm f =this;
+		final PredracuniDodavanjeForm f =this;
 		
 		
 		// DODAVANJE USLUGA REFERENCIRANJE U NOVOJ FORMI MAJKAAAAAAAAAAAAAAAAA
@@ -287,12 +287,12 @@ public class PonudeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				PonudeStavkeDodavanjeForm a = new PonudeStavkeDodavanjeForm(null,_usluge,f);
-				a.open();
+				//predracuniStavkeDodavanjeForm a = new predracuniStavkeDodavanjeForm(null,_usluge,f);
+				//a.open();
 			
 			}
 		});
-		btnNewButton.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398624464_plus-sign.png"));
+		btnNewButton.setImage(SWTResourceManager.getImage(PredracuniDodavanjeForm.class, "/images/1398624464_plus-sign.png"));
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
 		
@@ -303,12 +303,12 @@ public class PonudeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
+				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' predracuni.");
 				
 			}
 		});
 		button.setText("Generi\u0161i .pdf");
-		button.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398206257_pdf.png"));
+		button.setImage(SWTResourceManager.getImage(PredracuniDodavanjeForm.class, "/images/1398206257_pdf.png"));
 		button.setBounds(10, 591, 132, 42);
 		
 		// TEXTUALNO POLJEEE
@@ -351,10 +351,7 @@ public class PonudeDodavanjeForm extends Shell {
 		        }
 		        long id =k.getId();
 		        
-				Date d=new Date();
-				int random = 5 + (int)(Math.random() * ((50000 - 10000) + 1));
-				//UPIS u bazu
-				List _usluge;
+		        List _usluge;
 				Usluga ug= new Usluga();
 				double cijena=0;
 				for(int i =0; i<_uzete.size(); i++)
@@ -371,39 +368,39 @@ public class PonudeDodavanjeForm extends Shell {
 			        ug=(Usluga)_usluge.get(0);
 			        cijena+=ug.getCijena();
 				}
-				
-				
-				Ponuda f=new Ponuda(1,id,cijena,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),random , "Sarajevo",d,text.getText());
+		        
+				Date d=new Date();
+				int random = 5 + (int)(Math.random() * ((50000 - 10000) + 1));
+				//UPIS u bazu
+				Predracuni f=new Predracuni(1,id,cijena,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),random , "Sarajevo",d,text.getText());
 				f.spasiUBazu();
 				
-				
-				
-				//DIO ZA ID FAKTURE SPASENE
+				//DIO ZA ID predracuni SPASENE
 				List vidi_broj;
 				session = HibernateUtil.getSessionFactory().openSession();
 				t = session.beginTransaction();			
-				q = session.createQuery("from Ponuda where broj_ponude=:brojic");
+				q = session.createQuery("from Faktura where broj_predracuni=:brojic");
 		        q.setString("brojic", Integer.toString(random));
 		        vidi_broj=q.list();
 		        t.commit();
 		        session.close();
 		        
-				Ponuda ff=new Ponuda();
+				Predracuni ff=new Predracuni();
 				
 				if(!vidi_broj.isEmpty())
 				{
-				ff=(Ponuda)vidi_broj.get(0);
+				ff=(Predracuni)vidi_broj.get(0);
 				
-				// dodavanje stavka_ponuda u bazu
+				// dodavanje stavka_faktura u bazu
 				for(int i = 0; i<br_stavki;i++)
 				{
 					Long x= (Long)_uzete.get(i);
-					Stavka_ponuda s=new Stavka_ponuda(ff.getId(),x);
+					Stavka_predracun s=new Stavka_predracun(ff.getId(),x);
 					s.spasiUBazu();
 				}
 				
 				Shell shell = new Shell();
-			    MessageDialog.openInformation(shell, "Info", "Uspjesno dodana ponuda!");
+			    MessageDialog.openInformation(shell, "Info", "Uspjesno dodana faktura!");
 			    table.removeAll();
 			    br_stavki=0;
 			    text.setText("");
@@ -420,7 +417,7 @@ public class PonudeDodavanjeForm extends Shell {
 			
 			}});
 		button_1.setText("Dodaj");
-		button_1.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
+		button_1.setImage(SWTResourceManager.getImage(PredracuniDodavanjeForm.class, "/images/1398195801_tick_32.png"));
 		button_1.setBounds(431, 591, 116, 42);
 		
 		
@@ -433,7 +430,7 @@ public class PonudeDodavanjeForm extends Shell {
 			}
 		});
 		button_2.setText("Izlaz");
-		button_2.setImage(SWTResourceManager.getImage(PonudeDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
+		button_2.setImage(SWTResourceManager.getImage(PredracuniDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
 		button_2.setBounds(554, 591, 116, 42);
 		
 		
@@ -447,7 +444,6 @@ public class PonudeDodavanjeForm extends Shell {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
 				if(table.getSelectionIndex()!=-1)
 				{
 					int iti = table.getSelectionIndex();
