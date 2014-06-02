@@ -151,7 +151,7 @@ public class KlijentiFirmePretragaForm extends Shell {
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Naziv"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("PDV broj");
+		combo.setText("Izaberite kriterij");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");

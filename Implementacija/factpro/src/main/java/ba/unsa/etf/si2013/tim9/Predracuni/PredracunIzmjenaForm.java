@@ -1,4 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Ponude;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
 import org.hibernate.Transaction;
-public class PonudeIzmjenaForm extends Shell {
+public class PredracunIzmjenaForm extends Shell {
 
 	/**
 	 * Launch the application.
@@ -35,7 +35,7 @@ public class PonudeIzmjenaForm extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			PonudeIzmjenaForm shell = new PonudeIzmjenaForm(display);
+			PredracunIzmjenaForm shell = new PredracunIzmjenaForm(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -52,7 +52,7 @@ public class PonudeIzmjenaForm extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public PonudeIzmjenaForm(Display display) {
+	public PredracunIzmjenaForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		createContents();
 	}
@@ -62,12 +62,12 @@ public class PonudeIzmjenaForm extends Shell {
 	 */
 	protected void createContents() {
 //		this = new Shell();
-		this.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1396674611_invoice.png"));
+		this.setImage(SWTResourceManager.getImage(PredracunIzmjenaForm.class, "/images/1396674611_invoice.png"));
 		this.setSize(610, 478);
-		this.setText("Izmjena ponude");
+		this.setText("Izmjena predracuna");
 		
 		Group grpPretragaFakture = new Group(this, SWT.NONE);
-		grpPretragaFakture.setText("Pretraga ponude");
+		grpPretragaFakture.setText("Pretraga predracuna");
 		grpPretragaFakture.setBounds(10, 10, 575, 145);
 		final Combo combo_1 = new Combo(grpPretragaFakture, SWT.NONE);
 		combo_1.setBounds(333, 47, 149, 23);
@@ -78,7 +78,7 @@ public class PonudeIzmjenaForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				
-                List _ponude;
+                List _predracuna;
 				
 				if(combo_1.getSelectionIndex()!=-1)
 				{
@@ -87,21 +87,21 @@ public class PonudeIzmjenaForm extends Shell {
 				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			    Transaction t = session.beginTransaction();
-				Query q = session.createQuery("from Ponuda where naziv_firme=:naziv and deleted=:del");
+				Query q = session.createQuery("from Predracun where naziv_firme=:naziv and deleted=:del");
 		        q.setString("naziv", x);
 		        q.setString("del", Integer.toString(0));
-		        _ponude=q.list();
+		        _predracuna=q.list();
 		        t.commit();
 		        session.close();
-		        Ponuda f =new Ponuda();
+		        Predracun f =new Predracun();
 		        
-		        if(!_ponude.isEmpty())
+		        if(!_predracuna.isEmpty())
 		        {
 		        	
-		        for (int i=0; i<_ponude.size(); i++)
+		        for (int i=0; i<_predracuna.size(); i++)
 		        {
 		        	
-		        	f = (Ponuda) _ponude.get(i);	
+		        	f = (Predracun) _predracuna.get(i);	
 		        TableItem item = new TableItem(table, 0, i);
 		        
 		        item.setText(0,Long.toString(f.getId()));
@@ -112,12 +112,12 @@ public class PonudeIzmjenaForm extends Shell {
 		        }
 				
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "UspjeA!no je izvrA!ena pretraga. Listu klijenata moA3ete vidjeti u tabeli ispod.");
+				MessageDialog.openInformation(shell, "Info", "Uspješno je izvršena pretraga. Listu klijenata možete vidjeti u tabeli ispod.");
 			    }
 				else
 				{
 					Shell shell = new Shell();
-					MessageDialog.openInformation(shell, "Info", "Nema ponuda prema ovom klijentu.");
+					MessageDialog.openInformation(shell, "Info", "Nema predracun prema ovom klijentu.");
 				}
 				}
 				else
@@ -131,7 +131,7 @@ public class PonudeIzmjenaForm extends Shell {
 			}
 		});
 		button.setText("Pretraga");
-		button.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
+		button.setImage(SWTResourceManager.getImage(PredracunIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
 		button.setBounds(367, 86, 116, 35);
 		
 		Group group_1 = new Group(grpPretragaFakture, SWT.NONE);
@@ -210,7 +210,7 @@ public class PonudeIzmjenaForm extends Shell {
 		
 		
 		Label lblIzaberiteeljenuFakturu = new Label(this, SWT.NONE);
-		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu ponudu:");
+		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu fakturu:");
 		lblIzaberiteeljenuFakturu.setBounds(10, 177, 136, 15);
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
@@ -220,7 +220,7 @@ public class PonudeIzmjenaForm extends Shell {
 		
 		TableColumn tblclmnIdFakture = new TableColumn(table, SWT.NONE);
 		tblclmnIdFakture.setWidth(100);
-		tblclmnIdFakture.setText("ID ponude");
+		tblclmnIdFakture.setText("ID predracuna");
 		
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
 		tableColumn_1.setWidth(137);
@@ -246,7 +246,7 @@ public class PonudeIzmjenaForm extends Shell {
 			}
 		});
 		button_3.setText("Izlaz");
-		button_3.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
+		button_3.setImage(SWTResourceManager.getImage(PredracunIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
 		button_3.setBounds(469, 388, 116, 42);
 		
 		Button btnIzmjeni = new Button(this, SWT.NONE);
@@ -261,9 +261,8 @@ public class PonudeIzmjenaForm extends Shell {
 				TableItem ti=table.getItem(iti);
 				long x = Long.parseLong(ti.getText(0), 10);
 				
-				PonudeTrenutnaIzmjenaForm a= new PonudeTrenutnaIzmjenaForm(null,x);
+				PredracunTrenutnaIzmjenaForm a= new PredracunTrenutnaIzmjenaForm(null,x);
 				a.open();
-				
 				table.removeAll();
 				}
 				else
@@ -275,7 +274,7 @@ public class PonudeIzmjenaForm extends Shell {
 			}
 		});
 		btnIzmjeni.setText("Izmjeni");
-		btnIzmjeni.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398574614_switch_on.png"));
+		btnIzmjeni.setImage(SWTResourceManager.getImage(PredracunIzmjenaForm.class, "/images/1398574614_switch_on.png"));
 		btnIzmjeni.setBounds(346, 388, 116, 42);
 
 	}
@@ -286,3 +285,4 @@ public class PonudeIzmjenaForm extends Shell {
 	}
 
 }
+

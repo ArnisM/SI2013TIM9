@@ -1,4 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Ponude;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -19,7 +19,8 @@ import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
 import java.util.ArrayList;
-public class PonudeStavkeDodavanjeForm extends Shell {
+
+public class PredracunStavkeDodavanjeForm2 extends Shell {
 
 	/**
 	 * Launch the application.
@@ -27,13 +28,13 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 	 */
 //	protected Shell this;
 	private ArrayList<String> b;
-	private PonudeDodavanjeForm z;
+	private PredracunTrenutnaIzmjenaForm z;
 	private List list;
 	
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			PonudeStavkeDodavanjeForm shell = new PonudeStavkeDodavanjeForm(display,null,null);
+			PredracunStavkeDodavanjeForm2 shell = new PredracunStavkeDodavanjeForm2(display,null,null);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -51,7 +52,7 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 	 * @param display
 	 */
 	
-	public PonudeStavkeDodavanjeForm(Display display , ArrayList<String> a, PonudeDodavanjeForm f) {
+	public PredracunStavkeDodavanjeForm2(Display display , ArrayList<String> a, PredracunTrenutnaIzmjenaForm f) {
 		
 		super(display, SWT.SHELL_TRIM);
 		b=new ArrayList<String>();
@@ -85,9 +86,9 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 	 */
 	protected void createContents() {
 //		this = new Shell();
-		this.setImage(SWTResourceManager.getImage(PonudeStavkeDodavanjeForm.class, "/images/1396674611_invoice.png"));
+		this.setImage(SWTResourceManager.getImage(PredracunStavkeDodavanjeForm2.class, "/images/1396674611_invoice.png"));
 		this.setSize(351, 402);
-		this.setText("Dodavanje stavki ponude");
+		this.setText("Dodavanje stavki predracuna");
 		
 		
 		
@@ -113,7 +114,7 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 			}
 		});
 		button.setText("Dodaj");
-		button.setImage(SWTResourceManager.getImage(PonudeStavkeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
+		button.setImage(SWTResourceManager.getImage(PredracunStavkeDodavanjeForm2.class, "/images/1398195801_tick_32.png"));
 		button.setBounds(74, 312, 116, 42);
 		
 		Button button_1 = new Button(this, SWT.NONE);
@@ -124,7 +125,7 @@ public class PonudeStavkeDodavanjeForm extends Shell {
 			}
 		});
 		button_1.setText("Izlaz");
-		button_1.setImage(SWTResourceManager.getImage(PonudeStavkeDodavanjeForm.class, "/images/1398195841_DeleteRed.png"));
+		button_1.setImage(SWTResourceManager.getImage(PredracunStavkeDodavanjeForm2.class, "/images/1398195841_DeleteRed.png"));
 		button_1.setBounds(204, 312, 116, 42);
 
 	}

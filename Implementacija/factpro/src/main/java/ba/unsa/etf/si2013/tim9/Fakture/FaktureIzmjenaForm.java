@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9.Fakture;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,9 +14,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 //import org.eclipse.wb.swt.IzmjenaFaktureTrenutneForm;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
+
+import org.hibernate.Transaction;
 public class FaktureIzmjenaForm extends Shell {
 
 	/**
@@ -59,66 +68,163 @@ public class FaktureIzmjenaForm extends Shell {
 		
 		Group grpPretragaFakture = new Group(this, SWT.NONE);
 		grpPretragaFakture.setText("Pretraga fakture");
-		grpPretragaFakture.setBounds(10, 10, 575, 162);
-		
-		Combo combo = new Combo(grpPretragaFakture, SWT.NONE);
-		combo.setItems(new String[] {"Naziv firme", "PDV broj"});
-		combo.setBounds(112, 84, 142, 23);
-		combo.setText("Naziv firme");
-		
-		Label label = new Label(grpPretragaFakture, SWT.NONE);
-		label.setText("Kirterij pretrage:");
-		label.setBounds(10, 87, 96, 15);
+		grpPretragaFakture.setBounds(10, 10, 575, 145);
+		final Combo combo_1 = new Combo(grpPretragaFakture, SWT.NONE);
+		combo_1.setBounds(333, 47, 149, 23);
 		
 		Button button = new Button(grpPretragaFakture, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				
+                List _fakture;
+				
+				if(combo_1.getSelectionIndex()!=-1)
+				{
+					table.removeAll();
+				String x = combo_1.getItem(combo_1.getSelectionIndex());
+				
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			    Transaction t = session.beginTransaction();
+				Query q = session.createQuery("from Faktura where naziv_firme=:naziv and deleted=:del");
+		        q.setString("naziv", x);
+		        q.setString("del", Integer.toString(0));
+		        _fakture=q.list();
+		        t.commit();
+		        session.close();
+		        Faktura f =new Faktura();
+		        
+		        if(!_fakture.isEmpty())
+		        {
+		        	
+		        for (int i=0; i<_fakture.size(); i++)
+		        {
+		        	
+		        	f = (Faktura) _fakture.get(i);	
+		        TableItem item = new TableItem(table, 0, i);
+		        
+		        item.setText(0,Long.toString(f.getId()));
+		        item.setText(1,Double.toString(f.getCijena()));
+		        item.setText(2, f.getDatum_izdavanja().toString());
+           	    item.setText(3,f.getNaziv_firme());
+           	    item.setText(4,f.getIdpdv_firme());
+		        }
+				
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspješno je izvršena pretraga faktura. Fakture su prikazane u tabeli ispod.");
+				MessageDialog.openInformation(shell, "Info", "UspjeA!no je izvrA!ena pretraga. Listu klijenata moA3ete vidjeti u tabeli ispod.");
+			    }
+				else
+				{
+					Shell shell = new Shell();
+					MessageDialog.openInformation(shell, "Info", "Nema faktura prema ovom klijentu.");
+				}
+				}
+				else
+				{
+					Shell shell = new Shell();
+					MessageDialog.openInformation(shell, "Info", "Morate izabrati klijenta.");
+				}
+				
+				
+				
 			}
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(FaktureIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
-		button.setBounds(427, 117, 116, 35);
+		button.setBounds(367, 86, 116, 35);
 		
 		Group group_1 = new Group(grpPretragaFakture, SWT.NONE);
 		group_1.setText("Odabir");
 		group_1.setBounds(10, 22, 142, 56);
 		
+		
+		
+		final Label label_1 = new Label(grpPretragaFakture, SWT.NONE);
+		label_1.setText("Odabir firme:");
+		label_1.setBounds(236, 50, 91, 15);
+		
+		//RADIO BUTTON ZA FIRMU SELECT
 		Button button_1 = new Button(group_1, SWT.RADIO);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				label_1.setText("Odaberite firmu:");
+				combo_1.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t =  session.beginTransaction();			
+				List klijenti = session.createQuery("from Klijenti where tip='firma'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!klijenti.isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo_1.add(k.getNaziv(),i);
+		        
+		        }
+				}
+				
+			}
+		});
 		button_1.setText("Firma");
-		button_1.setSelection(true);
 		button_1.setBounds(54, 10, 90, 16);
 		
+		
+		// RADIO ZA KLIJENTEEEE
 		Button button_2 = new Button(group_1, SWT.RADIO);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				label_1.setText("Izaberite klijenta:");
+				combo_1.removeAll();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();			
+				List klijenti = session.createQuery("from Klijenti where tip='fizickoLice'").list();
+		        t.commit();
+		        session.close();
+		        Klijenti k=new Klijenti();
+		        
+		        if(!klijenti.isEmpty()){
+		        for(int i=0; i<klijenti.size();i++)
+		        {
+		        	
+		        k=(Klijenti)klijenti.get(i);
+		        combo_1.add(k.getNaziv(),i);
+		        
+		        }
+				}
+				
+			}
+		});
 		button_2.setText("Fizi\u010Dko lice");
 		button_2.setBounds(54, 32, 78, 16);
 		
-		Combo combo_1 = new Combo(grpPretragaFakture, SWT.NONE);
-		combo_1.setBounds(394, 84, 149, 23);
-		combo_1.setText("Mercator");
 		
-		Label label_1 = new Label(grpPretragaFakture, SWT.NONE);
-		label_1.setText("Odabir firme:");
-		label_1.setBounds(302, 87, 91, 15);
+		
+		
 		
 		Label lblIzaberiteeljenuFakturu = new Label(this, SWT.NONE);
 		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu fakturu:");
-		lblIzaberiteeljenuFakturu.setBounds(10, 186, 136, 15);
+		lblIzaberiteeljenuFakturu.setBounds(10, 177, 136, 15);
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setBounds(10, 202, 575, 179);
+		table.setBounds(10, 198, 575, 179);
 		
 		TableColumn tblclmnIdFakture = new TableColumn(table, SWT.NONE);
 		tblclmnIdFakture.setWidth(100);
 		tblclmnIdFakture.setText("ID fakture");
 		
-		TableColumn tblclmnUkupnaCijena = new TableColumn(table, SWT.NONE);
-		tblclmnUkupnaCijena.setWidth(137);
-		tblclmnUkupnaCijena.setText("Ukupna cijena");
+		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
+		tableColumn_1.setWidth(137);
+		tableColumn_1.setText("Ukupna cijena sa pdf");
 		
 		TableColumn tableColumn_2 = new TableColumn(table, SWT.NONE);
 		tableColumn_2.setWidth(100);
@@ -147,28 +253,28 @@ public class FaktureIzmjenaForm extends Shell {
 		btnIzmjeni.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				FaktureTrenutnaIzmjenaForm a= new FaktureTrenutnaIzmjenaForm(null);
-				a.open();
-//				IzmjenaFaktureTrenutneForm f =new IzmjenaFaktureTrenutneForm();
-//				f.open();
 				
+				
+				if(table.getSelectionIndex()!=-1)
+				{
+				int iti = table.getSelectionIndex();
+				TableItem ti=table.getItem(iti);
+				long x = Long.parseLong(ti.getText(0), 10);
+				
+				FaktureTrenutnaIzmjenaForm a= new FaktureTrenutnaIzmjenaForm(null,x);
+				a.open();
+				}
+				else
+				{
+					Shell shell = new Shell();
+					MessageDialog.openInformation(shell, "Info", "Morate izabrati fakturu.");
+				}
+
 			}
 		});
 		btnIzmjeni.setText("Izmjeni");
 		btnIzmjeni.setImage(SWTResourceManager.getImage(FaktureIzmjenaForm.class, "/images/1398574614_switch_on.png"));
 		btnIzmjeni.setBounds(346, 388, 116, 42);
-		
-		Button button_5 = new Button(this, SWT.NONE);
-		button_5.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
-			}
-		});
-		button_5.setText("Generi\u0161i .pdf");
-		button_5.setImage(SWTResourceManager.getImage(FaktureIzmjenaForm.class, "/images/1398206257_pdf.png"));
-		button_5.setBounds(10, 388, 132, 42);
 
 	}
 

@@ -43,7 +43,7 @@ import ba.unsa.etf.si2013.tim9.Usluge.UslugeDodavanjeForm;
 import ba.unsa.etf.si2013.tim9.Usluge.UslugeIzmjenaForm;
 import ba.unsa.etf.si2013.tim9.Usluge.UslugePretragaForm;
 import ba.unsa.etf.si2013.tim9.Klijenti.*;
-public class GlavnaForm {
+public class GlavnaForm2 {
 
 	protected Shell shell;
 	//final Display display = new Display();
@@ -53,7 +53,7 @@ public class GlavnaForm {
 	 */
 	public static void main(String[] args) {
 		try {
-			GlavnaForm window = new GlavnaForm();
+			GlavnaForm2 window = new GlavnaForm2();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,7 +83,7 @@ public class GlavnaForm {
 		shell = new Shell();
 		shell.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		shell.setToolTipText("");
-		shell.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/logosi.png"));
+		shell.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/logosi.png"));
 		shell.setSize(1291, 675);
 		shell.setText("FACTPRO");
 		
@@ -91,7 +91,7 @@ public class GlavnaForm {
 		shell.setMenuBar(menu);
 		
 		MenuItem mntmNewSubmenu = new MenuItem(menu, SWT.CASCADE);
-		mntmNewSubmenu.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674475_user_male2.png"));
+		mntmNewSubmenu.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674475_user_male2.png"));
 		mntmNewSubmenu.setText("Korisnici");
 		
 		Menu menu_1 = new Menu(mntmNewSubmenu);
@@ -144,12 +144,12 @@ public class GlavnaForm {
 		});
 		mntmPretragaIIspis.setText("Pretraga i ispis");
 		
-		//InputStream stream = GlavnaForm.class.getResourceAsStream("/src/1396674421_Streamline-61.png"); 
+		//InputStream stream = GlavnaForm2.class.getResourceAsStream("/src/1396674421_Streamline-61.png"); 
 
        // Image imgTrayIcon = new Image(display, stream);
 		
 		MenuItem mntmKlijenti = new MenuItem(menu, SWT.CASCADE);
-		mntmKlijenti.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674421_Streamline-61.png"));
+		mntmKlijenti.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674421_Streamline-61.png"));
 		//mntmKlijenti.setImage(imgTrayIcon);
 		mntmKlijenti.setText("Klijenti");
 		
@@ -247,7 +247,7 @@ public class GlavnaForm {
 		mntmFirma.setText("Firma");
 		
 		MenuItem mntmUsluge = new MenuItem(menu, SWT.CASCADE);
-		mntmUsluge.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674353_services.png"));
+		mntmUsluge.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674353_services.png"));
 		mntmUsluge.setText("Usluge");
 		
 		Menu menu_2 = new Menu(mntmUsluge);
@@ -294,7 +294,7 @@ public class GlavnaForm {
 		mntmPretraga_2.setText("Pretraga i ispis");
 		
 		MenuItem mntmPonude = new MenuItem(menu, SWT.CASCADE);
-		mntmPonude.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674680_document_text.png"));
+		mntmPonude.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674680_document_text.png"));
 		mntmPonude.setText("Ponude");
 		
 		Menu menu_3 = new Menu(mntmPonude);
@@ -352,7 +352,7 @@ public class GlavnaForm {
 				
 			}
 		});
-		mntmPredrauni.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674611_invoice.png"));
+		mntmPredrauni.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674611_invoice.png"));
 		mntmPredrauni.setText("Predra\u010Duni");
 		
 		Menu menu_4 = new Menu(mntmPredrauni);
@@ -400,7 +400,7 @@ public class GlavnaForm {
 		mntmIzmjenaPredrauna.setText("Izmjena predra\u010Duna");
 		
 		MenuItem mntmFakture = new MenuItem(menu, SWT.CASCADE);
-		mntmFakture.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674611_invoice.png"));
+		mntmFakture.setImage(SWTResourceManager.getImage(GlavnaForm2.class, "/images/1396674611_invoice.png"));
 		mntmFakture.setText("Fakture");
 		
 		Menu menu_5 = new Menu(mntmFakture);
@@ -453,33 +453,6 @@ public class GlavnaForm {
 			}
 		});
 		mntmPretragaFaktura.setText("Pretraga i ispis faktura");
-		
-		MenuItem mntmIzvjetaji = new MenuItem(menu, SWT.CASCADE);
-		mntmIzvjetaji.setImage(SWTResourceManager.getImage(GlavnaForm.class, "/images/1396674755_519958-021_Document_Text.png"));
-		mntmIzvjetaji.setText("Izvje\u0161taji");
-		
-		Menu menu_8 = new Menu(mntmIzvjetaji);
-		mntmIzvjetaji.setMenu(menu_8);
-		
-		MenuItem mntmPeriodini = new MenuItem(menu_8, SWT.RADIO);
-		mntmPeriodini.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				IzvjestajPoKlijentForm ipk = new IzvjestajPoKlijentForm ();
-				ipk.open();
-			}
-		});
-		mntmPeriodini.setText("Po klijentu");
-		
-		MenuItem mntmPeriodini_1 = new MenuItem(menu_8, SWT.NONE);
-		mntmPeriodini_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				IzvjestajiPerdiodForm pk = new IzvjestajiPerdiodForm();
-				pk.open();
-			}
-		});
-		mntmPeriodini_1.setText("Periodi\u010Dni");
 
 	}
 }

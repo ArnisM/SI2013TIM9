@@ -40,7 +40,7 @@ public class placeholder extends ApplicationWindow {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				GlavnaForm a = new GlavnaForm();
+				Login a = new Login();
 				a.open();
 			}
 		});

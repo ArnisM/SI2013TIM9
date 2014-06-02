@@ -1,6 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Ponude;
-
-import java.util.List;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -14,17 +12,40 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
-//import org.eclipse.wb.swt.IzmjenaFaktureTrenutneForm;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.hibernate.Query;
+
+
+
+import javax.persistence.GeneratedValue; 
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import java.util.Date;	
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
-import org.hibernate.Transaction;
-public class PonudeIzmjenaForm extends Shell {
+import org.hibernate.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.widgets.TableItem;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
+
+public class PredracunBrisanjeForm extends Shell {
 
 	/**
 	 * Launch the application.
@@ -35,7 +56,7 @@ public class PonudeIzmjenaForm extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			PonudeIzmjenaForm shell = new PonudeIzmjenaForm(display);
+			PredracunBrisanjeForm shell = new PredracunBrisanjeForm(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -52,7 +73,7 @@ public class PonudeIzmjenaForm extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public PonudeIzmjenaForm(Display display) {
+	public PredracunBrisanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		createContents();
 	}
@@ -62,23 +83,24 @@ public class PonudeIzmjenaForm extends Shell {
 	 */
 	protected void createContents() {
 //		this = new Shell();
-		this.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1396674611_invoice.png"));
-		this.setSize(610, 478);
-		this.setText("Izmjena ponude");
+		this.setImage(SWTResourceManager.getImage(PredracunBrisanjeForm.class, "/images/1396674611_invoice.png"));
+		this.setSize(612, 469);
+		this.setText("Brisanje predracuna");
 		
-		Group grpPretragaFakture = new Group(this, SWT.NONE);
-		grpPretragaFakture.setText("Pretraga ponude");
-		grpPretragaFakture.setBounds(10, 10, 575, 145);
-		final Combo combo_1 = new Combo(grpPretragaFakture, SWT.NONE);
-		combo_1.setBounds(333, 47, 149, 23);
+		Group group = new Group(this, SWT.NONE);
+		group.setText("Pretraga predracuna");
+		group.setBounds(10, 0, 575, 146);
 		
-		Button button = new Button(grpPretragaFakture, SWT.NONE);
+		final Combo combo_1 = new Combo(group, SWT.NONE);
+		combo_1.setBounds(340, 56, 149, 23);
+		
+		// PRETRAGA DUGME I VALIDIRANO SVEE
+		Button button = new Button(group, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				
-                List _ponude;
+				List _predracuna;
 				
 				if(combo_1.getSelectionIndex()!=-1)
 				{
@@ -87,21 +109,21 @@ public class PonudeIzmjenaForm extends Shell {
 				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			    Transaction t = session.beginTransaction();
-				Query q = session.createQuery("from Ponuda where naziv_firme=:naziv and deleted=:del");
+				Query q = session.createQuery("from Predracun where naziv_firme=:naziv and deleted=:deleted");
 		        q.setString("naziv", x);
-		        q.setString("del", Integer.toString(0));
-		        _ponude=q.list();
+		        q.setString("deleted", Integer.toString(0));
+		        _predracuna=q.list();
 		        t.commit();
 		        session.close();
-		        Ponuda f =new Ponuda();
+		        Predracun f =new Predracun();
 		        
-		        if(!_ponude.isEmpty())
+		        if(!_predracuna.isEmpty())
 		        {
 		        	
-		        for (int i=0; i<_ponude.size(); i++)
+		        for (int i=0; i<_predracuna.size(); i++)
 		        {
 		        	
-		        	f = (Ponuda) _ponude.get(i);	
+		        	f = (Predracun) _predracuna.get(i);	
 		        TableItem item = new TableItem(table, 0, i);
 		        
 		        item.setText(0,Long.toString(f.getId()));
@@ -112,12 +134,12 @@ public class PonudeIzmjenaForm extends Shell {
 		        }
 				
 				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "UspjeA!no je izvrA!ena pretraga. Listu klijenata moA3ete vidjeti u tabeli ispod.");
+				MessageDialog.openInformation(shell, "Info", "Uspješno je izvršena pretraga. Listu klijenata možete vidjeti u tabeli ispod.");
 			    }
 				else
 				{
 					Shell shell = new Shell();
-					MessageDialog.openInformation(shell, "Info", "Nema ponuda prema ovom klijentu.");
+					MessageDialog.openInformation(shell, "Info", "Nema predracun prema ovom klijentu.");
 				}
 				}
 				else
@@ -127,24 +149,25 @@ public class PonudeIzmjenaForm extends Shell {
 				}
 				
 				
-				
 			}
+			
+				
 		});
 		button.setText("Pretraga");
-		button.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
-		button.setBounds(367, 86, 116, 35);
+		button.setImage(SWTResourceManager.getImage(PredracunBrisanjeForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
+		button.setBounds(373, 95, 116, 35);
 		
-		Group group_1 = new Group(grpPretragaFakture, SWT.NONE);
+		Group group_1 = new Group(group, SWT.NONE);
 		group_1.setText("Odabir");
 		group_1.setBounds(10, 22, 142, 56);
 		
-		
-		
-		final Label label_1 = new Label(grpPretragaFakture, SWT.NONE);
+		final Label label_1 = new Label(group, SWT.NONE);
 		label_1.setText("Odabir firme:");
-		label_1.setBounds(236, 50, 91, 15);
+		label_1.setBounds(243, 59, 91, 15);
 		
-		//RADIO BUTTON ZA FIRMU SELECT
+		
+		
+		// ZA RADIO BUTTON FIRMEE
 		Button button_1 = new Button(group_1, SWT.RADIO);
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -153,7 +176,7 @@ public class PonudeIzmjenaForm extends Shell {
 				label_1.setText("Odaberite firmu:");
 				combo_1.removeAll();
 				Session session = HibernateUtil.getSessionFactory().openSession();
-				Transaction t =  session.beginTransaction();			
+				Transaction t = session.beginTransaction();			
 				List klijenti = session.createQuery("from Klijenti where tip='firma'").list();
 		        t.commit();
 		        session.close();
@@ -168,14 +191,12 @@ public class PonudeIzmjenaForm extends Shell {
 		        
 		        }
 				}
-				
 			}
 		});
 		button_1.setText("Firma");
 		button_1.setBounds(54, 10, 90, 16);
 		
-		
-		// RADIO ZA KLIJENTEEEE
+		// ZA RADIO KLIJENTIII
 		Button button_2 = new Button(group_1, SWT.RADIO);
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -209,18 +230,15 @@ public class PonudeIzmjenaForm extends Shell {
 		
 		
 		
-		Label lblIzaberiteeljenuFakturu = new Label(this, SWT.NONE);
-		lblIzaberiteeljenuFakturu.setText("Izaberite \u017Eeljenu ponudu:");
-		lblIzaberiteeljenuFakturu.setBounds(10, 177, 136, 15);
-		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setSelection(-1);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setBounds(10, 198, 575, 179);
+		table.setBounds(10, 185, 575, 179);
 		
-		TableColumn tblclmnIdFakture = new TableColumn(table, SWT.NONE);
-		tblclmnIdFakture.setWidth(100);
-		tblclmnIdFakture.setText("ID ponude");
+		TableColumn tableColumn = new TableColumn(table, SWT.NONE);
+		tableColumn.setWidth(100);
+		tableColumn.setText("ID predracuna");
 		
 		TableColumn tableColumn_1 = new TableColumn(table, SWT.NONE);
 		tableColumn_1.setWidth(137);
@@ -238,45 +256,62 @@ public class PonudeIzmjenaForm extends Shell {
 		tableColumn_4.setWidth(132);
 		tableColumn_4.setText("PDV broj");
 		
-		Button button_3 = new Button(this, SWT.NONE);
-		button_3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				close();
-			}
-		});
-		button_3.setText("Izlaz");
-		button_3.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
-		button_3.setBounds(469, 388, 116, 42);
+		Label label_2 = new Label(this, SWT.NONE);
+		label_2.setText("Izaberite \u017Eeljenu predracun:");
+		label_2.setBounds(10, 164, 136, 15);
 		
-		Button btnIzmjeni = new Button(this, SWT.NONE);
-		btnIzmjeni.addSelectionListener(new SelectionAdapter() {
+		
+		// BRISANJEEEE
+		Button btnBrii = new Button(this, SWT.NONE);
+		btnBrii.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				
 				
 				
 				if(table.getSelectionIndex()!=-1)
 				{
-				int iti = table.getSelectionIndex();
-				TableItem ti=table.getItem(iti);
-				long x = Long.parseLong(ti.getText(0), 10);
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				Transaction t = session.beginTransaction();
 				
-				PonudeTrenutnaIzmjenaForm a= new PonudeTrenutnaIzmjenaForm(null,x);
-				a.open();
+				int ind=table.getSelectionIndex();
+				TableItem ti=table.getItem(ind);
+				
+				Predracun myObject = (Predracun) session.load(Predracun.class,(long)(Integer.parseInt(ti.getText(0))));
+				myObject.setDeleted(1);
+				session.update(myObject);
+			    session.getTransaction().commit();
+			   
+				Shell shell = new Shell();
+				MessageDialog.openInformation(shell, "Info", "Uspješno je obrisana predracun.");
 				
 				table.removeAll();
 				}
 				else
 				{
 					Shell shell = new Shell();
-					MessageDialog.openInformation(shell, "Info", "Morate izabrati fakturu.");
+					MessageDialog.openInformation(shell, "Info", "Nije selektovan predracun");
 				}
-
+				
 			}
 		});
-		btnIzmjeni.setText("Izmjeni");
-		btnIzmjeni.setImage(SWTResourceManager.getImage(PonudeIzmjenaForm.class, "/images/1398574614_switch_on.png"));
-		btnIzmjeni.setBounds(346, 388, 116, 42);
+		btnBrii.setText("Bri\u0161i");
+		btnBrii.setImage(SWTResourceManager.getImage(PredracunBrisanjeForm.class, "/images/1398201739_Trash.png"));
+		btnBrii.setBounds(346, 379, 116, 42);
+		
+		Button button_4 = new Button(this, SWT.NONE);
+		button_4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				close();
+				
+			}
+		});
+		button_4.setText("Izlaz");
+		button_4.setImage(SWTResourceManager.getImage(PredracunBrisanjeForm.class, "/images/1398195841_DeleteRed.png"));
+		button_4.setBounds(469, 379, 116, 42);
 
 	}
 

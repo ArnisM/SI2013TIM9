@@ -92,7 +92,6 @@ public class UslugeIzmjenaForm extends Shell {
 		
 		final Button button_1 = new Button(group_1, SWT.RADIO);
 		button_1.setText("Servis");
-		button_1.setSelection(true);
 		button_1.setBounds(89, 24, 90, 16);
 		
 		final Button button_2 = new Button(group_1, SWT.RADIO);

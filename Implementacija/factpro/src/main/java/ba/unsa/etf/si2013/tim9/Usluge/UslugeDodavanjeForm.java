@@ -98,7 +98,6 @@ public class UslugeDodavanjeForm extends Shell {
 		grpTipUsluge.setBounds(28, 104, 252, 82);
 		
 		final Button btnServis = new Button(grpTipUsluge, SWT.RADIO);
-		btnServis.setSelection(true);
 		btnServis.setBounds(88, 24, 90, 16);
 		btnServis.setText("Servis");
 		

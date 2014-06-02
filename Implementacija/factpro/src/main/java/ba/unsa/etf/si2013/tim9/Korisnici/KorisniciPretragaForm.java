@@ -100,7 +100,7 @@ public class KorisniciPretragaForm extends Shell {
 		final Combo combo = new Combo(group, SWT.NONE);
 		combo.setItems(new String[] {"Ime ", "Prezime", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Ime");
+		combo.setText("Izaberite kriterij");
 		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("Kirterij pretrage:");

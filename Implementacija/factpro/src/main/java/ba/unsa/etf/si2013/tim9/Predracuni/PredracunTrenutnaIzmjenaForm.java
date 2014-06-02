@@ -1,4 +1,4 @@
-package ba.unsa.etf.si2013.tim9.Fakture;
+package ba.unsa.etf.si2013.tim9.Predracuni;
 
 import java.util.Date;
 import java.util.List;
@@ -31,7 +31,7 @@ import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
-public class FaktureTrenutnaIzmjenaForm extends Shell {
+public class PredracunTrenutnaIzmjenaForm extends Shell {
 
 	/**
 	 * Launch the application.
@@ -55,7 +55,7 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			FaktureTrenutnaIzmjenaForm shell = new FaktureTrenutnaIzmjenaForm(display,null);
+			PredracunTrenutnaIzmjenaForm shell = new PredracunTrenutnaIzmjenaForm(display,null);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -76,7 +76,7 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public FaktureTrenutnaIzmjenaForm(Display display,Long id) {
+	public PredracunTrenutnaIzmjenaForm(Display display,Long id) {
 		super(display, SWT.SHELL_TRIM);
 		id_broj=id;
 		br_stavki=0;
@@ -200,14 +200,14 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		List broj;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();			
-		Query q = session.createQuery("from Faktura where id=:brojic");
+		Query q = session.createQuery("from Predracun where id=:brojic");
 		q.setString("brojic",Long.toString(id_broj));
         broj=q.list();
         t.commit();
         session.close();
-        Faktura f=new Faktura();
+        Predracun f=new Predracun();
         
-        f=(Faktura)broj.get(0);
+        f=(Predracun)broj.get(0);
         
         List kli;
         long id_klijent= f.getIdklijent();
@@ -234,18 +234,18 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
         List _ss;
 		session = HibernateUtil.getSessionFactory().openSession();
 		t = session.beginTransaction();			
-		q = session.createQuery("from Stavka_faktura where idfaktura=:brojic");
+		q = session.createQuery("from Stavka_predracuna where idpredracun=:brojic");
         q.setString("brojic",Long.toString(id_broj));
        _ss=q.list();
         t.commit();
        session.close();
        
-       Stavka_faktura s = new Stavka_faktura();
+       Stavka_predracuna s = new Stavka_predracuna();
        
        List _usluge1;
        for(int i=0; i<_ss.size(); i++)
        {
-    	   s=(Stavka_faktura)_ss.get(i);
+    	   s=(Stavka_predracuna)_ss.get(i);
     	   
     	   session = HibernateUtil.getSessionFactory().openSession();
    		   t = session.beginTransaction();			
@@ -331,9 +331,9 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		
 		
 //		this = new Shell();
-		this.setImage(SWTResourceManager.getImage(FaktureTrenutnaIzmjenaForm.class, "/images/1396674611_invoice.png"));
+		this.setImage(SWTResourceManager.getImage(PredracunTrenutnaIzmjenaForm.class, "/images/1396674611_invoice.png"));
 		this.setSize(697, 677);
-		this.setText("Izmjena fakture");
+		this.setText("Izmjena predracuna");
 		
 		
 		
@@ -348,23 +348,23 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		
 		Label lblStavkeFakture = new Label(this, SWT.NONE);
 		lblStavkeFakture.setBounds(10, 158, 132, 15);
-		lblStavkeFakture.setText("Dodavanje stavki fakture:");
+		lblStavkeFakture.setText("Dodavanje stavki predracuna:");
 		
 		
 		
-		final FaktureTrenutnaIzmjenaForm f =this;
+		final PredracunTrenutnaIzmjenaForm f =this;
 		
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				FaktureStavkeDodavanjeForm2 a = new FaktureStavkeDodavanjeForm2(null,_usluge,f);
+				PredracunStavkeDodavanjeForm2 a = new PredracunStavkeDodavanjeForm2(null,_usluge,f);
 				a.open();
 
 			}
 		});
-		btnNewButton.setImage(SWTResourceManager.getImage(FaktureTrenutnaIzmjenaForm.class, "/images/1398624464_plus-sign.png"));
+		btnNewButton.setImage(SWTResourceManager.getImage(PredracunTrenutnaIzmjenaForm.class, "/images/1398624464_plus-sign.png"));
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
 		
@@ -403,17 +403,17 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		          k=(Klijenti)broj.get(0);
 		        }
 		        long id =k.getId();
-		        //uzmem koja je faktura
+		        //uzmem koja je predracun
 		        List vidi_f;
 				session = HibernateUtil.getSessionFactory().openSession();
 				t = session.beginTransaction();			
-				q = session.createQuery("from Faktura where id=:brojic");
+				q = session.createQuery("from Predracun where id=:brojic");
 		        q.setString("brojic", Long.toString(id_broj));
 		        vidi_f=q.list();
 		        t.commit();
 		        session.close();
-		        Faktura stara = new Faktura();
-		        stara=(Faktura)vidi_f.get(0);
+		        Predracun stara = new Predracun();
+		        stara=(Predracun)vidi_f.get(0);
 		        
 		        
 		        
@@ -439,14 +439,14 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 				}
 				
 				
-				Faktura f=new Faktura(1,id,cijena,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),stara.getBroj_fakture() , "Sarajevo",stara.getDatum_izdavanja(),text.getText());
+				Predracun f=new Predracun(1,id,cijena,k.getNaziv(),k.getAdresa(), Integer.toString(k.getPdv()), Integer.toString(k.getPdv()),stara.getBroj_predracuna() , "Sarajevo",stara.getDatum_izdavanja(),text.getText());
 				f.spasiUBazu();
 				
 				
 				// IZBRISI STARU
 				 session = HibernateUtil.getSessionFactory().openSession();
 				 t = session.beginTransaction();
-				Faktura myObject = (Faktura) session.load(Faktura.class,id_broj);
+				Predracun myObject = (Predracun) session.load(Predracun.class,id_broj);
 				myObject.setDeleted(1);
 				session.update(myObject);
 			    session.getTransaction().commit();
@@ -455,29 +455,29 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 				List vidi_broj;
 				session = HibernateUtil.getSessionFactory().openSession();
 				t = session.beginTransaction();			
-				q = session.createQuery("from Faktura where broj_fakture=:brojic and deleted=:del");
-		        q.setString("brojic", Integer.toString(stara.getBroj_fakture()));
+				q = session.createQuery("from Predracun where broj_predracuna=:brojic and deleted=:del");
+		        q.setString("brojic", Integer.toString(stara.getBroj_predracuna()));
 		        q.setString("del", Integer.toString(0));
 		        vidi_broj=q.list();
 		        t.commit();
 		        session.close();
 		        
-				Faktura ff=new Faktura();
+				Predracun ff=new Predracun();
 				
 				if(!vidi_broj.isEmpty())
 				{
-				ff=(Faktura)vidi_broj.get(0);
+				ff=(Predracun)vidi_broj.get(0);
 				
-				// dodavanje stavka_faktura u bazu
+				// dodavanje stavka_predracun u bazu
 				for(int i = 0; i<br_stavki;i++)
 				{
 					Long x= (Long)_uzete.get(i);
-					Stavka_faktura s=new Stavka_faktura(ff.getId(),x);
+					Stavka_predracuna s=new Stavka_predracuna(ff.getId(),x);
 					s.spasiUBazu();
 				}
 				
 				Shell shell = new Shell();
-			    MessageDialog.openInformation(shell, "Info", "Uspjesno je izmjenjena faktura!");
+			    MessageDialog.openInformation(shell, "Info", "Uspjesno je izmjenjena predracun!");
 			    
 			    table.removeAll();
 			    br_stavki=0;
@@ -500,7 +500,7 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 			}
 		});
 		btnIzmjeni.setText("Izmjeni!");
-		btnIzmjeni.setImage(SWTResourceManager.getImage(FaktureTrenutnaIzmjenaForm.class, "/images/1398574614_switch_on.png"));
+		btnIzmjeni.setImage(SWTResourceManager.getImage(PredracunTrenutnaIzmjenaForm.class, "/images/1398574614_switch_on.png"));
 		btnIzmjeni.setBounds(431, 591, 116, 42);
 		
 		Button button_2 = new Button(this, SWT.NONE);
@@ -511,7 +511,7 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 			}
 		});
 		button_2.setText("Izlaz");
-		button_2.setImage(SWTResourceManager.getImage(FaktureTrenutnaIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
+		button_2.setImage(SWTResourceManager.getImage(PredracunTrenutnaIzmjenaForm.class, "/images/1398195841_DeleteRed.png"));
 		button_2.setBounds(554, 591, 116, 42);
 		
 		
@@ -583,3 +583,4 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		// Disable the check that prevents subclassing of SWT components
 	}
 }
+
