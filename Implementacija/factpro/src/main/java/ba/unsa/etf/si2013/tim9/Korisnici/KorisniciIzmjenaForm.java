@@ -310,9 +310,14 @@ if(combo.getSelectionIndex()==2){
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 				
-				Session session = HibernateUtil.getSessionFactory().openSession();
-				session.beginTransaction();
-				Korisnik k=new Korisnik();
+				
+				
+				if(table.getItemCount()==0){MessageDialog.openInformation(shell, "Izmjena", "IZmjena se ne može izvršiti.");
+				}
+				else if(table.getItemCount()!=0){
+					Session session = HibernateUtil.getSessionFactory().openSession();
+					session.beginTransaction();
+					Korisnik k=new Korisnik();
 				int ind=table.getSelectionIndex();
 				TableItem ti=table.getItem(ind);
 				Korisnik kor = 
@@ -381,7 +386,7 @@ if(combo.getSelectionIndex()==2){
 			
 			//	Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Izmjena", "Uspjesno izmjenjeni atributi korisnika.");
-				
+				}
 			}
 		});
 		

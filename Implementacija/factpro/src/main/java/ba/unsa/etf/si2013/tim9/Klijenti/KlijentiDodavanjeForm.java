@@ -239,12 +239,15 @@ public class KlijentiDodavanjeForm extends Shell {
 					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
 				
-				
+				try{
 					Klijenti noviKlijent = new Klijenti(txt_nazivFirme.getText(),"firma",text_10.getText(),(Integer.parseInt(text_5.getText())),(Integer.parseInt(text_6.getText())), text_7.getText(), text_8.getText(), text_9.getText());
 					noviKlijent.spasiUBazu();
 					Shell shell1 = new Shell();
 					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				}
+				catch(Exception e2){
 					
+				}
 				
 				
 				
@@ -421,12 +424,14 @@ ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP
 					text3Error.setImage(text3Field.getImage());
 					text3Error.showHoverText("E-mail nije u ispravnom formatu!");
 				}
-				
+				try{
 					Klijenti noviKlijent = new Klijenti(text.getText()+" " +text_1.getText(),"fizickoLice",text_11.getText(),0,0, text_7.getText(), text_8.getText(), text_9.getText());
 					noviKlijent.spasiUBazu();
 					Shell shell1 = new Shell();
 					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				}catch(Exception e2){
 					
+				}
 				
 				
 			}
