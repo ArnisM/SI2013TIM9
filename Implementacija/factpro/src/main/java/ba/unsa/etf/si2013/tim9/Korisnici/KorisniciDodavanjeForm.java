@@ -324,15 +324,45 @@ public class KorisniciDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				if(_operater.getSelection()){
-				
-					if(Validacija()){
+					ControlDecoration textimeError = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+					ControlDecoration prezimeError = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
 					
+					if (text_Ime.getText().length()<3 || text_Ime.getText()==""){
+						textimeError.setDescriptionText("Niste unijeli ime!");
+						FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						textimeError.setImage(ImeField.getImage());
+						textimeError.showHoverText("Niste unijeli ime!");
+					}
+					
+					if (!text_Ime.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+						textimeError.setDescriptionText("Niste unijeli ime!");
+						FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						textimeError.setImage(ImeField.getImage());
+						textimeError.showHoverText("Niste unijeli ime!");
+					}
+					
+					if (text_Prezime.getText().length()<3 || text_Prezime.getText()==""){
+						prezimeError.setDescriptionText("Niste unijeli prezime!");
+						FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						prezimeError.setImage(prezimeField.getImage());
+						prezimeError.showHoverText("Niste unijeli prezime!");
+					}
+					if (!text_Prezime.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+						prezimeError.setDescriptionText("Niste unijeli prezime!");
+						FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						prezimeError.setImage(prezimeField.getImage());
+						prezimeError.showHoverText("Niste unijeli prezime!");
+					}
+					
+					
+					
+					try{
 				Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
 				noviK.spasiUBazu();
 				Shell shell1 = new Shell();
 				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
-				
-				}}
+					}catch(Exception e2){}
+				}
 				
 				if(_rukovodilac.getSelection()){
 					Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
