@@ -167,6 +167,7 @@ public class KorisniciDodavanjeForm extends Shell {
 	
 	protected void UnosSlike(Canvas _slika)
 	{
+		try{
 		//org.eclipse.swt.widgets.FileDialog fd = new FileDialog(null, balloonTitle);
 		FileDialog fd = new FileDialog(Display.getCurrent().getActiveShell(),SWT.OPEN);
 		fd.setText("Slike:");
@@ -183,6 +184,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			im = new Image(d, imgData);
 			_slika.setBackgroundImage(im);
 		}
+		} catch(Exception e43){}
 	}
 	
 
