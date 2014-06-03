@@ -363,8 +363,8 @@ public class FakturePretragaForm extends Shell {
 	                  my_first_table.addCell(new PdfPCell(new Phrase(u.getId()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(u.getNaziv()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(f.getBroj_usluga()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena())));
+			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena())))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena()))));
 	                  
 	                  }
 	               }

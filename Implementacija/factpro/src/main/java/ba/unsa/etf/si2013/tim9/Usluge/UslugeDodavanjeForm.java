@@ -140,7 +140,8 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.setImage(textField.getImage());
 					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
 				}
-				else {
+				
+				else if(((Integer.parseInt(text_2.getText()))>0) && ((Integer.parseInt(text_3.getText())>0))) {
 					Usluga novaUsluga = new Usluga ();
 					novaUsluga.setNaziv(text.getText());
 					if(btnServis.getSelection()==true){
