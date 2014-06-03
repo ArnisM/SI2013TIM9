@@ -107,7 +107,7 @@ public class KorisniciBrisanjeForm extends Shell {
 		final Combo combo = new Combo(grpPretraga, SWT.NONE);
 		combo.setItems(new String[] {"Ime", "Prezime", "Korisni\u010Dko ime", "E-mail", "Uloga"});
 		combo.setBounds(112, 35, 142, 23);
-		combo.setText("Ime");
+		combo.setText("Izaberite kriterij");
 		
 		Label lblKirterijPretrage = new Label(grpPretraga, SWT.NONE);
 		lblKirterijPretrage.setBounds(10, 38, 96, 15);

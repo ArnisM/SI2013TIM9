@@ -150,7 +150,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			return false;
 		}
 		
-		if(text_Password.getText()!=text_PasswordPotvrda.getText()){
+		if(!text_Password.getText().equals(text_PasswordPotvrda.getText())){
 			
 			passwordpotvrdaError.setDescriptionText("Uneste ponovo!");
 			FieldDecoration passwordpotvrdaField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
