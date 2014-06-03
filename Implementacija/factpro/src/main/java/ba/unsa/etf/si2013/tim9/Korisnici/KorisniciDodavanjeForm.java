@@ -74,6 +74,93 @@ public class KorisniciDodavanjeForm extends Shell {
 		s = new Shell(d);
 	}
 
+	public Boolean Validacija(){
+		ControlDecoration textimeError = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
+		ControlDecoration prezimeError = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
+		ControlDecoration telefonError = new ControlDecoration(text_Telefon, SWT.RIGHT | SWT.TOP);
+		ControlDecoration emailError = new ControlDecoration(text_Email, SWT.RIGHT | SWT.TOP);
+		ControlDecoration usernameError = new ControlDecoration(text_Username, SWT.RIGHT | SWT.TOP);
+		ControlDecoration passwordError = new ControlDecoration(text_Password, SWT.RIGHT | SWT.TOP);
+		ControlDecoration passwordpotvrdaError = new ControlDecoration(text_PasswordPotvrda, SWT.RIGHT | SWT.TOP);
+		
+		if (text_Ime.getText().length()<3 || text_Ime.getText()==""){
+			textimeError.setDescriptionText("Niste unijeli ime!");
+			FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textimeError.setImage(ImeField.getImage());
+			textimeError.showHoverText("Niste unijeli ime!");
+			return false;
+		}
+		
+		if (!text_Ime.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
+			textimeError.setDescriptionText("Ime je u pogrešnom formatu!");
+			FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textimeError.setImage(ImeField.getImage());
+			textimeError.showHoverText("Ime je u pogrešnom formatu!");
+			return false;
+		}
+		
+		if (text_Prezime.getText().length()<3 || text_Prezime.getText()==""){
+			prezimeError.setDescriptionText("Niste unijeli prezime!");
+			FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			prezimeError.setImage(prezimeField.getImage());
+			prezimeError.showHoverText("Niste unijeli prezime!");
+			return false;
+		}
+		if (!text_Prezime.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
+			prezimeError.setDescriptionText("Prezime je u pogrešnom formatu!");
+			FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			prezimeError.setImage(prezimeField.getImage());
+			prezimeError.showHoverText("Prezime je u pogrešnom formatu!");
+			return false;
+		}
+		
+		if (text_Telefon.getText().length()<3 || text_Telefon.getText()==""){
+			telefonError.setDescriptionText("Niste unijeli telefon!");
+			FieldDecoration telefonField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			telefonError.setImage(telefonField.getImage());
+			telefonError.showHoverText("Niste unijeli telefon!");
+			return false;
+		}
+		if (text_Email.getText().length()<3 || text_Email.getText()==""){
+			emailError.setDescriptionText("Niste unijeli email!");
+			FieldDecoration emailField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			emailError.setImage(emailField.getImage());
+			emailError.showHoverText("Niste unijeli email!");
+			return false;
+		}
+		if (text_Username.getText().length()<3 || text_Username.getText()==""){
+			usernameError.setDescriptionText("Niste unijeli username!");
+			FieldDecoration usernameField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			usernameError.setImage(usernameField.getImage());
+			usernameError.showHoverText("Niste unijeli username!");
+			return false;
+		}
+		if (text_Password.getText().length()<3 || text_Password.getText()==""){
+			passwordError.setDescriptionText("Niste unijeli password!");
+			FieldDecoration passwordField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			passwordError.setImage(passwordField.getImage());
+			passwordError.showHoverText("Niste unijeli password!");
+			return false;
+		}
+		if (text_Password.getText().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")){
+			passwordError.setDescriptionText("Niste unijeli password!");
+			FieldDecoration passwordField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			passwordError.setImage(passwordField.getImage());
+			passwordError.showHoverText("Niste unijeli password!");
+			return false;
+		}
+		
+		if(text_Password.getText()!=text_PasswordPotvrda.getText()){
+			
+			passwordpotvrdaError.setDescriptionText("Uneste ponovo!");
+			FieldDecoration passwordpotvrdaField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			passwordpotvrdaError.setImage(passwordpotvrdaField.getImage());
+			passwordpotvrdaError.showHoverText("Unesite ponovo!");
+			return false;
+		}
+		
+		return true;
+	}
 	/**
 	 * Create contents of the shell.
 	 */
@@ -98,122 +185,8 @@ public class KorisniciDodavanjeForm extends Shell {
 		}
 	}
 	
-	protected Boolean Validacija()
-	{
-		Boolean rez = true;
-		//Ime
-		ControlDecoration textErrorIme = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
-		KorisniciValidacija a = new KorisniciValidacija();
-		if (a.ValidacijaImeUneseno(text_Ime.getText()))
-		{
-			textErrorIme.setDescriptionText("Niste unijeli ime!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorIme.setImage(textField.getImage());
-			textErrorIme.showHoverText("Niste unijeli ime!");
-			rez = false;
-		}		
-		if (a.ValidacijaImeFormatDobar(text_Ime.getText())){
-			textErrorIme.setDescriptionText("Ime nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorIme.setImage(textField.getImage());
-			textErrorIme.showHoverText("Ime nije u ispravnom formatu!");
-			rez = false;
-		}
+
 		
-		
-		//Prezime
-		ControlDecoration textErrorPrezime = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
-		if (a.ValidacijaPrezimeUneseno(text_Prezime.getText()))
-		{
-			textErrorPrezime.setDescriptionText("Niste unijeli prezime!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPrezime.setImage(textField.getImage());
-			textErrorPrezime.showHoverText("Niste unijeli prezime!");
-			rez = false;
-		}		
-		if (a.ValidacijaPrezimeFormatDobar(text_Prezime.getText())){
-			textErrorPrezime.setDescriptionText("Prezime nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPrezime.setImage(textField.getImage());
-			textErrorPrezime.showHoverText("Prezime nije u ispravnom formatu!");
-			rez = false;
-		}
-		
-		ControlDecoration textErrorAdresa = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
-		
-		//Telefon
-		ControlDecoration textErrorTelefon = new ControlDecoration(text_Telefon, SWT.RIGHT | SWT.TOP);
-		if (a.ValidacijaTelefonUneseno(text_Telefon.getText()))
-		{
-			textErrorTelefon.setDescriptionText("Niste unijeli Telefon!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorTelefon.setImage(textField.getImage());
-			textErrorTelefon.showHoverText("Niste unijeli Telefon!");
-			rez = false;
-		}		
-		if (a.ValidacijaTelefonFormatDobar(text_Telefon.getText())){
-			textErrorTelefon.setDescriptionText("Telefon nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorTelefon.setImage(textField.getImage());
-			textErrorTelefon.showHoverText("Telefon nije u ispravnom formatu!");
-			rez = false;
-		}
-		
-		ControlDecoration textErrorEmail = new ControlDecoration(text_Email, SWT.RIGHT | SWT.TOP);
-		if (a.ValidacijaEmailUnesen(text_Email.getText()))
-		{
-			textErrorEmail.setDescriptionText("Niste unijeli Email!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorEmail.setImage(textField.getImage());
-			textErrorEmail.showHoverText("Niste unijeli Email!");
-			rez = false;
-		}		
-		if (a.ValidacijaEmailFormatDobar(text_Email.getText())){
-			textErrorEmail.setDescriptionText("Email nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorEmail.setImage(textField.getImage());
-			textErrorEmail.showHoverText("Email nije u ispravnom formatu!");
-			rez = false;
-		}
-		
-		ControlDecoration textErrorPassword = new ControlDecoration(text_Password, SWT.RIGHT | SWT.TOP);
-		if (a.ValidacijaPasswordUnesen(text_Password.getText()))
-		{
-			textErrorPassword.setDescriptionText("Niste unijeli Password!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPassword.setImage(textField.getImage());
-			textErrorPassword.showHoverText("Niste unijeli Password!");
-			rez = false;
-		}		
-		if (a.ValidacijaPasswordFormatDobar(text_Password.getText())){
-			textErrorPassword.setDescriptionText("Password nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPassword.setImage(textField.getImage());
-			textErrorPassword.showHoverText("Password nije u ispravnom formatu!");
-			rez = false;
-		}
-		
-		ControlDecoration textErrorPasswordPotvrda = new ControlDecoration(text_PasswordPotvrda, SWT.RIGHT | SWT.TOP);
-		if (a.ValidacijaPasswordPotvrdaUnesen(text_PasswordPotvrda.getText()))
-		{
-			textErrorPasswordPotvrda.setDescriptionText("Niste unijeli PasswordPotvrda!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPasswordPotvrda.setImage(textField.getImage());
-			textErrorPasswordPotvrda.showHoverText("Niste unijeli PasswordPotvrda!");
-			rez = false;
-		}		
-		if (a.ValidacijaPasswordPotvrda(text_Password.getText(),text_PasswordPotvrda.getText())){
-			textErrorPasswordPotvrda.setDescriptionText("PasswordPotvrda nije u ispravnom formatu!");
-			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textErrorPasswordPotvrda.setImage(textField.getImage());
-			textErrorPasswordPotvrda.showHoverText("PasswordPotvrda nije u ispravnom formatu!");
-			rez = false;
-		}
-		
-		
-		return rez;
-	}
-	
 	protected void createContents() {
 //		this = new Shell();
 		this.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1396674475_user_male2.png"));
@@ -257,7 +230,6 @@ public class KorisniciDodavanjeForm extends Shell {
 		
 		final Button _operater = new Button(grpOdabirUloge, SWT.RADIO);
 		final Button _rukovodilac = new Button(grpOdabirUloge, SWT.RADIO);
-		_operater.setSelection(true);
 		_operater.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) 
@@ -315,6 +287,9 @@ public class KorisniciDodavanjeForm extends Shell {
 			}
 		});
 		
+		
+		
+		
 		Button _dodaj = new Button(this, SWT.NONE);
 		_dodaj.setImage(SWTResourceManager.getImage(KorisniciDodavanjeForm.class, "/images/1398195801_tick_32.png"));
 		_dodaj.setBounds(160, 369, 117, 38);
@@ -323,54 +298,33 @@ public class KorisniciDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
-				if(_operater.getSelection()){
-					ControlDecoration textimeError = new ControlDecoration(text_Ime, SWT.RIGHT | SWT.TOP);
-					ControlDecoration prezimeError = new ControlDecoration(text_Prezime, SWT.RIGHT | SWT.TOP);
+				
 					
-					if (text_Ime.getText().length()<3 || text_Ime.getText()==""){
-						textimeError.setDescriptionText("Niste unijeli ime!");
-						FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-						textimeError.setImage(ImeField.getImage());
-						textimeError.showHoverText("Niste unijeli ime!");
-					}
+				if(Validacija()){
 					
-					if (!text_Ime.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
-						textimeError.setDescriptionText("Niste unijeli ime!");
-						FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-						textimeError.setImage(ImeField.getImage());
-						textimeError.showHoverText("Niste unijeli ime!");
-					}
-					
-					if (text_Prezime.getText().length()<3 || text_Prezime.getText()==""){
-						prezimeError.setDescriptionText("Niste unijeli prezime!");
-						FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-						prezimeError.setImage(prezimeField.getImage());
-						prezimeError.showHoverText("Niste unijeli prezime!");
-					}
-					if (!text_Prezime.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
-						prezimeError.setDescriptionText("Niste unijeli prezime!");
-						FieldDecoration prezimeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-						prezimeError.setImage(prezimeField.getImage());
-						prezimeError.showHoverText("Niste unijeli prezime!");
-					}
-					
-					
-					
-					try{
-				Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
-				noviK.spasiUBazu();
+				try{	
+						Korisnik noviK=new Korisnik();
+						if(_operater.getSelection())
+				 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
+						
+						if(_rukovodilac.getSelection())
+							 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
+									
+						
+						noviK.spasiUBazu();
 				Shell shell1 = new Shell();
 				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
-					}catch(Exception e2){}
-				}
+					}catch(Exception e3){}
 				
-				if(_rukovodilac.getSelection()){
-					Korisnik noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
-					noviK.spasiUBazu();
-					Shell shell1 = new Shell();
-					 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
+				
+				}
+							
 					
-					}
+				
+				
+				
+				
+				
 				
 			}
 		});

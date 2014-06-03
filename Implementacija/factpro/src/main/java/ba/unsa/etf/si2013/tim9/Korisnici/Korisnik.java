@@ -87,11 +87,12 @@ public class Korisnik implements Serializable {
 		DatumZaposlenja = datumZaposlenja;
 	}
 	public void spasiUBazu() {
+		try{
 	 	Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		session.save(this);
 		t.commit();
-		session.close();
+		session.close();} catch(Exception e){}
 	 	}
 
 	public String getUsername() {
