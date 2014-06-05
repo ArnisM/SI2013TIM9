@@ -180,7 +180,14 @@ ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP
 				
 				MessageDialog.openInformation(shell1, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
-				}catch(NumberFormatException e2){}
+				}catch(NumberFormatException e2){
+					
+					text2Error.setDescriptionText("Cijena usluge nije u ispravnom formatu!");
+					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text2Error.setImage(text1Field.getImage());
+					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
+					
+				}
 		} });
 		btnDodaj.setText("Dodaj");
 		btnDodaj.setImage(SWTResourceManager.getImage(UslugeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
