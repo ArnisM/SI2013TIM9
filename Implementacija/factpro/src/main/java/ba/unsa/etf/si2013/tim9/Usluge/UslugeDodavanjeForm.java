@@ -127,6 +127,7 @@ public class UslugeDodavanjeForm extends Shell {
 				Shell shell = new Shell();
 ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
 				
 
 				try{
@@ -150,6 +151,15 @@ ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP
 					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text2Error.setImage(text1Field.getImage());
 					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
+					
+				}
+				
+				else if(Double.parseDouble(text_3.getText())<0){
+					
+					text3Error.setDescriptionText("Ukupni trošak usluge nije u ispravnom formatu!");
+					FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text3Error.setImage(text3Field.getImage());
+					text3Error.showHoverText("Ukupni trošak usluge nije u ispravnom formatu!");
 					
 				}
 				
@@ -178,14 +188,24 @@ ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP
 					
 					
 				
-				MessageDialog.openInformation(shell1, "Doodavanje usluga", "Usluga je uspješno dodana.");
+				MessageDialog.openInformation(shell1, "Doodavanje usluga", "Usluga je uspjeÅ¡no dodana.");
 			}
 				}catch(NumberFormatException e2){
-					
+					if(!text_2.getText().matches("[0-9]+([,.][0-9]{1,2})?")){
 					text2Error.setDescriptionText("Cijena usluge nije u ispravnom formatu!");
 					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text2Error.setImage(text1Field.getImage());
-					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
+					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");}
+					else{
+						text3Error.setDescriptionText("Ukupni trošak usluge nije u ispravnom formatu!");
+						FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text3Error.setImage(text3Field.getImage());
+						text3Error.showHoverText("Ukupni trošak usluge nije u ispravnom formatu!");
+						
+					}
+					
+				}catch(Exception e3){
+					
 					
 				}
 		} });
