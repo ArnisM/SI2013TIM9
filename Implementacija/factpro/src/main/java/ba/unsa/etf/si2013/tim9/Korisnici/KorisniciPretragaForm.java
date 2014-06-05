@@ -117,13 +117,14 @@ public class KorisniciPretragaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 				List<Korisnik> korisnici;
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				if(combo.getSelectionIndex()==0){
 											
 		        Query q = session.createQuery("from Korisnik where ime=:ime");
-		        q.setString("ime", text.getText());
+		        q.setString("ime", text_1.getText());
 		        korisnici=q.list();
 		        t.commit();
 		        session.close();
@@ -145,8 +146,9 @@ public class KorisniciPretragaForm extends Shell {
 		       }
 		        }
 				
-				
+			
 			}
+			
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KorisniciPretragaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
