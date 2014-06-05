@@ -126,7 +126,10 @@ public class UslugeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
 ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
 				
+
+				try{
 				if (text.getText().length()<3 || text.getText()==""){
 					textError.setDescriptionText("Niste unijeli naziv!");
 					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -141,7 +144,25 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.showHoverText("Naziv usluge nije u ispravnom formatu!");
 				}
 				
-				else if(((Integer.parseInt(text_2.getText()))>0) && ((Integer.parseInt(text_3.getText())>0))) {
+				else if(Double.parseDouble(text_2.getText())<0){
+					
+					text2Error.setDescriptionText("Cijena usluge nije u ispravnom formatu!");
+					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text2Error.setImage(text1Field.getImage());
+					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
+					
+				}
+				
+				else if(!text_2.getText().matches("[0-9]+([,.][0-9]{1,2})?")){
+					
+					text2Error.setDescriptionText("Cijena usluge nije u ispravnom formatu!");
+					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text2Error.setImage(text1Field.getImage());
+					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
+				}	
+				
+				
+				else if(((Double.parseDouble(text_2.getText()))>0) && ((Double.parseDouble(text_3.getText())>0))) {
 					Usluga novaUsluga = new Usluga ();
 					novaUsluga.setNaziv(text.getText());
 					if(btnServis.getSelection()==true){
@@ -159,6 +180,7 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 				
 				MessageDialog.openInformation(shell1, "Doodavanje usluga", "Usluga je uspješno dodana.");
 			}
+				}catch(NumberFormatException e2){}
 		} });
 		btnDodaj.setText("Dodaj");
 		btnDodaj.setImage(SWTResourceManager.getImage(UslugeDodavanjeForm.class, "/images/1398195801_tick_32.png"));
