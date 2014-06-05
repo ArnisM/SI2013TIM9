@@ -184,7 +184,13 @@ public class KlijentiDodavanjeForm extends Shell {
 					text5Error.showHoverText("Niste unijeli PDV broj!");
 				}
 				
-
+				if (!text_5.getText().matches("^\\d$")){
+					text5Error.setDescriptionText("PDV broj nije u validnom formatu!");
+					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text5Error.setImage(text5Field.getImage());
+					text5Error.showHoverText("PDV broj nije u validnom formatu!");
+				}
+				
 				
 				if (text_6.getText().length()<3 || text_6.getText()==""){
 					text6Error.setDescriptionText("Niste unijeli IDPDV broj!");
@@ -192,7 +198,12 @@ public class KlijentiDodavanjeForm extends Shell {
 					text6Error.setImage(text6Field.getImage());
 					text6Error.showHoverText("Niste unijeli IDPDV broj!");
 				}
-				
+				if (!text_6.getText().matches("^\\d$")){
+					text6Error.setDescriptionText("ID Pdv broj nije u validnom formatu!");
+					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text6Error.setImage(text6Field.getImage());
+					text6Error.showHoverText("ID Pdv broj nije u validnom formatu!");
+				}
 
 				
 				if (text_7.getText().length()<3 || text_7.getText()==""){
