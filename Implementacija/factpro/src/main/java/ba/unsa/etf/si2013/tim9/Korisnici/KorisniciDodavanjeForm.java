@@ -96,8 +96,10 @@ public class KorisniciDodavanjeForm extends Shell {
 		if (!text_Ime.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
 			textimeError.setDescriptionText("Ime je u pogrešnom formatu!");
 			//FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-			textimeError.setImage(ImeField.getImage());
+			textimeError.setImage(ImeField.getImage());			
 			textimeError.showHoverText("Ime je u pogrešnom formatu!");
+			
+			
 			return false;
 		}
 		

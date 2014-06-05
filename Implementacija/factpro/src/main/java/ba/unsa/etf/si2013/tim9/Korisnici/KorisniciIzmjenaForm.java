@@ -103,7 +103,7 @@ public class KorisniciIzmjenaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try{
 				List<Korisnik> korisnici;
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
@@ -115,11 +115,11 @@ public class KorisniciIzmjenaForm extends Shell {
 		        t.commit();
 		        session.close();
 		        Korisnik k=new Korisnik();
-		        		        
+		        TableItem item=new TableItem(table,0,0);
 		        for (int i=0; i<korisnici.size(); i++){
 		        	k = (Korisnik) korisnici.get(i);
 		        	if(k.getDeleted()==0){
-		        TableItem item = new TableItem(table, 0, i);
+		        		 item=new TableItem(table, 0, i);  
 		        item.setText(0,Integer.toString((int)k.getId()));
            	    item.setText(1,k.getIme());
              	item.setText(2,k.getPrezime());
@@ -128,7 +128,11 @@ public class KorisniciIzmjenaForm extends Shell {
            	    item.setText(5,k.getTelefon()); 
            	    item.setText(6, k.getPozicija());
 		       }
+		        	
 		        }
+		        
+		       
+		        
 			}
 				
 				if(combo.getSelectionIndex()==1){
@@ -204,13 +208,19 @@ if(combo.getSelectionIndex()==2){
 				}
 				
 				
-				
+				}catch(Exception e45){}
 			}
 				
 			
 		});
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
+		table.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 134, 626, 84);
@@ -309,32 +319,56 @@ if(combo.getSelectionIndex()==2){
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-				
-				
-				
-				if(table.getItemCount()==0){MessageDialog.openInformation(shell, "Izmjena", "IZmjena se ne može izvršiti.");
-				}
-				else {
-					Session session = HibernateUtil.getSessionFactory().openSession();
-					session.beginTransaction();
-					Korisnik k=new Korisnik();
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Korisnik k=new Korisnik();
+				try{
+					
 				int ind=table.getSelectionIndex();
 				TableItem ti=table.getItem(ind);
 				Korisnik kor = 
 	                    (Korisnik)session.get(Korisnik.class, (long)(Integer.parseInt(ti.getText(0)))); 
+			
 				
+				
+				if(table.getItemCount()>0 &&( text_1.getText().length()>0 || text_2.getText().length()>0 || text_3.getText().length()>0 || text_4.getText().length()>0 || text_5.getText().length()>0 || text_6.getText().length()>0) ) {
+					
+					
+					
+					
 				if(text_1.getText()!=""){
 				
-		         kor.setIme( text_1.getText() );
-				 ti.setText(1, text_1.getText());
+				if(!text_1.getText().matches("^[A-Z][-a-zA-Z]+$")){
 					
-				}
-				if(text_2.getText()!=""){
+					ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+					text1Error.setDescriptionText("Ime korisnka nije u validnom formatu!");
+					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text1Error.setImage(text1Field.getImage());
+					text1Error.showHoverText("Ime korisnka nije u validnom formatu!");
 				
-		         kor.setPrezime( (text_2.getText()) );
-		         ti.setText(2, text_2.getText());
-					
+					}
+				 kor.setIme( text_1.getText() );
+				 ti.setText(1, text_1.getText());
 				}
+			
+				
+				
+				if(text_2.getText()!=""){
+					
+					if(!text_2.getText().matches("^[A-Z][-a-zA-Z]+$")){
+						
+						ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+						text2Error.setDescriptionText("Prezime korisnka nije u validnom formatu!");
+						FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text2Error.setImage(text1Field.getImage());
+						text2Error.showHoverText("Prezime korisnka nije u validnom formatu!");
+					
+						}
+					
+			         kor.setPrezime( (text_2.getText()) );
+			         ti.setText(2, text_2.getText());
+						
+					}
 				
 				if(text_3.getText()!=""){
 				 
@@ -350,7 +384,7 @@ if(combo.getSelectionIndex()==2){
 					
 				}
 				
-				if(text_6.getText()=="" || text_6.getText()!=""){
+				if(text_6.getText()!=""){
 					ControlDecoration text5Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
 					if (!text_6.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
 						text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
@@ -364,7 +398,7 @@ if(combo.getSelectionIndex()==2){
 					
 				}
 				
-				if(text_5.getText()=="" || text_5.getText()!=""){
+				if(text_5.getText()!=""){
 					ControlDecoration text6Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
 					if (!text_5.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
 						text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
@@ -378,15 +412,17 @@ if(combo.getSelectionIndex()==2){
 		         ti.setText(6, text_5.getText());	
 					
 				}
-				
+				//if(text_5.getText().length()>0 || text_4.getText().length()>0 || text_3.getText().length()>0 || text_2.getText().length()>0 || text_1.getText().length()>0 || text_6.getText().length()>0){
 				session.update(kor); 
-		        session.getTransaction().commit();
-			MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+				 session.getTransaction().commit();
+				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
+				
+				
 			
-			
-			//	Shell shell=new Shell();
-			//	MessageDialog.openInformation(shell, "Izmjena", "Uspjesno izmjenjeni atributi korisnika.");
-				}
+			}
+				}catch(Exception e315){}
+				
+		       
 			}
 		});
 		

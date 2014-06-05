@@ -129,6 +129,7 @@ public class KlijentiIzmjenaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				if(combo.getSelectionIndex()==0){
@@ -159,7 +160,8 @@ public class KlijentiIzmjenaForm extends Shell {
            	    
            	    item.setText(0,Integer.toString((int)k.getId()));
 		        }}
-		    }}
+		    }
+				}catch(Exception e4){}}
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KlijentiIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
