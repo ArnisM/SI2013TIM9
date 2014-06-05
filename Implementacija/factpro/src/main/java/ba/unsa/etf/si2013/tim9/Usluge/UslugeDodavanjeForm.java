@@ -128,6 +128,7 @@ public class UslugeDodavanjeForm extends Shell {
 ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
 ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
+ControlDecoration text4Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
 				
 
 				try{
@@ -171,6 +172,15 @@ ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP
 					text2Error.showHoverText("Cijena usluge nije u ispravnom formatu!");
 				}	
 				
+				else if(text_1.getText().length()>50){
+					
+					text4Error.setDescriptionText("Predugačak opis usluge!");
+					FieldDecoration text4Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+					text4Error.setImage(text4Field.getImage());
+					text4Error.showHoverText("Predugačak opis usluge!");
+				
+					
+				}
 				
 				else if(((Double.parseDouble(text_2.getText()))>0) && ((Double.parseDouble(text_3.getText())>0))) {
 					Usluga novaUsluga = new Usluga ();
