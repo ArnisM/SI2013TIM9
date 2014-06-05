@@ -314,7 +314,7 @@ if(combo.getSelectionIndex()==2){
 				
 				if(table.getItemCount()==0){MessageDialog.openInformation(shell, "Izmjena", "IZmjena se ne može izvršiti.");
 				}
-				else if(table.getItemCount()!=0){
+				else {
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					session.beginTransaction();
 					Korisnik k=new Korisnik();
@@ -350,7 +350,7 @@ if(combo.getSelectionIndex()==2){
 					
 				}
 				
-				if(text_6.getText()!=""){
+				if(text_6.getText()=="" || text_6.getText()!=""){
 					ControlDecoration text5Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
 					if (!text_6.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
 						text5Error.setDescriptionText("Telefon nije u ispravnom formatu!");
@@ -364,7 +364,7 @@ if(combo.getSelectionIndex()==2){
 					
 				}
 				
-				if(text_5.getText()!=""){
+				if(text_5.getText()=="" || text_5.getText()!=""){
 					ControlDecoration text6Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
 					if (!text_5.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
 						text6Error.setDescriptionText("E-mail nije u ispravnom formatu!");
@@ -385,7 +385,7 @@ if(combo.getSelectionIndex()==2){
 			
 			
 			//	Shell shell=new Shell();
-				MessageDialog.openInformation(shell, "Izmjena", "Uspjesno izmjenjeni atributi korisnika.");
+			//	MessageDialog.openInformation(shell, "Izmjena", "Uspjesno izmjenjeni atributi korisnika.");
 				}
 			}
 		});
