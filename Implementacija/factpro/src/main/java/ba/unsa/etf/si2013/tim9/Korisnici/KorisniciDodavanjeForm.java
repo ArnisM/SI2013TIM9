@@ -45,7 +45,7 @@ public class KorisniciDodavanjeForm extends Shell {
 	private Image image_Slika;
 	private Display d;
 	private Shell s;
-
+	
 	
 	public static void main(String args[]) {
 		try {
@@ -82,10 +82,12 @@ public class KorisniciDodavanjeForm extends Shell {
 		ControlDecoration usernameError = new ControlDecoration(text_Username, SWT.RIGHT | SWT.TOP);
 		ControlDecoration passwordError = new ControlDecoration(text_Password, SWT.RIGHT | SWT.TOP);
 		ControlDecoration passwordpotvrdaError = new ControlDecoration(text_PasswordPotvrda, SWT.RIGHT | SWT.TOP);
+		FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+		
 		
 		if (text_Ime.getText().length()<3 || text_Ime.getText()==""){
+			
 			textimeError.setDescriptionText("Niste unijeli ime!");
-			FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textimeError.setImage(ImeField.getImage());
 			textimeError.showHoverText("Niste unijeli ime!");
 			return false;
@@ -93,7 +95,7 @@ public class KorisniciDodavanjeForm extends Shell {
 		
 		if (!text_Ime.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
 			textimeError.setDescriptionText("Ime je u pogrešnom formatu!");
-			FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			//FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			textimeError.setImage(ImeField.getImage());
 			textimeError.showHoverText("Ime je u pogrešnom formatu!");
 			return false;
@@ -121,6 +123,15 @@ public class KorisniciDodavanjeForm extends Shell {
 			telefonError.showHoverText("Niste unijeli telefon!");
 			return false;
 		}
+		
+		if(!text_Telefon.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+			telefonError.setDescriptionText("Telefon nije u ispravnom formatu! Validni formati: 123-123-123, 123 123 123");
+			FieldDecoration telefonField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			telefonError.setImage(telefonField.getImage());
+			telefonError.showHoverText("Telefon nije u ispravnom formatu! Validni formati: 123-123-123, 123 123 123");
+			return false;
+		}
+		
 		if (text_Email.getText().length()<3 || text_Email.getText()==""){
 			emailError.setDescriptionText("Niste unijeli email!");
 			FieldDecoration emailField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -128,6 +139,15 @@ public class KorisniciDodavanjeForm extends Shell {
 			emailError.showHoverText("Niste unijeli email!");
 			return false;
 		}
+		
+		if(text_Email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+			emailError.setDescriptionText("Email nije u validnom formatu!");
+			FieldDecoration emailField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			emailError.setImage(emailField.getImage());
+			emailError.showHoverText("Email nije u validnom formatu!");
+			return false;
+		}
+		
 		if (text_Username.getText().length()<3 || text_Username.getText()==""){
 			usernameError.setDescriptionText("Niste unijeli username!");
 			FieldDecoration usernameField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -135,6 +155,15 @@ public class KorisniciDodavanjeForm extends Shell {
 			usernameError.showHoverText("Niste unijeli username!");
 			return false;
 		}
+		
+		if(text_Username.getText().matches("^[a-z0-9_-]{3,15}$")){
+			usernameError.setDescriptionText("Username nije u validnom formatu!");
+			FieldDecoration usernameField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			usernameError.setImage(usernameField.getImage());
+			usernameError.showHoverText("Username nije u validnom formatu!");
+			return false;
+		}
+		
 		if (text_Password.getText().length()<3 || text_Password.getText()==""){
 			passwordError.setDescriptionText("Niste unijeli password!");
 			FieldDecoration passwordField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -158,6 +187,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			passwordpotvrdaError.showHoverText("Unesite ponovo!");
 			return false;
 		}
+		
 		
 		return true;
 	}
@@ -303,7 +333,7 @@ public class KorisniciDodavanjeForm extends Shell {
 				
 					
 				if(Validacija()){
-					
+
 				try{	
 						Korisnik noviK=new Korisnik();
 						if(_operater.getSelection())
