@@ -226,7 +226,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 					}
 					if(text_2.getText()!=""){
 					
-			         klijent.setPdvbroj( Integer.parseInt(text_2.getText()) );
+			         klijent.setPdv( Integer.parseInt(text_2.getText()) );
 			         ti.setText(2, text_2.getText());
 						
 					}
