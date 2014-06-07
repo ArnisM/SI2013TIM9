@@ -134,7 +134,8 @@ public class KlijentiIzmjenaForm extends Shell {
 				Transaction t = session.beginTransaction();
 				if(combo.getSelectionIndex()==0){
 											
-		        Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        Query q = session.createQuery("from Klijenti where naziv=:naziv and tip='fizickoLice' and deleted=:deleted");
+		        q.setInteger("deleted", 0);
 		        q.setString("naziv", text.getText());
 		        klijenti=q.list();
 		        t.commit();
@@ -215,12 +216,13 @@ public class KlijentiIzmjenaForm extends Shell {
 				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				session.beginTransaction();
-				Klijenti k=new Klijenti();
+				
 				int ind=table.getSelectionIndex();
 				TableItem ti=table.getItem(ind);
+				
 				Klijenti klijent = 
 	                    (Klijenti)session.get(Klijenti.class, (long)(Integer.parseInt(ti.getText(0)))); 
-				String string = k.getNaziv();
+				String string = klijent.getNaziv();
 		        String[] parts = string.split(" ");
 		        String part1 = parts[0]; // 004
 		        String part2 = parts[1]; // 034556
