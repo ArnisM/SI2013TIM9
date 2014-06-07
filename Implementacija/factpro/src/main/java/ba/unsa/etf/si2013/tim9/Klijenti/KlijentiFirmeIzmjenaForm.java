@@ -212,7 +212,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 				try{
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					session.beginTransaction();
-					Klijenti k=new Klijenti();
+					
 					int ind=table.getSelectionIndex();
 					TableItem ti=table.getItem(ind);
 					Klijenti klijent = 

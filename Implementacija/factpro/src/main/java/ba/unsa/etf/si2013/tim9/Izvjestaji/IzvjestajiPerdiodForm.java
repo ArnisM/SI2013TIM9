@@ -212,7 +212,7 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
@@ -384,7 +384,7 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);

@@ -197,7 +197,7 @@ public class IzvjestajPoKlijentForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
@@ -395,7 +395,7 @@ public class IzvjestajPoKlijentForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);

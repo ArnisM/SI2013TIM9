@@ -272,7 +272,7 @@ public class PredracunPretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				List<Stavka_predracuna>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;
