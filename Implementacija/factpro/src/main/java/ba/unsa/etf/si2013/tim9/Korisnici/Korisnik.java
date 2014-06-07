@@ -118,4 +118,10 @@ public class Korisnik implements Serializable {
 	public void setPassword(String password) {
 		Password = password;
 	}
+
+	public void daliPostoji() {
+		
+	
+		
+	}
 }

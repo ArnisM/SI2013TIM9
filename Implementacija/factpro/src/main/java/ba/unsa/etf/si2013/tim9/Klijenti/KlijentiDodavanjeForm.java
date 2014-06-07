@@ -346,7 +346,7 @@ ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
 					textError.showHoverText("Niste unijeli ime!");
 				}
 				
-				if (!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
+				if (!text.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
 					textError.setDescriptionText("Ime nije u ispravnom formatu!");
 					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					textError.setImage(textField.getImage());
@@ -390,7 +390,7 @@ ControlDecoration text11Error = new ControlDecoration(text_11, SWT.RIGHT | SWT.T
 				
 ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
 				
-				if (text_2.getText().length()<3 || text_2.getText()==""){
+	if (text_2.getText().length()<3 || text_2.getText()==""){
 					text2Error.setDescriptionText("Niste unijeli kontakt telefon!");
 					FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 					text2Error.setImage(text2Field.getImage());

@@ -97,7 +97,7 @@ public class UslugeBrisanjeForm extends Shell {
 		btnBrii.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				Usluga u=new Usluga();
@@ -111,8 +111,9 @@ public class UslugeBrisanjeForm extends Shell {
 			    myObject.setDeleted(1);
 				session.update(myObject);
 			    session.getTransaction().commit();
-				
 				list.remove(ind);
+				
+				}catch(Exception e34){}
 				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Brisanje usluga", "Usluga je uspješno izbrisana.");
@@ -142,8 +143,8 @@ public class UslugeBrisanjeForm extends Shell {
 				java.util.List<Usluga> usluge;
 				
 					
-			        Query q = session.createQuery("from Usluga");
-			       
+			        Query q = session.createQuery("from Usluga where deleted=:deleted");
+			        q.setInteger("deleted", 0);
 			        usluge=q.list();
 			        t.commit();
 			        session.close();

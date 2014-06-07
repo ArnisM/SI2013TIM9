@@ -30,7 +30,7 @@ public class Predracun implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	long id;
 
-	long idzaposlenika;
+	long idzaposlenik;
 	long idklijent;
 	double cijena;
 	int broj_usluga;
@@ -49,7 +49,7 @@ public class Predracun implements Serializable {
 	public Predracun() {}
 	public Predracun(int idz, long idk, double cij, String n, String adr, String id, String idpdv , int broj, String mjesto, Date datum, String kom)
 	{
-		idzaposlenika=idz;
+		idzaposlenik=idz;
 		idklijent=idk;
 		cijena=cij;
 		naziv_firme=n;
@@ -111,11 +111,11 @@ public class Predracun implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getIdzaposlenika() {
-		return idzaposlenika;
+	public long getIdzaposlenik() {
+		return idzaposlenik;
 	}
-	public void setIdzaposlenika(long idzaposlenika) {
-		this.idzaposlenika = idzaposlenika;
+	public void setIdzaposlenik(long idzaposlenika) {
+		this.idzaposlenik = idzaposlenika;
 	}
 	public long getIdklijent() {
 		return idklijent;

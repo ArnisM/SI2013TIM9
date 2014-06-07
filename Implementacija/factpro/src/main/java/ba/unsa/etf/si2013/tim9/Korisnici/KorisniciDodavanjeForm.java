@@ -4,6 +4,9 @@ package ba.unsa.etf.si2013.tim9.Korisnici;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transaction;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -24,7 +27,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
+import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import sun.security.util.Password;
 
 
@@ -142,7 +148,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			return false;
 		}
 		
-		if(text_Email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+		if(!text_Email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
 			emailError.setDescriptionText("Email nije u validnom formatu!");
 			FieldDecoration emailField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			emailError.setImage(emailField.getImage());
@@ -158,7 +164,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			return false;
 		}
 		
-		if(text_Username.getText().matches("^[a-z0-9_-]{3,15}$")){
+		if(!text_Username.getText().matches("^[a-z0-9_-]{3,15}$")){
 			usernameError.setDescriptionText("Username nije u validnom formatu!");
 			FieldDecoration usernameField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			usernameError.setImage(usernameField.getImage());
@@ -173,11 +179,11 @@ public class KorisniciDodavanjeForm extends Shell {
 			passwordError.showHoverText("Niste unijeli password!");
 			return false;
 		}
-		if (text_Password.getText().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")){
-			passwordError.setDescriptionText("Niste unijeli password!");
+		if (!text_Password.getText().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")){
+			passwordError.setDescriptionText("Password nije u validnom formatu!");
 			FieldDecoration passwordField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			passwordError.setImage(passwordField.getImage());
-			passwordError.showHoverText("Niste unijeli password!");
+			passwordError.showHoverText("Password nije u validnom formatu!");
 			return false;
 		}
 		
@@ -337,10 +343,19 @@ public class KorisniciDodavanjeForm extends Shell {
 				if(Validacija()){
 
 				try{	
+					List<Korisnik> korisnici;
+					Session session = HibernateUtil.getSessionFactory().openSession();
+					Transaction t = (Transaction) session.beginTransaction();
+					Query q = session.createQuery("* from Korisnik");
+			        korisnici=q.list();
+			        t.commit();
+			        
+			        
 						Korisnik noviK=new Korisnik();
-						if(_operater.getSelection())
+						if(_operater.getSelection()){
 				 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
-						
+				 		//noviK.daliPostoji();
+						}
 						if(_rukovodilac.getSelection())
 							 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
 									
@@ -352,6 +367,7 @@ public class KorisniciDodavanjeForm extends Shell {
 				
 				
 				}
+				
 							
 					
 				

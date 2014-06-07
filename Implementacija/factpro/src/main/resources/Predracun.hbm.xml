@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 31, 2014 9:28:54 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Jun 8, 2014 12:38:58 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="ba.unsa.etf.si2013.tim9.Predracuni.Predracun" table="PREDRACUN">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <property name="idzaposlenika" type="long">
-            <column name="IDZAPOSLENIKA" />
+        <property name="idzaposlenik" type="long">
+            <column name="IDZAPOSLENIK" />
         </property>
         <property name="idklijent" type="long">
             <column name="IDKLIJENT" />

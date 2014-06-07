@@ -211,7 +211,7 @@ public class KlijentiIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell ();
-			
+			try{
 				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				session.beginTransaction();
@@ -270,6 +270,7 @@ public class KlijentiIzmjenaForm extends Shell {
 		        session.getTransaction().commit();
 				
 				MessageDialog.openInformation(shell, "Izmjena klijenta", "Podaci o klijentu su uspješno izmijenjeni.");
+			}catch(Exception e765){}
 			}
 		});
 		button_3.setText("Izmjeni");
