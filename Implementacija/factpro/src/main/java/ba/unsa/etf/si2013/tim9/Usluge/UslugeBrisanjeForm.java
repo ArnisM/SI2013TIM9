@@ -142,7 +142,7 @@ public class UslugeBrisanjeForm extends Shell {
 				Transaction t = session.beginTransaction();
 				java.util.List<Usluga> usluge;
 				
-					
+					list.removeAll();
 			        Query q = session.createQuery("from Usluga where deleted=:deleted");
 			        q.setInteger("deleted", 0);
 			        usluge=q.list();
@@ -152,8 +152,8 @@ public class UslugeBrisanjeForm extends Shell {
 			        		        
 			        for (int i=0; i<usluge.size(); i++){
 			        	k = (Usluga) usluge.get(i);
-			        	if(k.getDeleted()==0){
-			        	list.add(k.getNaziv(), i);}
+			        	
+			        	list.add(k.getId() +" " + k.getNaziv(), i);
 			       
 			        }
 			}

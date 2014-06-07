@@ -18,7 +18,7 @@ public class Usluga implements Serializable {
 	long id;
 	String  naziv, opisUsluge;
 	double cijena, ukupanTrosak;
-	private int deleted=0;
+	int deleted;
     String tipUsluge;
 	
 	public Usluga () {}
@@ -31,6 +31,7 @@ public class Usluga implements Serializable {
 		this.ukupanTrosak = ukupanTrosak;
 		this.tipUsluge = tipUsluge;
 		this.opisUsluge = opisUsluge;
+		this.deleted=0;
 	}
 	
 	
