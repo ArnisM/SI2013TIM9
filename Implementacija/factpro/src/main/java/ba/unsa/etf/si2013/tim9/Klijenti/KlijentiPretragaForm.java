@@ -171,7 +171,7 @@ public class KlijentiPretragaForm extends Shell {
 
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\example.pdf"));
+					file = new FileOutputStream(new File("C:\\example.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
