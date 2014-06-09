@@ -27,7 +27,6 @@ import org.eclipse.swt.graphics.Point;
 public class UslugeIzmjenaForm extends Shell {
 	private Text text;
 	private Text text_1;
-	private List list1;
 
 	/**
 	 * Launch the application.
@@ -80,12 +79,8 @@ public class UslugeIzmjenaForm extends Shell {
 		group.setBounds(10, 10, 363, 339);
 
 		final List list = new List(group, SWT.BORDER);
-		list.setBounds(26, 62, 310, 50);
+		list.setBounds(26, 65, 311, 50);
 		list.setItems(new String[] {});
-
-		
-		list1 = new List(group, SWT.BORDER);
-		list1.setBounds(26, 48, 311, 65);
 		Group group_1 = new Group(group, SWT.NONE);
 		group_1.setText("Tip usluge");
 		group_1.setBounds(26, 166, 239, 65);
@@ -106,6 +101,7 @@ public class UslugeIzmjenaForm extends Shell {
 		btnIzmjeni.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				session.beginTransaction();
 				Usluga k=new Usluga();
@@ -121,14 +117,15 @@ public class UslugeIzmjenaForm extends Shell {
 				if(text.getText()!=""){
 				
 		         ku.setNaziv( text.getText() );
-		         list.add(text.getText(), ind);
+		         list.remove(ind);
+		         list.add(part1 + " " +text.getText(), ind);
 				 					
 				}
 				
 				if(text_1.getText()!=""){
 					
 			         ku.setCijena( Integer.parseInt(text_1.getText()) );
-			         list.add(text_1.getText(), ind);
+			        // list.add(text_1.getText(), ind);
 					 					
 					}
 				
@@ -148,7 +145,7 @@ public class UslugeIzmjenaForm extends Shell {
 		        session.getTransaction().commit();
 		        Shell shell=new Shell();
 			MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
-			
+				}catch(Exception e45){}
 			}
 		});
 		btnIzmjeni.setBounds(248, 279, 105, 50);
@@ -160,13 +157,14 @@ public class UslugeIzmjenaForm extends Shell {
 		btnIspisiUsluge.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				java.util.List<Usluga> usluge;
 				
 					
-			        Query q = session.createQuery("from Usluga");
+			        Query q = session.createQuery("from Usluga where deleted=:deleted");
+			        q.setInteger("deleted", 0);
 			       
 			        usluge=q.list();
 			        t.commit();
@@ -176,13 +174,13 @@ public class UslugeIzmjenaForm extends Shell {
 			        for (int i=0; i<usluge.size(); i++){
 			        	k = (Usluga) usluge.get(i);
 			        	if(k.getDeleted()==0)
-			        	list.add(k.getNaziv(), i);
+			        	list.add(k.getId()+" "+k.getNaziv(), i);
 			       
 			        }
-				
+				}catch(Exception e12){}
 			}
 		});
-		btnIspisiUsluge.setBounds(25, 10, 311, 25);
+		btnIspisiUsluge.setBounds(26, 34, 311, 25);
 		btnIspisiUsluge.setText("Ispisi usluge");
 
 		Label label = new Label(group, SWT.NONE);

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 1, 2014 12:03:16 AM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Jun 8, 2014 12:38:58 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="ba.unsa.etf.si2013.tim9.Ponude.Ponuda" table="PONUDA">
+    <class name="ba.unsa.etf.si2013.tim9.Predracuni.Predracun" table="PREDRACUN">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="assigned" />
@@ -32,8 +32,8 @@
         <property name="idpdv_firme" type="java.lang.String">
             <column name="IDPDV_FIRME" />
         </property>
-        <property name="broj_ponude" type="int">
-            <column name="BROJ_PONUDE" />
+        <property name="broj_predracuna" type="int">
+            <column name="BROJ_PREDRACUNA" />
         </property>
         <property name="mjesto_izdavanja" type="java.lang.String">
             <column name="MJESTO_IZDAVANJA" />

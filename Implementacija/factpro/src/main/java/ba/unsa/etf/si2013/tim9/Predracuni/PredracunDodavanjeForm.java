@@ -166,7 +166,7 @@ public class PredracunDodavanjeForm extends Shell {
         item.setText(0,Integer.toString(br_stavki+1));
         item.setText(1,k.getNaziv());
         item.setText(2, k.getOpisUsluge());
-        item.setText(3, Integer.toString(k.getCijena()));
+        item.setText(3, Double.toString(k.getCijena()));
         item.setText(4, "1");
         double cijena= k.getCijena() + k.getCijena()*0.17;
         item.setText(5,Double.toString(cijena) );

@@ -166,7 +166,7 @@ public class FaktureDodavanjeForm extends Shell {
         item.setText(0,Integer.toString(br_stavki+1));
         item.setText(1,k.getNaziv());
         item.setText(2, k.getOpisUsluge());
-        item.setText(3, Integer.toString(k.getCijena()));
+        item.setText(3, Double.toString(k.getCijena()));
         item.setText(4, "1");
         double cijena= k.getCijena() + k.getCijena()*0.17;
         item.setText(5,Double.toString(cijena) );
@@ -295,21 +295,6 @@ public class FaktureDodavanjeForm extends Shell {
 		btnNewButton.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398624464_plus-sign.png"));
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
-		
-		
-		
-		Button button = new Button(this, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
-				
-			}
-		});
-		button.setText("Generi\u0161i .pdf");
-		button.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398206257_pdf.png"));
-		button.setBounds(10, 591, 132, 42);
 		
 		// TEXTUALNO POLJEEE
 				text = new Text(this, SWT.BORDER);

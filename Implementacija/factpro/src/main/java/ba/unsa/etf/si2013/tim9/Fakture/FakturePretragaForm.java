@@ -274,7 +274,7 @@ public class FakturePretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("src/main/resources/dokumenti/faktura.pdf"));
 				List<Stavka_faktura>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;
@@ -363,8 +363,8 @@ public class FakturePretragaForm extends Shell {
 	                  my_first_table.addCell(new PdfPCell(new Phrase(u.getId()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(u.getNaziv()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(f.getBroj_usluga()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(u.getCijena())));
+			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena())))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena()))));
 	                  
 	                  }
 	               }

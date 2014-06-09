@@ -209,10 +209,10 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell();
-				
+				try{
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					session.beginTransaction();
-					Klijenti k=new Klijenti();
+					
 					int ind=table.getSelectionIndex();
 					TableItem ti=table.getItem(ind);
 					Klijenti klijent = 
@@ -226,7 +226,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 					}
 					if(text_2.getText()!=""){
 					
-			         klijent.setPdvbroj( Integer.parseInt(text_2.getText()) );
+			         klijent.setPdv( Integer.parseInt(text_2.getText()) );
 			         ti.setText(2, text_2.getText());
 						
 					}
@@ -286,7 +286,7 @@ public class KlijentiFirmeIzmjenaForm extends Shell {
 			        session.getTransaction().commit();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
 				
-				
+				}catch(Exception e65){}
 				
 			}
 		});

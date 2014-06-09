@@ -94,9 +94,232 @@ public class KlijentiDodavanjeForm extends Shell {
 			e.printStackTrace();
 		}
 	}
-
+	public boolean ValidacijaKlijent(){
+		ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+		
+		if (text.getText().length()<3 || text.getText()==""){
+			textError.setDescriptionText("Niste unijeli ime!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textError.setImage(textField.getImage());
+			textError.showHoverText("Niste unijeli ime!");
+			return false;
+		}
+		
+		if (!text.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
+			textError.setDescriptionText("Ime nije u ispravnom formatu!");
+			FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			textError.setImage(textField.getImage());
+			textError.showHoverText("Ime nije u ispravnom formatu!");
+			return false;
+		}
+		
+ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+		
+		if (text_1.getText().length()<3 || text_1.getText()==""){
+			text1Error.setDescriptionText("Niste unijeli prezime!");
+			FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text1Error.setImage(text1Field.getImage());
+			text1Error.showHoverText("Niste unijeli prezime!");
+			return false;
+		}
+						
+		if (!text_1.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
+			text1Error.setDescriptionText("Prezime nije u ispravnom formatu!");
+			FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text1Error.setImage(text1Field.getImage());
+			text1Error.showHoverText("Prezime nije u ispravnom formatu!");
+			return false;
+		}
+		
+		
+ControlDecoration text11Error = new ControlDecoration(text_11, SWT.RIGHT | SWT.TOP);
+		
+		if (text_11.getText().length()<3 || text_11.getText()==""){
+			text11Error.setDescriptionText("Niste unijeli adresu!");
+			FieldDecoration text11Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text11Error.setImage(text11Field.getImage());
+			text11Error.showHoverText("Niste unijeli adresu!");
+			return false;
+		}
+						
+		/*else if (text_11.getText().matches("")){
+			text11Error.setDescriptionText("Adresa nije u validnom formatu!");
+			FieldDecoration text11Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text11Error.setImage(text11Field.getImage());
+			text11Error.showHoverText("Adresa nije u valdnom formatu!");
+		}*/
+		
+		
+		
+ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+		
+if (text_2.getText().length()<3 || text_2.getText()==""){
+			text2Error.setDescriptionText("Niste unijeli kontakt telefon!");
+			FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text2Error.setImage(text2Field.getImage());
+			text2Error.showHoverText("Niste unijeli kontakt telefon!");
+			return false;
+		}
+		
+		if (!text_2.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+			text2Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+			FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text2Error.setImage(text2Field.getImage());
+			text2Error.showHoverText("Telefon nije u ispravnom formatu!");
+			return false;
+		}
+		
+ControlDecoration text12Error = new ControlDecoration(text_12, SWT.RIGHT | SWT.TOP);
+		
+		if (text_12.getText().length()<3 || text_12.getText()==""){
+			text12Error.setDescriptionText("Niste unijeli kontakt fax!");
+			FieldDecoration text12Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text12Error.setImage(text12Field.getImage());
+			text12Error.showHoverText("Niste unijeli kontakt fax!");
+			return false;
+		}
+		
+		if (!text_12.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+			text12Error.setDescriptionText("Fax nije u ispravnom formatu!");
+			FieldDecoration text12Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text12Error.setImage(text12Field.getImage());
+			text12Error.showHoverText("Fax nije u ispravnom formatu!");
+			return false;
+		}
+		
+ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
+		
+		if (text_3.getText().length()<3 || text_3.getText()==""){
+			text3Error.setDescriptionText("Niste unijeli e-mail!");
+			FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text3Error.setImage(text3Field.getImage());
+			text3Error.showHoverText("Niste unijeli e-mail!");
+			return false;
+		}
+		
+		if (!text_3.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+			text3Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+			FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text3Error.setImage(text3Field.getImage());
+			text3Error.showHoverText("E-mail nije u ispravnom formatu!");
+			return false;
+		}
+		return true;
+	}
 	
+	public boolean Validacija(){
+		
+		ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
+		ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
+		ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
+		ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
+		ControlDecoration nazivFirmeError = new ControlDecoration(txt_nazivFirme, SWT.RIGHT | SWT.TOP);
+		ControlDecoration text10Error = new ControlDecoration(text_10, SWT.RIGHT | SWT.TOP);
+		ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
+		
+		if (txt_nazivFirme.getText().length()<3 || txt_nazivFirme.getText()==""){
+			nazivFirmeError.setDescriptionText("Niste unijeli naziv firme!");
+			FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			nazivFirmeError.setImage(nazivFirmeField.getImage());
+			nazivFirmeError.showHoverText("Niste unijeli naziv firme!");
+			return false;
+		}
+		
+		
+		
+		if (text_10.getText().length()<3 || text_10.getText()==""){
+			text10Error.setDescriptionText("Niste unijeli adresu firme!");
+			FieldDecoration text10Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text10Error.setImage(text10Field.getImage());
+			text10Error.showHoverText("Niste unijeli adresu firme!");
+			return false;
+		}
+		
+		
+		
+		if (text_5.getText().length()<3 || text_5.getText()==""){
+			text5Error.setDescriptionText("Niste unijeli PDV broj!");
+			FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text5Error.setImage(text5Field.getImage());
+			text5Error.showHoverText("Niste unijeli PDV broj!");
+			return false;
+		}
+		
+		 if (!text_5.getText().matches("^[0-9]*$")){
+			text5Error.setDescriptionText("PDV broj nije u validnom formatu!");
+			FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text5Error.setImage(text5Field.getImage());
+			text5Error.showHoverText("PDV broj nije u validnom formatu!");
+		}
+		
+		
+		if (text_6.getText().length()<3 || text_6.getText()==""){
+			text6Error.setDescriptionText("Niste unijeli IDPDV broj!");
+			FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text6Error.setImage(text6Field.getImage());
+			text6Error.showHoverText("Niste unijeli IDPDV broj!");
+			return false;
+		}
+		if (!text_6.getText().matches("^[0-9]*$")){
+			text6Error.setDescriptionText("ID Pdv broj nije u validnom formatu!");
+			FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text6Error.setImage(text6Field.getImage());
+			text6Error.showHoverText("ID Pdv broj nije u validnom formatu!");
+			return false;
+		}
 
+		
+		if (text_7.getText().length()<3 || text_7.getText()==""){
+			text7Error.setDescriptionText("Niste unijeli kontakt telefon!");
+			FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text7Error.setImage(text7Field.getImage());
+			text7Error.showHoverText("Niste unijeli kontakt telefon!");
+			return false;
+		}
+		
+		if (!text_7.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+			text7Error.setDescriptionText("Telefon nije u ispravnom formatu!");
+			FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text7Error.setImage(text7Field.getImage());
+			text7Error.showHoverText("Telefon nije u ispravnom formatu!");
+			return false;
+		}
+		
+
+		
+		if (text_8.getText().length()<3 || text_8.getText()==""){
+			text8Error.setDescriptionText("Niste unijeli kontakt fax!");
+			FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text8Error.setImage(text8Field.getImage());
+			text8Error.showHoverText("Niste unijeli kontakt fax!");
+			return false;
+		}
+		
+		if (!text_8.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
+			text8Error.setDescriptionText("Fax nije u ispravnom formatu!");
+			FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text8Error.setImage(text8Field.getImage());
+			text8Error.showHoverText("Fax nije u ispravnom formatu!");
+			return false;
+		}
+		
+
+		if (text_9.getText().length()<3 || text_9.getText()==""){
+			text7Error.setDescriptionText("Niste unijeli e-mail!");
+			FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text9Error.setImage(text9Field.getImage());
+			text9Error.showHoverText("Niste unijeli e-mail!");
+			return false;
+		}
+		if (!text_9.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+			text9Error.setDescriptionText("E-mail nije u ispravnom formatu!");
+			FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+			text9Error.setImage(text9Field.getImage());
+			text9Error.showHoverText("E-mail nije u ispravnom formatu!");
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * Create the shell.
 	 * @param display
@@ -151,101 +374,18 @@ public class KlijentiDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				
-				ControlDecoration text8Error = new ControlDecoration(text_8, SWT.RIGHT | SWT.TOP);
-				ControlDecoration text9Error = new ControlDecoration(text_9, SWT.RIGHT | SWT.TOP);
-				ControlDecoration text7Error = new ControlDecoration(text_7, SWT.RIGHT | SWT.TOP);
-				ControlDecoration text6Error = new ControlDecoration(text_6, SWT.RIGHT | SWT.TOP);
-				ControlDecoration nazivFirmeError = new ControlDecoration(txt_nazivFirme, SWT.RIGHT | SWT.TOP);
-				ControlDecoration text10Error = new ControlDecoration(text_10, SWT.RIGHT | SWT.TOP);
-				ControlDecoration text5Error = new ControlDecoration(text_5, SWT.RIGHT | SWT.TOP);
+				if(Validacija()){
 				
-				if (txt_nazivFirme.getText().length()<3 || txt_nazivFirme.getText()==""){
-					nazivFirmeError.setDescriptionText("Niste unijeli naziv firme!");
-					FieldDecoration nazivFirmeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					nazivFirmeError.setImage(nazivFirmeField.getImage());
-					nazivFirmeError.showHoverText("Niste unijeli naziv firme!");
-				}
-				
-				
-				
-				if (text_10.getText().length()<3 || text_10.getText()==""){
-					text10Error.setDescriptionText("Niste unijeli adresu firme!");
-					FieldDecoration text10Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text10Error.setImage(text10Field.getImage());
-					text10Error.showHoverText("Niste unijeli adresu firme!");
-				}
-				
-				
-				
-				if (text_5.getText().length()<3 || text_5.getText()==""){
-					text5Error.setDescriptionText("Niste unijeli PDV broj!");
-					FieldDecoration text5Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text5Error.setImage(text5Field.getImage());
-					text5Error.showHoverText("Niste unijeli PDV broj!");
-				}
-				
-
-				
-				if (text_6.getText().length()<3 || text_6.getText()==""){
-					text6Error.setDescriptionText("Niste unijeli IDPDV broj!");
-					FieldDecoration text6Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text6Error.setImage(text6Field.getImage());
-					text6Error.showHoverText("Niste unijeli IDPDV broj!");
-				}
-				
-
-				
-				if (text_7.getText().length()<3 || text_7.getText()==""){
-					text7Error.setDescriptionText("Niste unijeli kontakt telefon!");
-					FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text7Error.setImage(text7Field.getImage());
-					text7Error.showHoverText("Niste unijeli kontakt telefon!");
-				}
-				
-				if (!text_7.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
-					text7Error.setDescriptionText("Telefon nije u ispravnom formatu!");
-					FieldDecoration text7Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text7Error.setImage(text7Field.getImage());
-					text7Error.showHoverText("Telefon nije u ispravnom formatu!");
-				}
-				
-
-				
-				if (text_8.getText().length()<3 || text_8.getText()==""){
-					text8Error.setDescriptionText("Niste unijeli kontakt fax!");
-					FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text8Error.setImage(text8Field.getImage());
-					text8Error.showHoverText("Niste unijeli kontakt fax!");
-				}
-				
-				if (!text_8.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
-					text8Error.setDescriptionText("Fax nije u ispravnom formatu!");
-					FieldDecoration text8Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text8Error.setImage(text8Field.getImage());
-					text8Error.showHoverText("Fax nije u ispravnom formatu!");
-				}
-				
-
-				if (text_9.getText().length()<3 || text_9.getText()==""){
-					text7Error.setDescriptionText("Niste unijeli e-mail!");
-					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text9Error.setImage(text9Field.getImage());
-					text9Error.showHoverText("Niste unijeli e-mail!");
-				}
-				if (!text_9.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-					text9Error.setDescriptionText("E-mail nije u ispravnom formatu!");
-					FieldDecoration text9Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text9Error.setImage(text9Field.getImage());
-					text9Error.showHoverText("E-mail nije u ispravnom formatu!");
-				}
-				
-				
+				try{
 					Klijenti noviKlijent = new Klijenti(txt_nazivFirme.getText(),"firma",text_10.getText(),(Integer.parseInt(text_5.getText())),(Integer.parseInt(text_6.getText())), text_7.getText(), text_8.getText(), text_9.getText());
 					noviKlijent.spasiUBazu();
 					Shell shell1 = new Shell();
 					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				}
+				catch(Exception e2){
 					
-				
+				}
+				}
 				
 				
 			}
@@ -323,111 +463,16 @@ public class KlijentiDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				
-ControlDecoration textError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
-				
-				if (text.getText().length()<3 || text.getText()==""){
-					textError.setDescriptionText("Niste unijeli ime!");
-					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					textError.setImage(textField.getImage());
-					textError.showHoverText("Niste unijeli ime!");
-				}
-				
-				if (!text.getText().matches("[A-Z]([a-z]+|\\s[a-z]+)?")){
-					textError.setDescriptionText("Ime nije u ispravnom formatu!");
-					FieldDecoration textField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					textError.setImage(textField.getImage());
-					textError.showHoverText("Ime nije u ispravnom formatu!");
-				}
-				
-ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
-				
-				if (text_1.getText().length()<3 || text_1.getText()==""){
-					text1Error.setDescriptionText("Niste unijeli prezime!");
-					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text1Error.setImage(text1Field.getImage());
-					text1Error.showHoverText("Niste unijeli prezime!");
-				}
-								
-				if (!text_1.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
-					text1Error.setDescriptionText("Prezime nije u ispravnom formatu!");
-					FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text1Error.setImage(text1Field.getImage());
-					text1Error.showHoverText("Prezime nije u ispravnom formatu!");
-				}
-				
-				
-ControlDecoration text11Error = new ControlDecoration(text_11, SWT.RIGHT | SWT.TOP);
-				
-				if (text_11.getText().length()<3 || text_11.getText()==""){
-					text11Error.setDescriptionText("Niste unijeli adresu!");
-					FieldDecoration text11Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text11Error.setImage(text11Field.getImage());
-					text11Error.showHoverText("Niste unijeli adresu!");
-				}
-								
-				/*else if (text_11.getText().matches("")){
-					text11Error.setDescriptionText("Adresa nije u validnom formatu!");
-					FieldDecoration text11Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text11Error.setImage(text11Field.getImage());
-					text11Error.showHoverText("Adresa nije u valdnom formatu!");
-				}*/
-				
-				
-				
-ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
-				
-				if (text_2.getText().length()<3 || text_2.getText()==""){
-					text2Error.setDescriptionText("Niste unijeli kontakt telefon!");
-					FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text2Error.setImage(text2Field.getImage());
-					text2Error.showHoverText("Niste unijeli kontakt telefon!");
-				}
-				
-				if (!text_2.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
-					text2Error.setDescriptionText("Telefon nije u ispravnom formatu!");
-					FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text2Error.setImage(text2Field.getImage());
-					text2Error.showHoverText("Telefon nije u ispravnom formatu!");
-				}
-				
-ControlDecoration text12Error = new ControlDecoration(text_12, SWT.RIGHT | SWT.TOP);
-				
-				if (text_12.getText().length()<3 || text_12.getText()==""){
-					text12Error.setDescriptionText("Niste unijeli kontakt fax!");
-					FieldDecoration text12Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text12Error.setImage(text12Field.getImage());
-					text12Error.showHoverText("Niste unijeli kontakt fax!");
-				}
-				
-				if (!text_12.getText().matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{3}$")){
-					text12Error.setDescriptionText("Fax nije u ispravnom formatu!");
-					FieldDecoration text12Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text12Error.setImage(text12Field.getImage());
-					text12Error.showHoverText("Fax nije u ispravnom formatu!");
-				}
-				
-ControlDecoration text3Error = new ControlDecoration(text_3, SWT.RIGHT | SWT.TOP);
-				
-				if (text_3.getText().length()<3 || text_3.getText()==""){
-					text3Error.setDescriptionText("Niste unijeli e-mail!");
-					FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text3Error.setImage(text3Field.getImage());
-					text3Error.showHoverText("Niste unijeli e-mail!");
-				}
-				
-				if (!text_3.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-					text3Error.setDescriptionText("E-mail nije u ispravnom formatu!");
-					FieldDecoration text3Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-					text3Error.setImage(text3Field.getImage());
-					text3Error.showHoverText("E-mail nije u ispravnom formatu!");
-				}
-				
+				if(ValidacijaKlijent()){
+				try{
 					Klijenti noviKlijent = new Klijenti(text.getText()+" " +text_1.getText(),"fizickoLice",text_11.getText(),0,0, text_7.getText(), text_8.getText(), text_9.getText());
 					noviKlijent.spasiUBazu();
 					Shell shell1 = new Shell();
 					 MessageDialog.openInformation(shell1, "Doodavanje klijenta", "Klijent je uspješno dodan.");
+				}catch(Exception e2){
 					
-				
+				}
+}
 				
 			}
 		});

@@ -1,40 +1,61 @@
 package ba.unsa.etf.si2013.tim9.Klijenti;
 
 
-import java.util.List;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+
+import ba.unsa.etf.si2013.tim9.HibernateUtil;import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.util.Date;
+
+
+
+
+import org.eclipse.swt.widgets.Control;
+
+import org.eclipse.swt.widgets.Event;
+
+import org.eclipse.swt.widgets.Listener;
+
 
 
 
@@ -96,37 +117,68 @@ public class KlijentiFirmePretragaForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				 
-				      OutputStream file;
-					try {
-						file = new FileOutputStream(new File("D:\\example.pdf"));
+				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+				try {
+		            PdfWriter.getInstance(document,new FileOutputStream("src/main/resources/dokumenti/klijentFirma.pdf"));
+		          //SADRZAJ
+		            document.open();
+		            //zaglavlje dokumenta
+
+		            document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            
+		            Paragraph naslov=new Paragraph("\n Podaci o korisniku",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+		            Klijenti ulogika=new Klijenti(); 
+		            int i=table.getSelectionIndex();
+		            
+		            document.add(new Chunk("\n Naziv: "+klijenti.get(i).getNaziv(),pisanje)); 
+		            document.add(new Chunk("\n Email: "+klijenti.get(i).getEmail(),pisanje)); 
+		            document.add(new Chunk("\n Telefon: "+klijenti.get(i).getBrojtelefona(),pisanje));
+		            document.add(new Chunk("\n Tip: "+klijenti.get(i).getTip(),pisanje));
+		            document.add(new Chunk("\n Fax: "+klijenti.get(i).getFax(),pisanje));
+		            Font pisanje2=new Font(Font.FontFamily.HELVETICA  , 14, Font.ITALIC);
+		            Paragraph potpis=new Paragraph("\n \n \n \n \n \n __________________________________________  \n \n Potpis izdavaca ",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            potpis.setAlignment(Element.ALIGN_RIGHT);
+		            document.add(potpis);
+		            Paragraph footer= new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            footer.setAlignment(Element.ALIGN_BASELINE);
+		            document.add(footer);
+		            //KRAJ
+		            document.close();;
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+				
+				
+			//	Desktop.getDesktop().open((new FileOutputStream("target/korisnk.pdf"));
+				
 					
-				      Document document = new Document();
-				      PdfWriter.getInstance(document, file);
-				      document.open();
-				      int i=table.getSelectionIndex();
-				      document.addTitle("Podaci o klijentu");
-				      document.add(new Paragraph("Naziv firme: " + klijenti.get(i).getNaziv() ));
-				      document.add(new Paragraph("Adresa firme: " + klijenti.get(i).getAdresa() ));
-				      document.add(new Paragraph("Kontakt telefon: " + klijenti.get(i).getBrojtelefona() ));
-				      document.add(new Paragraph(new Date().toString()));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			  }
 			
-				      document.close();
-				      file.close();
-				      
-				      Shell shell1 = new Shell();
-					MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
-						
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (DocumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				  }
 				
 			
 		});

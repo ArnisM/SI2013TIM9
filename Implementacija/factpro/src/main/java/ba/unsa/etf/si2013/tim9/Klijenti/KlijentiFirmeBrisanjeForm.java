@@ -189,13 +189,14 @@ public class KlijentiFirmeBrisanjeForm extends Shell {
 					Transaction t = session.beginTransaction();
 					if(combo.getSelectionIndex()==0){
 												
-			        Query q = session.createQuery("from Klijenti where naziv=:naziv");
+			        Query q = session.createQuery("from Klijenti where naziv=:naziv AND deleted=:deleted");
 			        q.setString("naziv", text.getText());
+			        q.setInteger("deleted", 0);
 			        klijenti=q.list();
 			        t.commit();
 			        session.close();
 			        Klijenti k=new Klijenti();
-			        		        
+			        table.clearAll();
 			        for (int i=0; i<klijenti.size(); i++){
 			        	k = (Klijenti) klijenti.get(i);
 			        	

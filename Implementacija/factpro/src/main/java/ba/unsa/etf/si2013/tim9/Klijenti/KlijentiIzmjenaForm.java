@@ -129,11 +129,13 @@ public class KlijentiIzmjenaForm extends Shell {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				if(combo.getSelectionIndex()==0){
 											
-		        Query q = session.createQuery("from Klijenti where naziv=:naziv");
+		        Query q = session.createQuery("from Klijenti where naziv=:naziv and tip='fizickoLice' and deleted=:deleted");
+		        q.setInteger("deleted", 0);
 		        q.setString("naziv", text.getText());
 		        klijenti=q.list();
 		        t.commit();
@@ -159,7 +161,8 @@ public class KlijentiIzmjenaForm extends Shell {
            	    
            	    item.setText(0,Integer.toString((int)k.getId()));
 		        }}
-		    }}
+		    }
+				}catch(Exception e4){}}
 		});
 		button.setText("Pretraga");
 		button.setImage(SWTResourceManager.getImage(KlijentiIzmjenaForm.class, "/images/1398199827_search_magnifying_glass_find.png"));
@@ -209,28 +212,41 @@ public class KlijentiIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell = new Shell ();
-			
+			try{
 				
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				session.beginTransaction();
-				Klijenti k=new Klijenti();
+				
 				int ind=table.getSelectionIndex();
 				TableItem ti=table.getItem(ind);
+				
 				Klijenti klijent = 
 	                    (Klijenti)session.get(Klijenti.class, (long)(Integer.parseInt(ti.getText(0)))); 
-				String string = k.getNaziv();
+				String string = klijent.getNaziv();
 		        String[] parts = string.split(" ");
 		        String part1 = parts[0]; // 004
 		        String part2 = parts[1]; // 034556
 				
 				if(text_1.getText()!=""){
-				
+					ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+					if (!text_1.getText().matches("^[a-zA-Z\\s]+$")){
+						text1Error.setDescriptionText("Ime nije u ispravnom formatu!");
+						FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text1Error.setImage(text1Field.getImage());
+						text1Error.showHoverText("Ime nije u ispravnom formatu!");
+					}
 		         klijent.setNaziv( text_1.getText() +" "+ part2);
 		         ti.setText(1, text_1.getText());
 				}
 				
 				if(text_2.getText()!=""){
-					
+					ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+					if (!text_2.getText().matches("^[a-zA-Z\\s]+$")){
+						text2Error.setDescriptionText("Prezime nije u ispravnom formatu!");
+						FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text2Error.setImage(text2Field.getImage());
+						text2Error.showHoverText("Prezime nije u ispravnom formatu!");
+					}
 			         klijent.setNaziv( part1 + " " + text_2.getText());
 			         ti.setText(2, text_2.getText());
 					}
@@ -268,6 +284,7 @@ public class KlijentiIzmjenaForm extends Shell {
 		        session.getTransaction().commit();
 				
 				MessageDialog.openInformation(shell, "Izmjena klijenta", "Podaci o klijentu su uspješno izmijenjeni.");
+			}catch(Exception e765){}
 			}
 		});
 		button_3.setText("Izmjeni");

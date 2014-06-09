@@ -1,6 +1,17 @@
 package ba.unsa.etf.si2013.tim9.Izvjestaji;
 
 import java.io.File;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -142,7 +153,8 @@ public class IzvjestajiPerdiodForm {
 			
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = (Transaction) session.beginTransaction();
-				Query q = session.createQuery("from Faktura where year(datum_izdavanja)=:godina");
+				Query q = session.createQuery("from Faktura where year(datum_izdavanja)=:godina and deleted=:deleted");
+				q.setInteger("deleted", 0);
 		        q.setString("godina",text.getText() );		        
 		        fakture= q.list(); 
 		        t.commit();
@@ -212,19 +224,36 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("src/main/resources/dokumenti/mjesečniIzvještaj.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=table.getSelectionIndex();
-			       document.addTitle("Godišnji izvještaj");
-			      document.add(new Paragraph("ID fakture: " + fakture.get(i).getId() ));
-			      document.add(new Paragraph("Cijena: " + fakture.get(i).getCijena() ));
-			      document.add(new Paragraph("Datum: " + fakture.get(i).getDatum_izdavanja()));
+			      document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            
+			       document.addTitle("Mjesečni izvještaj");
+			       Paragraph naslov=new Paragraph("\n Mjesečni izvještaj",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+			      document.add(new Chunk("ID fakture: " + fakture.get(i).getId(), pisanje ));
+			      document.add(new Chunk("Cijena: " + fakture.get(i).getCijena(), pisanje ));
+			      document.add(new Chunk("Datum: " + fakture.get(i).getDatum_izdavanja(), pisanje));
 			      
 			      Transaction t1 = (Transaction) session.beginTransaction();
-			      Query q1= session.createQuery("from Klijenti where id=:id");
+			      Query q1= session.createQuery("from Klijenti where id=:id and deleted=:deleted");
+			      	q1.setInteger("deleted", 0);
 	             	q1.setLong("id",fakture.get(1).getIdklijent());
 	             	java.util.List <Klijenti> k = q1.list();
 	             	t1.commit();
@@ -384,7 +413,7 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("D:\\fakture.pdf"));
+					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);

@@ -17,13 +17,13 @@ public class Usluga implements Serializable {
 
 	long id;
 	String  naziv, opisUsluge;
-	int cijena, ukupanTrosak;
-	private int deleted=0;
+	double cijena, ukupanTrosak;
+	int deleted;
     String tipUsluge;
 	
 	public Usluga () {}
 	
-	public Usluga(String naziv, String tipUsluge, int cijena, int ukupanTrosak,
+	public Usluga(String naziv, String tipUsluge, double cijena, double ukupanTrosak,
 			 String opisUsluge) {
 		super();
 		this.naziv = naziv;
@@ -31,6 +31,7 @@ public class Usluga implements Serializable {
 		this.ukupanTrosak = ukupanTrosak;
 		this.tipUsluge = tipUsluge;
 		this.opisUsluge = opisUsluge;
+		this.deleted=0;
 	}
 	
 	
@@ -51,19 +52,19 @@ public class Usluga implements Serializable {
 		this.naziv = naziv;
 	}
 
-	public int getCijena() {
+	public double getCijena() {
 		return cijena;
 	}
 
-	public void setCijena(int cijena) {
+	public void setCijena(double cijena) {
 		this.cijena = cijena;
 	}
 
-	public int getUkupanTrosak() {
+	public double getUkupanTrosak() {
 		return ukupanTrosak;
 	}
 
-	public void setUkupanTrosak(int ukupanTrosak) {
+	public void setUkupanTrosak(double ukupanTrosak) {
 		this.ukupanTrosak = ukupanTrosak;
 	}
 
