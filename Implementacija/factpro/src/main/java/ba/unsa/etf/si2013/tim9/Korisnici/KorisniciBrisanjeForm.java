@@ -127,6 +127,7 @@ public class KorisniciBrisanjeForm extends Shell {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				List<Korisnik> korisnici;
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
@@ -226,7 +227,7 @@ if(combo.getSelectionIndex()==2){
 			        
 				}
 				
-				
+				}catch(Exception e1){}
 				
 			}
 		});
@@ -242,6 +243,7 @@ if(combo.getSelectionIndex()==2){
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				Korisnik k=new Korisnik();
@@ -259,7 +261,7 @@ if(combo.getSelectionIndex()==2){
 				table.clear(ind);
 				Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Brisanje", "Izabrani korisnik je obrisan.");
-				
+				}catch(Exception e3){}
 			}
 		});
 		

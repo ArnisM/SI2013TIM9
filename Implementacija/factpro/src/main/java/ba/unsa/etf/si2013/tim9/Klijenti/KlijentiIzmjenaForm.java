@@ -228,13 +228,25 @@ public class KlijentiIzmjenaForm extends Shell {
 		        String part2 = parts[1]; // 034556
 				
 				if(text_1.getText()!=""){
-				
+					ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+					if (!text_1.getText().matches("^[a-zA-Z\\s]+$")){
+						text1Error.setDescriptionText("Ime nije u ispravnom formatu!");
+						FieldDecoration text1Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text1Error.setImage(text1Field.getImage());
+						text1Error.showHoverText("Ime nije u ispravnom formatu!");
+					}
 		         klijent.setNaziv( text_1.getText() +" "+ part2);
 		         ti.setText(1, text_1.getText());
 				}
 				
 				if(text_2.getText()!=""){
-					
+					ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
+					if (!text_2.getText().matches("^[a-zA-Z\\s]+$")){
+						text2Error.setDescriptionText("Prezime nije u ispravnom formatu!");
+						FieldDecoration text2Field = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						text2Error.setImage(text2Field.getImage());
+						text2Error.showHoverText("Prezime nije u ispravnom formatu!");
+					}
 			         klijent.setNaziv( part1 + " " + text_2.getText());
 			         ti.setText(2, text_2.getText());
 					}
