@@ -114,7 +114,6 @@ public class IzvjestajPoKlijentForm {
 		lblIzaberiteKlijenta.setText("Izaberite klijenta:");
 		
 		Button btnFirme = new Button(grpKlijenti, SWT.RADIO);
-		btnFirme.setSelection(true);
 		btnFirme.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
