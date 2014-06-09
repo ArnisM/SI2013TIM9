@@ -274,7 +274,7 @@ public class FakturePretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
+					file = new FileOutputStream(new File("src/main/resources/dokumenti/faktura.pdf"));
 				List<Stavka_faktura>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;

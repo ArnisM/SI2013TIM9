@@ -1,5 +1,12 @@
 package ba.unsa.etf.si2013.tim9.Korisnici;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -21,6 +28,16 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
 public class KorisniciPretragaForm extends Shell {
@@ -29,6 +46,8 @@ public class KorisniciPretragaForm extends Shell {
 	private Table table;
 	private Text text;
 	private Text text_1;
+
+	List<Korisnik> korisnici;
 	/**
 	 * Launch the application.
 	 * @param args
@@ -59,7 +78,7 @@ public class KorisniciPretragaForm extends Shell {
 		setSize(656, 448);
 		setText("Pretraga i ispis korisnika");
 		
-		table = new Table(this, SWT.BORDER );
+		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION );
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 134, 626, 206);
@@ -93,6 +112,7 @@ public class KorisniciPretragaForm extends Shell {
 		tableColumn_5.setText("Uloga");
 		
 		
+		
 		Group group = new Group(this, SWT.NONE);
 		group.setText("Pretraga");
 		group.setBounds(10, 10, 575, 107);
@@ -118,13 +138,13 @@ public class KorisniciPretragaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				List<Korisnik> korisnici;
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = session.beginTransaction();
 				if(combo.getSelectionIndex()==0){
 											
-		        Query q = session.createQuery("from Korisnik where ime=:ime");
+		        Query q = session.createQuery("from Korisnik where ime=:ime and deleted=:deleted");
 		        q.setString("ime", text_1.getText());
+		        q.setInteger("deleted", 0);
 		        korisnici=q.list();
 		        t.commit();
 		        session.close();
@@ -135,14 +155,15 @@ public class KorisniciPretragaForm extends Shell {
 		        	if(k.getDeleted()==0){
 		        TableItem item = new TableItem(table, 0, i);
 		        
-           	 //  item.setText(0,Integer.toString(k.getId()));
+           	   item.setText(0,Long.toString(k.getId()));
            	    item.setText(1,k.getIme());
              	item.setText(2,k.getPrezime());
-           	    item.setText(3,k.getAdresa());
-           	    item.setText(4,k.getTelefon());
+             	item.setText(3,k.getUsername());
+           	    item.setText(4,k.getAdresa());
+           	    item.setText(5,k.getTelefon());
            	    
            	    
-           	    item.setText(5, k.getPozicija());}
+           	    item.setText(6, k.getPozicija());}
 		       }
 		        }
 				
@@ -171,6 +192,75 @@ public class KorisniciPretragaForm extends Shell {
 		buttonIzlaz.setBounds(506, 358, 116, 42);
 		
 		Button buttonGenerisiPDF = new Button(this, SWT.NONE);
+		buttonGenerisiPDF.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+				try {
+		            PdfWriter.getInstance(document,new FileOutputStream("src/main/resources/dokumenti/korisnik.pdf"));
+		          //SADRZAJ
+		            document.open();
+		            //zaglavlje dokumenta
+
+		            document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            
+		            Paragraph naslov=new Paragraph("\n Podaci o korisniku",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+		            Korisnik ulogika=new Korisnik(); 
+		            int i=table.getSelectionIndex();
+		            
+		            document.add(new Chunk("\n Ime i Prezime: "+korisnici.get(i).getIme()+" "+korisnici.get(i).getPrezime(),pisanje)); 
+		            document.add(new Chunk("\n Email: "+korisnici.get(i).getAdresa(),pisanje)); 
+		            document.add(new Chunk("\n Telefon: "+korisnici.get(i).getTelefon(),pisanje));
+		            document.add(new Chunk("\n Username: "+korisnici.get(i).getUsername(),pisanje));
+		            document.add(new Chunk("\n Pozicija: "+korisnici.get(i).getPozicija(),pisanje));
+		            Font pisanje2=new Font(Font.FontFamily.HELVETICA  , 14, Font.ITALIC);
+		            Paragraph potpis=new Paragraph("\n \n \n \n \n \n __________________________________________  \n \n Potpis izdavaca ",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            potpis.setAlignment(Element.ALIGN_RIGHT);
+		            document.add(potpis);
+		            Paragraph footer= new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            footer.setAlignment(Element.ALIGN_BASELINE);
+		            document.add(footer);
+		            //KRAJ
+		            document.close();;
+			      
+			      Shell shell1 = new Shell();
+				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+				
+				
+			//	Desktop.getDesktop().open((new FileOutputStream("target/korisnk.pdf"));
+				
+					
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			  }
+			
+				
+			
+		});
 		buttonGenerisiPDF.setText("Generi\u0161i .pdf");
 		buttonGenerisiPDF.setImage(SWTResourceManager.getImage(KorisniciPretragaForm.class, "/images/1398206257_pdf.png"));
 		buttonGenerisiPDF.setBounds(10, 353, 119, 47);

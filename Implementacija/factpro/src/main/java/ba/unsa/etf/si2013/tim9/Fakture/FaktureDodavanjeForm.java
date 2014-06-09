@@ -296,21 +296,6 @@ public class FaktureDodavanjeForm extends Shell {
 		btnNewButton.setBounds(148, 146, 120, 38);
 		btnNewButton.setText("Dodaj stavku");
 		
-		
-		
-		Button button = new Button(this, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Info", "Uspjesno je generisan '.pdf' fakture.");
-				
-			}
-		});
-		button.setText("Generi\u0161i .pdf");
-		button.setImage(SWTResourceManager.getImage(FaktureDodavanjeForm.class, "/images/1398206257_pdf.png"));
-		button.setBounds(10, 591, 132, 42);
-		
 		// TEXTUALNO POLJEEE
 				text = new Text(this, SWT.BORDER);
 				text.setBounds(10, 441, 611, 135);

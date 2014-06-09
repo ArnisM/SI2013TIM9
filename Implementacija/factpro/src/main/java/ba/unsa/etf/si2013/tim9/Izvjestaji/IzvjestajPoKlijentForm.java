@@ -28,8 +28,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -197,20 +200,38 @@ public class IzvjestajPoKlijentForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
+					file = new FileOutputStream(new File("src/main/resources/dokumenti/poKlijentuGodišnjiIzvještaj.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=list.getSelectionIndex();
-			       document.addTitle("Godišnji izvještaj po klijentu");
-			       document.add((new Paragraph("Izvještaj po klijentu")));
-			      document.add(new Paragraph("ID fakture: " + ((Faktura) faktureg.get(i)).getId() ));
-			     document.add(new Paragraph("Cijena: " + ((Faktura) faktureg.get(i)).getCijena() ));
-			      document.add(new Paragraph("Datum: " + ((Faktura) faktureg.get(i)).getDatum_izdavanja()));
-			      document.add(new Paragraph(new Date().toString()));
-			      			      document.close();
+			      document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		          
+			       Paragraph naslov=new Paragraph("\n Godišnji izvještaj po klijentu",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+		            
+				       
+				      document.add(new Chunk("ID fakture: " + ((Faktura) faktureg.get(i)).getId(), pisanje ));
+				     document.add(new Chunk("Cijena: " + ((Faktura) faktureg.get(i)).getCijena(), pisanje ));
+				      document.add(new Chunk("Datum: " + ((Faktura) faktureg.get(i)).getDatum_izdavanja(), pisanje));
+				      document.add(new Chunk(new Date().toString(), pisanje));
+			      
+			      document.close();
 			      file.close();
+			      
 			      
 			      Shell shell1 = new Shell();
 				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
@@ -228,12 +249,9 @@ public class IzvjestajPoKlijentForm {
 				
 				
 				
-		
 				
-			
 				Shell shell = new Shell ();
-				MessageDialog.openInformation(shell, "Generisanje izvještaja", "Uspješno je kreiran godišnji izvještaj za klijenta na osnovu izabranih podataka.");
-				
+				MessageDialog.openInformation(shell, "Generisanje izvjestaja", "Uspješno je kreiran mjesečni izvještaj.");
 			}
 		});
 		btnOk.setText("Generiši .pdf");
@@ -273,7 +291,7 @@ public class IzvjestajPoKlijentForm {
 		btnIspisiFakture.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try{
 				Session session = HibernateUtil.getSessionFactory().openSession();
 				Transaction t = (Transaction) session.beginTransaction();
 				Query q = session.createQuery("from Klijenti where naziv=:naziv");
@@ -299,8 +317,8 @@ public class IzvjestajPoKlijentForm {
 		        list.add(s, i);
 		       session.close();
 				
-				
-			}}
+		       
+			} }catch(Exception e9){}}
 		});
 		btnIspisiFakture.setBounds(203, 67, 126, 25);
 		btnIspisiFakture.setText("Ispisi fakture");
@@ -319,6 +337,7 @@ public class IzvjestajPoKlijentForm {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				label_1.setText("Izaberite klijenta:");
 				combo_1.removeAll();
 				Session session = HibernateUtil.getSessionFactory().openSession();
@@ -336,6 +355,7 @@ public class IzvjestajPoKlijentForm {
 		        combo_1.add(k.getNaziv(),i);
 		        }
 		        }}
+				catch(Exception e8){}}
 			
 		});
 		button.setText("Firme");
@@ -348,6 +368,7 @@ public class IzvjestajPoKlijentForm {
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				label_1.setText("Izaberite klijenta:");
 				combo_1.removeAll();
 				Session session = HibernateUtil.getSessionFactory().openSession();
@@ -365,6 +386,7 @@ public class IzvjestajPoKlijentForm {
 		        combo_1.add(k.getNaziv(),i);
 		        
 		        }}
+				}catch(Exception e7){}
 			}
 		});
 		button_2.setText("Fizi\u010Dka lica");
@@ -395,20 +417,38 @@ public class IzvjestajPoKlijentForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
+					file = new FileOutputStream(new File("src/main/resources/dokumenti/poKlijentuMjesecniIzvještaj.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=list.getSelectionIndex();
-			       document.addTitle("Mjesečni izvještaj po klijentu");
-			       document.add((new Paragraph("Izvještaj po klijentu")));
-			      document.add(new Paragraph("ID fakture: " + ((Faktura) fakturem.get(i)).getId() ));
-			     document.add(new Paragraph("Cijena: " + ((Faktura) fakturem.get(i)).getCijena() ));
-			      document.add(new Paragraph("Datum: " + ((Faktura) fakturem.get(i)).getDatum_izdavanja()));
-			      document.add(new Paragraph(new Date().toString()));
-			      			      document.close();
+			      document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		          
+			       Paragraph naslov=new Paragraph("\n Mjesečni izvještaj po klijentu",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+		            
+				       
+				      document.add(new Chunk("ID fakture: " + ((Faktura) fakturem.get(i)).getId(), pisanje ));
+				     document.add(new Chunk("Cijena: " + ((Faktura) fakturem.get(i)).getCijena(), pisanje ));
+				      document.add(new Chunk("Datum: " + ((Faktura) fakturem.get(i)).getDatum_izdavanja(), pisanje));
+				      document.add(new Chunk(new Date().toString(), pisanje));
+			      
+			      document.close();
 			      file.close();
+			      
 			      
 			      Shell shell1 = new Shell();
 				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");

@@ -64,6 +64,15 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
 public class KlijentiPretragaForm extends Shell {
 
 	/**
@@ -170,25 +179,56 @@ public class KlijentiPretragaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-			      FileOutputStream file;
+				 
+				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 				try {
-					file = new FileOutputStream(new File("C:\\example.pdf\\"));
-				
-			      Document document = new Document();
-			      PdfWriter.getInstance(document, file);
-			      document.open();
-			      int i=table.getSelectionIndex();
-			      document.addTitle("Podaci o klijentu");
-			      document.add(new Paragraph("Naziv firme: " + klijenti.get(i).getNaziv() ));
-			      document.add(new Paragraph("Adresa firme: " + klijenti.get(i).getAdresa() ));
-			      document.add(new Paragraph("Kontakt telefon: " + klijenti.get(i).getBrojtelefona() ));
-			      document.add(new Paragraph(new Date().toString()));
-		
-			      document.close();
-			      file.close();
+		            PdfWriter.getInstance(document,new FileOutputStream("src/main/resources/dokumenti/klijentFizicko.pdf"));
+		          //SADRZAJ
+		            document.open();
+		            //zaglavlje dokumenta
+
+		            document.addAuthor("Factpro");
+		            document.addCreationDate();
+		            document.addLanguage("EN");
+
+		            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            document.add(new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+		            
+		            Paragraph naslov=new Paragraph("\n Podaci o klijentu",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+		            naslov.setAlignment(Element.ALIGN_CENTER);
+		            document.add(naslov);
+		            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+		            
+		            document.add(new Chunk("\n",pisanje));        
+		            
+		            Klijenti ulogika=new Klijenti(); 
+		            int i=table.getSelectionIndex();
+		            
+		            document.add(new Chunk("\n Ime i prezime: "+klijenti.get(i).getNaziv(),pisanje)); 
+		            document.add(new Chunk("\n Email: "+klijenti.get(i).getEmail(),pisanje)); 
+		            document.add(new Chunk("\n Telefon: "+klijenti.get(i).getBrojtelefona(),pisanje));
+		            document.add(new Chunk("\n Tip: "+klijenti.get(i).getTip(),pisanje));
+		            document.add(new Chunk("\n Fax: "+klijenti.get(i).getFax(),pisanje));
+		            Font pisanje2=new Font(Font.FontFamily.HELVETICA  , 14, Font.ITALIC);
+		            Paragraph potpis=new Paragraph("\n \n \n \n \n \n __________________________________________  \n \n Potpis izdavaca ",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            potpis.setAlignment(Element.ALIGN_RIGHT);
+		            document.add(potpis);
+		            Paragraph footer= new Paragraph("________________________________________________________________________"
+		            		+ "_________________________________________________________________________________"
+		            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+		            footer.setAlignment(Element.ALIGN_BASELINE);
+		            document.add(footer);
+		            //KRAJ
+		            document.close();;
 			      
 			      Shell shell1 = new Shell();
 				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
+				
+				
+			//	Desktop.getDesktop().open((new FileOutputStream("target/korisnk.pdf"));
+				
 					
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
@@ -202,7 +242,7 @@ public class KlijentiPretragaForm extends Shell {
 				}
 			  }
 			
-		
+				
 });
 		button_1.setText("Generi\u0161i .pdf");
 		button_1.setImage(SWTResourceManager.getImage(KlijentiPretragaForm.class, "/images/1398206257_pdf.png"));

@@ -1,6 +1,17 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 
 import java.io.File;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -112,7 +123,8 @@ public class UslugePretragaForm extends Shell {
 				
 				if(combo.getSelectionIndex()==0){
 					
-			        Query q = session.createQuery("from Usluga where naziv=:naziv");
+			        Query q = session.createQuery("from Usluga where naziv=:naziv and deleted=:deleted");
+			        q.setInteger("deleted", 0);
 			        q.setString("naziv", text.getText());
 			        usluge=q.list();
 			        t.commit();
@@ -164,44 +176,71 @@ public class UslugePretragaForm extends Shell {
 		btnGeneriipdf.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
-				FileOutputStream file;
-				try {
+				 int i=list.getSelectionIndex();
+
+					Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+					try {
+			            PdfWriter.getInstance(document,new FileOutputStream("src/main/resources/dokumenti/usluga.pdf"));
+			          //SADRZAJ
+			            document.open();
+			            //zaglavlje dokumenta
+
+			            document.addAuthor("Factpro");
+			            document.addCreationDate();
+			            document.addLanguage("EN");
+
+			            document.add(new Paragraph("Factpro",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+			            document.add(new Paragraph("________________________________________________________________________"
+			            		+ "_________________________________________________________________________________"
+			            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD)));
+			            
+			            Paragraph naslov=new Paragraph("\n Podaci o usluzi",new Font(Font.FontFamily.HELVETICA  , 18, Font.BOLD));
+			            naslov.setAlignment(Element.ALIGN_CENTER);
+			            document.add(naslov);
+			            Font pisanje=new Font(Font.FontFamily.HELVETICA  , 14, Font.NORMAL);
+			            
+			            document.add(new Chunk("\n",pisanje));        
+			            
+			            Usluga ulogika=new Usluga(); 
+			            
+			            
+			            document.add(new Chunk("\n Naziv: "+usluge.get(i).getNaziv(),pisanje)); 
+			            document.add(new Chunk("\n Cijena: "+usluge.get(i).getCijena(),pisanje)); 
+			            document.add(new Chunk("\n Tip: "+usluge.get(i).getTipUsluge(),pisanje));
+			            document.add(new Chunk("\n Opis: "+usluge.get(i).getOpisUsluge(),pisanje));
+			          
+			            Font pisanje2=new Font(Font.FontFamily.HELVETICA  , 14, Font.ITALIC);
+			            Paragraph potpis=new Paragraph("\n \n \n \n \n \n __________________________________________  \n \n Potpis izdavaca ",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+			            potpis.setAlignment(Element.ALIGN_RIGHT);
+			            document.add(potpis);
+			            Paragraph footer= new Paragraph("________________________________________________________________________"
+			            		+ "_________________________________________________________________________________"
+			            		+ "_________________________",new Font(Font.FontFamily.HELVETICA  , 5, Font.BOLD));
+			            footer.setAlignment(Element.ALIGN_BASELINE);
+			            document.add(footer);
+			            //KRAJ
+			            document.close();;
+				      
+				      Shell shell1 = new Shell();
+					MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
 					
-					file = new FileOutputStream(new File("C:\\usluge.pdf\\"));
-				
-			      Document document = new Document();
-			      PdfWriter.getInstance(document, file);
-			      document.open();
-			      int i=list.getSelectionIndex();
-			      document.addTitle("Podaci o klijentu");
-			      document.add(new Paragraph("Naziv usluge: " + usluge.get(i).getNaziv() ));
-			      document.add(new Paragraph("Cijena: " + usluge.get(i).getCijena() ));
-			      document.add(new Paragraph(new Date().toString()));
-		
-			      document.close();
-			      file.close();
-			      
-			      Shell shell1 = new Shell();
-				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
 					
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			  
-			
-		
+				//	Desktop.getDesktop().open((new FileOutputStream("target/korisnk.pdf"));
+					
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				  }
 				
-				Shell shell = new Shell();
-				MessageDialog.openInformation(shell, "Ispis usluga", "PDF je uspješno kreiran.");
-			}
+					
 		});
 		btnGeneriipdf.setText("Generi\u0161i .pdf");
 		btnGeneriipdf.setImage(SWTResourceManager.getImage(UslugePretragaForm.class, "/images/1398206257_pdf.png"));
