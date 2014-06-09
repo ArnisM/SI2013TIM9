@@ -179,7 +179,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			passwordError.showHoverText("Niste unijeli password!");
 			return false;
 		}
-		if (!text_Password.getText().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")){
+		if (!text_Password.getText().matches("^([0-9A-Za-z@.]{1,255})$")){
 			passwordError.setDescriptionText("Password nije u validnom formatu!");
 			FieldDecoration passwordField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			passwordError.setImage(passwordField.getImage());

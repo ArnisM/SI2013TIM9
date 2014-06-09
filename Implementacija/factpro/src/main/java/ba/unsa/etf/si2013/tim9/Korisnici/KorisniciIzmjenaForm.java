@@ -338,7 +338,7 @@ if(combo.getSelectionIndex()==2){
 					
 				if(text_1.getText()!=""){
 				
-				if(!text_1.getText().matches("^[A-Z][-a-zA-Z]+$")){
+				if(!text_1.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
 					
 					ControlDecoration text1Error = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
 					text1Error.setDescriptionText("Ime korisnka nije u validnom formatu!");
@@ -355,7 +355,7 @@ if(combo.getSelectionIndex()==2){
 				
 				if(text_2.getText()!=""){
 					
-					if(!text_2.getText().matches("^[A-Z][-a-zA-Z]+$")){
+					if(!text_2.getText().matches("[a-zA-z]+([ '-][a-zA-Z]+)*")){
 						
 						ControlDecoration text2Error = new ControlDecoration(text_2, SWT.RIGHT | SWT.TOP);
 						text2Error.setDescriptionText("Prezime korisnka nije u validnom formatu!");
@@ -412,12 +412,12 @@ if(combo.getSelectionIndex()==2){
 		         ti.setText(6, text_5.getText());	
 					
 				}
-				//if(text_5.getText().length()>0 || text_4.getText().length()>0 || text_3.getText().length()>0 || text_2.getText().length()>0 || text_1.getText().length()>0 || text_6.getText().length()>0){
+				if(text_5.getText().length()>0 || text_4.getText().length()>0 || text_3.getText().length()>0 || text_2.getText().length()>0 || text_1.getText().length()>0 || text_6.getText().length()>0){
 				session.update(kor); 
 				 session.getTransaction().commit();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je izvrsena izmjena.");
 				
-				
+				}
 			
 			}
 				}catch(Exception e315){}
@@ -433,9 +433,13 @@ if(combo.getSelectionIndex()==2){
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try{
 				Shell shell=new Shell();
 				MessageDialog.openInformation(shell, "Izmjena korisnika - OK", "Uspjesna izmjena.");
-				
+				}
+				catch(Exception e9){
+					
+				}
 			}
 		});
 		
