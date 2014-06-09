@@ -32,6 +32,8 @@ import org.hibernate.Session;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import sun.security.util.Password;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 
 
 public class KorisniciDodavanjeForm extends Shell {
@@ -96,6 +98,7 @@ public class KorisniciDodavanjeForm extends Shell {
 			textimeError.setDescriptionText("Niste unijeli ime!");
 			textimeError.setImage(ImeField.getImage());
 			textimeError.showHoverText("Niste unijeli ime!");
+			
 			return false;
 		}
 		
@@ -196,7 +199,6 @@ public class KorisniciDodavanjeForm extends Shell {
 			return false;
 		}
 		
-		
 		return true;
 	}
 	/**
@@ -291,6 +293,7 @@ public class KorisniciDodavanjeForm extends Shell {
 		_rukovodilac.setText("Rukovodilac");
 		
 		text_Ime = new Text(group, SWT.BORDER);
+		
 		text_Ime.setBounds(131, 37, 126, 21);
 		
 		text_Prezime = new Text(group, SWT.BORDER);
@@ -343,6 +346,7 @@ public class KorisniciDodavanjeForm extends Shell {
 				if(Validacija()){
 
 					
+					//textimeError.dispose();
 					/*List<Korisnik> korisnici;
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					Transaction t = (Transaction) session.beginTransaction();
