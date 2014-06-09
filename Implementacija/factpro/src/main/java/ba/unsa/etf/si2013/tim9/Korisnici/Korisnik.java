@@ -5,8 +5,13 @@ import java.io.Serializable;
 
 
 import java.util.Date;
+import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -86,13 +91,40 @@ public class Korisnik implements Serializable {
 	public void setDatumZaposlenja(Date datumZaposlenja) {
 		DatumZaposlenja = datumZaposlenja;
 	}
+	boolean daLiPostoji(){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Korisnik where username=:ime and deleted=:deleted");
+		 q.setString("ime", this.getUsername());
+		
+		 q.setInteger("deleted", 0);
+		 List<Korisnik> c = q.list();
+		 t.commit();
+		 
+		 if (c.size()>0) {
+			 Shell shell1 = new Shell();
+			 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik već postoji u bazi.");
+			 return true;
+		 }
+		 return false;
+	}
 	public void spasiUBazu() {
 		try{
 	 	Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
+		
+		 
+		
+		if(!daLiPostoji()){
 		session.save(this);
 		t.commit();
-		session.close();} catch(Exception e){}
+		session.close();
+		Shell shell1 = new Shell();
+		MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
+		}
+		 } catch(Exception e){}
 	 	}
 
 	public String getUsername() {

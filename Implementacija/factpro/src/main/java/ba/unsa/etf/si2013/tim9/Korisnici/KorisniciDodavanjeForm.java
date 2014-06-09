@@ -339,35 +339,33 @@ public class KorisniciDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				Shell shell=new Shell();
 				
-					
+				try{
 				if(Validacija()){
 
-				try{	
-					List<Korisnik> korisnici;
+					
+					/*List<Korisnik> korisnici;
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					Transaction t = (Transaction) session.beginTransaction();
 					Query q = session.createQuery("* from Korisnik");
 			        korisnici=q.list();
-			        t.commit();
+			        t.commit();*/
 			        
 			        
 						Korisnik noviK=new Korisnik();
-						if(_operater.getSelection()){
+						if(_operater.getSelection())							
 				 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"operater",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
-				 		//noviK.daliPostoji();
-						}
+				 		 
 						if(_rukovodilac.getSelection())
 							 noviK = new Korisnik(text_Ime.getText(),text_Prezime.getText(),"rukovodilac",text_Telefon.getText(),text_Email.getText(), text_Username.getText(), text_Password.getText(), new Date());
-									
 						
-						noviK.spasiUBazu();
-				Shell shell1 = new Shell();
-				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik je uspješno dodan.");
-					}catch(Exception e3){}
+							
+							noviK.spasiUBazu();
+							
+						
 				
 				
 				}
-				
+				 }catch(Exception e3){}
 							
 					
 				
