@@ -23,7 +23,7 @@ import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 
-
+//blabla
 @Table (name = "faktura")
 public class Faktura implements Serializable {
 	
