@@ -198,7 +198,7 @@ public class KorisniciPretragaForm extends Shell {
 				
 				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 				try {
-		            PdfWriter.getInstance(document,new FileOutputStream("src/main/resources/dokumenti/korisnik.pdf"));
+		            PdfWriter.getInstance(document,new FileOutputStream("target/korisnik.pdf"));
 		          //SADRZAJ
 		            document.open();
 		            //zaglavlje dokumenta

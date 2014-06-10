@@ -224,7 +224,7 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("src/main/resources/dokumenti/mjesečniIzvještaj.pdf"));
+					file = new FileOutputStream(new File("target/mjesečniIzvještaj.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
@@ -413,7 +413,7 @@ public class IzvjestajiPerdiodForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("C:\\fakture.pdf\\"));
+					file = new FileOutputStream(new File("target/fakture.pdf\\"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
