@@ -9,10 +9,13 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
+
+import ba.unsa.etf.si2013.tim9.Fakture.FaktureStavkeDodavanjeForm;
 
 public class Login {
 
-	protected Shell shell;
+	protected Shell shlLogin;
 	private Text text;
 	private Text text_1;
 
@@ -35,9 +38,9 @@ public class Login {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
+		shlLogin.open();
+		shlLogin.layout();
+		while (!shlLogin.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -48,25 +51,27 @@ public class Login {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(360, 300);
-		shell.setText("SWT Application");
+		shlLogin = new Shell();
+		shlLogin.setSize(360, 251);
+		shlLogin.setText("LOGIN");
 		
-		Label lblUsername = new Label(shell, SWT.NONE);
+		Label lblUsername = new Label(shlLogin, SWT.NONE);
 		lblUsername.setBounds(53, 79, 55, 15);
 		lblUsername.setText("Username:");
 		
-		Label lblPassword = new Label(shell, SWT.NONE);
+		Label lblPassword = new Label(shlLogin, SWT.NONE);
 		lblPassword.setBounds(53, 116, 61, 15);
 		lblPassword.setText("Password:");
 		
-		text = new Text(shell, SWT.BORDER);
+		text = new Text(shlLogin, SWT.BORDER);
 		text.setBounds(136, 76, 154, 21);
 		
-		text_1 = new Text(shell, SWT.BORDER);
+		text_1 = new Text(shlLogin, SWT.BORDER);
 		text_1.setBounds(136, 113, 154, 21);
 		
-		Button btnLogin = new Button(shell, SWT.NONE);
+		Button btnLogin = new Button(shlLogin, SWT.NONE);
+		btnLogin.setImage(SWTResourceManager.getImage(Login.class, "/images/402421057_preferences-desktop-cryptography.png"));
+		
 		btnLogin.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -75,13 +80,13 @@ public class Login {
 			
 				if(text.getText().equals("operater") && text_1.getText().equals("operater")){
 					GlavnaForm2 gl2 =new GlavnaForm2();
-					shell.dispose();
+					shlLogin.dispose();
 					gl2.open();
 				}
 				
 				if(text.getText().equals("sef") && text_1.getText().equals("sef")){
 					GlavnaForm gl2 =new GlavnaForm();
-					shell.dispose();
+					shlLogin.dispose();
 					gl2.open();
 				}
 				
@@ -93,7 +98,7 @@ public class Login {
 				
 			}
 		});
-		btnLogin.setBounds(136, 169, 154, 38);
+		btnLogin.setBounds(136, 151, 154, 52);
 		btnLogin.setText("Login");
 
 	}
