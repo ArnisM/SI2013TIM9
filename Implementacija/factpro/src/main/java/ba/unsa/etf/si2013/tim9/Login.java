@@ -1,6 +1,9 @@
 package ba.unsa.etf.si2013.tim9;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
@@ -12,6 +15,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureStavkeDodavanjeForm;
+
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.events.VerifyEvent;
 
 public class Login {
 
@@ -64,6 +72,22 @@ public class Login {
 		lblPassword.setText("Password:");
 		
 		text = new Text(shlLogin, SWT.BORDER);
+		text.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent arg0) {
+				
+				
+				
+				
+				
+			}
+		});
+		text.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent arg0) {
+	
+				}
+				
+			
+		});
 		text.setBounds(136, 76, 154, 21);
 		
 		text_1 = new Text(shlLogin, SWT.BORDER);

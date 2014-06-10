@@ -5,6 +5,9 @@ import java.util.Date;
 
 
 
+
+
+
 import javax.persistence.GeneratedValue; 
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +20,16 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 
 //blabla
 @Table (name = "faktura")
@@ -65,6 +73,31 @@ public class Faktura implements Serializable {
 	
 	
 	
+	
+	
+	boolean daLiPostoji(){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Faktura where broj_fakture=:naziv and deleted=:deleted");
+		 q.setString("naziv", Integer.toString(this.getBroj_fakture()));
+		
+		 q.setInteger("deleted", 0);
+		 List<Faktura> c = q.list();
+		 t.commit();
+		 
+		 if (c.size()>0) {
+			 
+			 return true;
+		 }
+		 
+		 return false;
+	}
+	
+	
+	
 	public void spasiUBazu() {
 	 	Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
@@ -73,22 +106,30 @@ public class Faktura implements Serializable {
 		session.close();
 	 	}
 	
-	private static List dajFakture() { 
+	public  List dajFakture() { 
+		
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
  
-        List fakture = session.createQuery("from faktura").list();
+        List fakture = session.createQuery("from Faktura").list();
         t.commit();
         session.close();
         return fakture;
+        
 		 }
+	
 	public void izbrisiIzBaze(){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.delete(this);
-		t.commit();
-		session.close();
+		
+		Faktura myObject = (Faktura) session.load(Faktura.class,(long)(this.getId()));
+		myObject.setDeleted(1);
+		 session.update(myObject);
+	    session.getTransaction().commit();
+	    
+	    
 	}
 	
 	

@@ -58,6 +58,8 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
 
 
 public class FaktureDodavanjeForm extends Shell {
@@ -298,6 +300,16 @@ public class FaktureDodavanjeForm extends Shell {
 		
 		// TEXTUALNO POLJEEE
 				text = new Text(this, SWT.BORDER);
+				text.addModifyListener(new ModifyListener() {
+					public void modifyText(ModifyEvent arg0) {
+						
+						
+						
+						
+						
+						
+					}
+				});
 				text.setBounds(10, 441, 611, 135);
 		
 		//DODAVANJE U BAZU USPJESNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
