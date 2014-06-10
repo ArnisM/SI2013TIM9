@@ -72,7 +72,8 @@ public class PonudeDodavanjeForm extends Shell {
 	private List stavka;
 	private ArrayList<Long> _uzete;
 	private int br_stavki;
-	
+	private PonudeStavkeDodavanjeForm pd;
+	private boolean otvorena=false;
 	
 	public static void main(String args[]) {
 		try {
@@ -94,6 +95,16 @@ public class PonudeDodavanjeForm extends Shell {
 	// KONSTRUKTOR DA SE FINO SVE MOZE KORISTIT
 	public PonudeDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				
+				if(otvorena==true)
+				{
+					pd.close();
+				}
+			}
+		});
 		
 		_usluge=new ArrayList<String>();
 		_uzete=new ArrayList<Long>();
@@ -137,7 +148,10 @@ public class PonudeDodavanjeForm extends Shell {
 		createContents();
 	}
 
-	
+	public void Prebaci()
+	{
+		otvorena=false;
+	}
 	// FUNKCIJA POZOVE CHILD FORMA DA POPUNI INSTANTO
 	public void Provjeri()
 	{
@@ -287,8 +301,13 @@ public class PonudeDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				if(otvorena==false)
+				{
 				PonudeStavkeDodavanjeForm a = new PonudeStavkeDodavanjeForm(null,_usluge,f);
+				pd=a;
+				otvorena=true;
 				a.open();
+				}
 			
 			}
 		});

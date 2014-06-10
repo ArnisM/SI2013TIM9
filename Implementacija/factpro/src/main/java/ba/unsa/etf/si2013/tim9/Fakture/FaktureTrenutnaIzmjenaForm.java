@@ -31,6 +31,8 @@ import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 public class FaktureTrenutnaIzmjenaForm extends Shell {
 
 	/**
@@ -40,6 +42,9 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 //	protected Shell this;
 	private ArrayList<Long> _uzete;
 	private ArrayList<String> _usluge;
+	private FaktureStavkeDodavanjeForm2 fd;
+	private boolean otvorena=false;
+	
 	private List stavka;
 	private int br_stavki;
 	private Table table;
@@ -78,6 +83,16 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 	 */
 	public FaktureTrenutnaIzmjenaForm(Display display,Long id) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				
+				if(otvorena==true)
+				{
+					fd.close();
+				}
+			}
+		});
 		id_broj=id;
 		br_stavki=0;
 		_usluge=new ArrayList<String>();
@@ -281,7 +296,10 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 		
 	}
        
-	
+	public void Prebaci()
+	{
+		otvorena=false;
+	}
 	public void Provjeri()
 	{
 		
@@ -359,8 +377,13 @@ public class FaktureTrenutnaIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				if(otvorena==false)
+				{
 				FaktureStavkeDodavanjeForm2 a = new FaktureStavkeDodavanjeForm2(null,_usluge,f);
+				fd=a;
+				otvorena=true;
 				a.open();
+				}
 
 			}
 		});

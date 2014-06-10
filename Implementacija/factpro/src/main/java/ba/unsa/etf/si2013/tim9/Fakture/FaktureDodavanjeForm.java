@@ -304,11 +304,13 @@ public class FaktureDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				if(otvoren==false)
+				{
 				FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null,_usluge,f);
 				fd=a;
 				otvoren=true;
 				a.open();
-				
+				}
 			
 			}
 		});

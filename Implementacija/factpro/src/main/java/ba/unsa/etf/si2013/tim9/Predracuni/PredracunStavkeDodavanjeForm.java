@@ -19,6 +19,8 @@ import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
 import java.util.ArrayList;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 public class PredracunStavkeDodavanjeForm extends Shell {
 
 	/**
@@ -54,6 +56,12 @@ public class PredracunStavkeDodavanjeForm extends Shell {
 	public PredracunStavkeDodavanjeForm(Display display , ArrayList<String> a, PredracunDodavanjeForm f) {
 		
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				z.Prebaci();
+			}
+		});
 		b=new ArrayList<String>();
 		b=a;
 		z=f;
@@ -104,12 +112,22 @@ public class PredracunStavkeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				
+				if(list.getSelectionIndex()!=-1)
+				{
+					
+				
 				String x=list.getItem(list.getSelectionIndex());
 				b.add(x);
 				
 				z.Provjeri();
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");
+				}
+				else
+				{
+					Shell shell = new Shell();
+					MessageDialog.openInformation(shell, "Info", "Morate izabrati uslugu za dodati.");
+				}
 				
 			}
 		});

@@ -112,12 +112,20 @@ public class FaktureStavkeDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				
+				if(list.getSelectionIndex()!=-1)
+				{
 				String x=list.getItem(list.getSelectionIndex());
 				b.add(x);
 				
 				z.Provjeri();
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Stavka je dodana.");
+				}
+				else 
+				{
+					Shell shell = new Shell();
+					MessageDialog.openInformation(shell, "Info", "Morate izabrati uslugu za dodati.");
+				}
 				
 			}
 		});

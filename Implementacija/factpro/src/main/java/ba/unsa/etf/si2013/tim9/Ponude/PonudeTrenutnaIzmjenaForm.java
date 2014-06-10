@@ -31,6 +31,8 @@ import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
 import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 public class PonudeTrenutnaIzmjenaForm extends Shell {
 
 	/**
@@ -38,6 +40,8 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 	 * @param args
 	 */
 //	protected Shell this;
+	private PonudeStavkeDodavanjeForm2 pd;
+	private boolean otvorena=false;
 	private ArrayList<Long> _uzete;
 	private ArrayList<String> _usluge;
 	private List stavka;
@@ -78,6 +82,15 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 	 */
 	public PonudeTrenutnaIzmjenaForm(Display display,Long id) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				if(otvorena)
+				{
+					pd.close();
+				}
+			}
+		});
 		id_broj=id;
 		br_stavki=0;
 		_usluge=new ArrayList<String>();
@@ -281,7 +294,10 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 		
 	}
        
-	
+	public void Prebaci()
+	{
+		otvorena=false;
+	}
 	public void Provjeri()
 	{
 		
@@ -359,8 +375,13 @@ public class PonudeTrenutnaIzmjenaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				if(otvorena==false)
+				{
 				PonudeStavkeDodavanjeForm2 a = new PonudeStavkeDodavanjeForm2(null,_usluge,f);
+				pd=a;
+				otvorena=true;
 				a.open();
+				}
 
 			}
 		});

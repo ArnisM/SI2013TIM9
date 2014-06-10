@@ -65,6 +65,8 @@ public class PredracunDodavanjeForm extends Shell {
 	
 //	protected Shell this;
 	// SVI FINI ATRBIBUTI !!!
+	private PredracunStavkeDodavanjeForm pd;
+	private boolean otvorena=false;
 	private Table table;
 	private Text text;
 	private ArrayList<String> _usluge;
@@ -94,6 +96,15 @@ public class PredracunDodavanjeForm extends Shell {
 	// KONSTRUKTOR DA SE FINO SVE MOZE KORISTIT
 	public PredracunDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				if(otvorena)
+				{
+					pd.close();
+				}
+			}
+		});
 		
 		_usluge=new ArrayList<String>();
 		_uzete=new ArrayList<Long>();
@@ -137,7 +148,10 @@ public class PredracunDodavanjeForm extends Shell {
 		createContents();
 	}
 
-	
+	public void Prebaci()
+	{
+		otvorena=false;
+	}
 	// FUNKCIJA POZOVE CHILD FORMA DA POPUNI INSTANTO
 	public void Provjeri()
 	{
@@ -287,8 +301,13 @@ public class PredracunDodavanjeForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				if(otvorena==false)
+				{
 				PredracunStavkeDodavanjeForm a = new PredracunStavkeDodavanjeForm(null,_usluge,f);
+				pd=a;
+				otvorena=true;
 				a.open();
+				}
 			
 			}
 		});
