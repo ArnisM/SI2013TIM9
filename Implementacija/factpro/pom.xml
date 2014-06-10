@@ -181,7 +181,7 @@
   			<configuration>
 			<archive>
 				<manifest>
-					<mainClass>ba.unsa.etf.si2013.tim9.placeholder</mainClass>
+					<mainClass>ba.unsa.etf.si2013.tim9.Login</mainClass>
 				</manifest>
 			</archive>
 			<descriptorRefs>
