@@ -74,6 +74,8 @@ public class FaktureDodavanjeForm extends Shell {
 	private List stavka;
 	private ArrayList<Long> _uzete;
 	private int br_stavki;
+	private FaktureStavkeDodavanjeForm fd;
+	private boolean otvoren=false;
 	
 	
 	public static void main(String args[]) {
@@ -96,6 +98,16 @@ public class FaktureDodavanjeForm extends Shell {
 	// KONSTRUKTOR DA SE FINO SVE MOZE KORISTIT
 	public FaktureDodavanjeForm(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				
+				if(otvoren==true)
+				{
+					fd.close();
+				}
+			}
+		});
 		
 		_usluge=new ArrayList<String>();
 		_uzete=new ArrayList<Long>();
@@ -139,7 +151,10 @@ public class FaktureDodavanjeForm extends Shell {
 		createContents();
 	}
 
-	
+	public void Prebaci()
+	{
+		otvoren=false;
+	}
 	// FUNKCIJA POZOVE CHILD FORMA DA POPUNI INSTANTO
 	public void Provjeri()
 	{
@@ -290,7 +305,10 @@ public class FaktureDodavanjeForm extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				
 				FaktureStavkeDodavanjeForm a = new FaktureStavkeDodavanjeForm(null,_usluge,f);
+				fd=a;
+				otvoren=true;
 				a.open();
+				
 			
 			}
 		});
@@ -423,6 +441,7 @@ public class FaktureDodavanjeForm extends Shell {
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 				close();
 			}
 		});

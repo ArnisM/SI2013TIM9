@@ -19,6 +19,8 @@ import ba.unsa.etf.si2013.tim9.Usluge.Usluga;
 
 import java.util.ArrayList;
 import java.util.ArrayList;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 public class FaktureStavkeDodavanjeForm extends Shell {
 
 	/**
@@ -54,6 +56,12 @@ public class FaktureStavkeDodavanjeForm extends Shell {
 	public FaktureStavkeDodavanjeForm(Display display , ArrayList<String> a, FaktureDodavanjeForm f) {
 		
 		super(display, SWT.SHELL_TRIM);
+		addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				z.Prebaci();
+			}
+		});
 		b=new ArrayList<String>();
 		b=a;
 		z=f;
