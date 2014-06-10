@@ -182,7 +182,10 @@ public class KlijentiPretragaForm extends Shell {
 				 
 				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 				try {
-		            PdfWriter.getInstance(document,new FileOutputStream("target/klijentFizicko.pdf"));
+					File f = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+					f.mkdirs();
+					PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\klijentFizicko.pdf"));
+					//PdfWriter.getInstance(document,new FileOutputStream("target/klijentFizicko.pdf"));
 		          //SADRZAJ
 		            document.open();
 		            //zaglavlje dokumenta
