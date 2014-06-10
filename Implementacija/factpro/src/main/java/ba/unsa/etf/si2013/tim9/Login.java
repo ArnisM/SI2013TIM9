@@ -70,7 +70,7 @@ public class Login {
 		text_1.setBounds(136, 113, 154, 21);
 		
 		Button btnLogin = new Button(shlLogin, SWT.NONE);
-		btnLogin.setImage(SWTResourceManager.getImage(Login.class, "/images/402421057_preferences-desktop-cryptography.png"));
+		btnLogin.setImage(SWTResourceManager.getImage(Login.class, "/images/1402422917_preferences-desktop-cryptography.png"));
 		
 		btnLogin.addSelectionListener(new SelectionAdapter() {
 			@Override
