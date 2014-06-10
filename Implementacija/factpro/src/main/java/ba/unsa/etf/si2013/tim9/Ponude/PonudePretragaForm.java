@@ -250,10 +250,16 @@ public class PonudePretragaForm extends Shell {
 		Button button_4 = new Button(this, SWT.NONE);
 		button_4.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent e) 
+			{
+				
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je kreiran '.pdf' ponude.");
-			
+				/*
+				 * File f = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+f.mkdirs();
+PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\usluga.pdf"));
+				 * */
 			}
 		});
 		button_4.setText("Generi\u0161i .pdf");
