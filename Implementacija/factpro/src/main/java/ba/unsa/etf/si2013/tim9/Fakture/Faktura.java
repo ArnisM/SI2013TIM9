@@ -96,7 +96,29 @@ public class Faktura implements Serializable {
 		 return false;
 	}
 	
-	
+	boolean daLiJeIzbrisan()
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Faktura where broj_fakture=:naziv ");
+		 q.setString("naziv", Integer.toString(this.getBroj_fakture()));
+		
+		 
+		 List<Faktura> c = q.list();
+		 t.commit();
+		 
+		 Faktura f=new Faktura();
+		 f=(Faktura)c.get(0);
+		 
+		 if(f.getDeleted()==1){
+			 return true; 
+		 }
+		 return false;
+		 
+		 
+	}
 	
 	public void spasiUBazu() {
 	 	Session session = HibernateUtil.getSessionFactory().openSession();
@@ -119,16 +141,16 @@ public class Faktura implements Serializable {
         
 		 }
 	
-	public void izbrisiIzBaze(){
+	public void izbrisiIzBaze( long id)
+	{
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		
-		Faktura myObject = (Faktura) session.load(Faktura.class,(long)(this.getId()));
+		Faktura myObject = (Faktura) session.load(Faktura.class,(id));
 		myObject.setDeleted(1);
 		 session.update(myObject);
 	    session.getTransaction().commit();
-	    
 	    
 	}
 	

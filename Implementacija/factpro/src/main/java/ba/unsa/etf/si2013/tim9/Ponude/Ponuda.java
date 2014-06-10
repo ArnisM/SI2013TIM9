@@ -5,6 +5,8 @@ import java.util.Date;
 
 
 
+
+
 import javax.persistence.GeneratedValue; 
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +19,13 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Fakture.Faktura;
 
 
 @Table (name = "ponuda")
@@ -66,30 +70,96 @@ public class Ponuda implements Serializable {
 	
 	
 	
+	
+	
+
+	boolean daLiPostoji(){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Ponuda where broj_ponude=:naziv and deleted=:deleted");
+		 q.setString("naziv", Integer.toString(this.getBroj_ponude()));
+		
+		 q.setInteger("deleted", 0);
+		 List<Ponuda> c = q.list();
+		 t.commit();
+		 
+		 if (c.size()>0) {
+			 
+			 return true;
+		 }
+		 
+		 return false;
+	}
+	
+	
+	
+	
+	boolean daLiJeIzbrisan()
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Ponuda where broj_ponude=:naziv");
+		 q.setString("naziv", Integer.toString(this.getBroj_ponude()));
+		
+		 
+		 List<Ponuda> c = q.list();
+		 t.commit();
+		 
+		 Ponuda f=new Ponuda();
+		 f=(Ponuda)c.get(0);
+		 
+		 if(f.getDeleted()==1){
+			 return true; 
+		 }
+		 return false;
+		 
+		 
+	}
+	
+	
+	
+	
 	public void spasiUBazu() {
+		
+		
 	 	Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		session.save(this);
 		t.commit();
 		session.close();
+		
+		
 	 	}
 	
-	private static List dajFakture() { 
+	
+	   public List dajPonude() { 
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
  
-        List fakture = session.createQuery("from ponuda").list();
+        List fakture = session.createQuery("from Ponuda").list();
         t.commit();
         session.close();
         return fakture;
 		 }
-	public void izbrisiIzBaze(){
+	
+	
+	public void izbrisiIzBaze(long id){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.delete(this);
-		t.commit();
-		session.close();
+		
+		Ponuda myObject = (Ponuda) session.load(Ponuda.class,(id));
+		myObject.setDeleted(1);
+		 session.update(myObject);
+	    session.getTransaction().commit();
+	    
+	    
 	}
 	
 	
