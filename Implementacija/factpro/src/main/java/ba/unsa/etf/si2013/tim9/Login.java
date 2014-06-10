@@ -1,5 +1,7 @@
 package ba.unsa.etf.si2013.tim9;
 
+import java.util.List;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
@@ -15,11 +17,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import ba.unsa.etf.si2013.tim9.Fakture.FaktureStavkeDodavanjeForm;
+import ba.unsa.etf.si2013.tim9.Korisnici.Korisnik;
 
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.events.VerifyEvent;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class Login {
 
@@ -90,7 +96,7 @@ public class Login {
 		});
 		text.setBounds(136, 76, 154, 21);
 		
-		text_1 = new Text(shlLogin, SWT.BORDER);
+		text_1 = new Text(shlLogin, SWT.BORDER | SWT.PASSWORD);
 		text_1.setBounds(136, 113, 154, 21);
 		
 		Button btnLogin = new Button(shlLogin, SWT.NONE);
@@ -100,24 +106,75 @@ public class Login {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-			
-			
-				if(text.getText().equals("operater") && text_1.getText().equals("operater")){
-					GlavnaForm2 gl2 =new GlavnaForm2();
-					shlLogin.dispose();
-					gl2.open();
-				}
-				
-				if(text.getText().equals("sef") && text_1.getText().equals("sef")){
-					GlavnaForm gl2 =new GlavnaForm();
-					shlLogin.dispose();
-					gl2.open();
-				}
-				
-				else{	Shell shell = new Shell();
-					MessageDialog.openInformation(shell, "Login", "Podaci za šefa: password-sef username-sef. Podaci za operatera: password-operater username-operater.");
-				    
-				}
+			String username=text.getText();
+			String password=text_1.getText();
+				Korisnik k = new Korisnik();
+				k.setUsername(username);
+				try{
+					if(k.daLiPostoji()){
+						
+						Session session = HibernateUtil.getSessionFactory().openSession();
+						Transaction t = session.beginTransaction();
+						
+						 
+						Query q = session.createQuery("from Korisnik where username=:ime and deleted=:deleted");
+						 q.setString("ime", username);
+						
+						 q.setInteger("deleted", 0);
+						 List<Korisnik> c = q.list();
+						 t.commit();
+						if(c.get(0).getPassword().equals(password)){
+							if(c.get(0).getPozicija().equals("operater")){
+								GlavnaForm2 gl2 =new GlavnaForm2();
+								shlLogin.dispose();
+								gl2.open();
+							}
+							if(c.get(0).getPozicija().equals("rukovodilac")){
+								GlavnaForm gl2 =new GlavnaForm();
+								shlLogin.dispose();
+								gl2.open();
+							}
+							
+						}
+						else if(!c.get(0).getPassword().equals(password)){
+							ControlDecoration textimeError = new ControlDecoration(text_1, SWT.RIGHT | SWT.TOP);
+							FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+							textimeError.setDescriptionText("Password nije validan!");
+							textimeError.setImage(ImeField.getImage());
+							textimeError.showHoverText("Password nije validan!");
+						}
+					}
+					else if(!k.daLiPostoji()){
+						
+						ControlDecoration textimeError = new ControlDecoration(text, SWT.RIGHT | SWT.TOP);
+						FieldDecoration ImeField = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+						textimeError.setDescriptionText("Username ne postoji u vazi!");
+						textimeError.setImage(ImeField.getImage());
+						textimeError.showHoverText("Username ne postoji u bazi!");
+						
+					}
+					
+					else {
+						if(text.getText().equals("operater") && text_1.getText().equals("operater")){
+						GlavnaForm2 gl2 =new GlavnaForm2();
+						shlLogin.dispose();
+						gl2.open();
+					}
+					
+					if(text.getText().equals("sef") && text_1.getText().equals("sef")){
+						GlavnaForm gl2 =new GlavnaForm();
+						shlLogin.dispose();
+						gl2.open();
+					}
+					
+					else{	Shell shell = new Shell();
+						MessageDialog.openInformation(shell, "Login", "Podaci za šefa: password-sef username-sef. Podaci za operatera: password-operater username-operater.");
+					    
+					}
+					
+					
+					}
+				}catch(Exception e2){}
 				
 				
 			}

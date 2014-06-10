@@ -91,7 +91,7 @@ public class Korisnik implements Serializable {
 	public void setDatumZaposlenja(Date datumZaposlenja) {
 		DatumZaposlenja = datumZaposlenja;
 	}
-	boolean daLiPostoji(){
+	public boolean daLiPostoji(){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		
