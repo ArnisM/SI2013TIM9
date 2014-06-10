@@ -199,7 +199,11 @@ public class IzvjestajPoKlijentForm {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("src/main/resources/dokumenti/poKlijentuGodišnjiIzvještaj.pdf"));
+					File fu = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+					fu.mkdirs();
+					//PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\usluga.pdf"));
+					
+					file = new FileOutputStream(new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\poKlijentuGodišnjiIzvještaj.pdf"));
 				
 			      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
