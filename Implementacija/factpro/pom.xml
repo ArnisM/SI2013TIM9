@@ -12,151 +12,70 @@
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
   </properties>
+
   <dependencies>
-    <dependency>
+  	
+  	<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    
     <dependency>
-		<groupId>org.eclipse.birt.runtime</groupId>
-		<artifactId>com.ibm.icu</artifactId>
-		<version>50.1.1.v201304230130</version>
-	</dependency>
-	<dependency>
-		<groupId>com.lowagie</groupId>
-		<artifactId>itext</artifactId>
-		<version>4.2.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.itextpdf</groupId>
-		<artifactId>itextpdf</artifactId>
-		<version>5.5.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.itextpdf</groupId>
-		<artifactId>itext-pdfa</artifactId>
-		<version>5.5.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.itextpdf</groupId>
-		<artifactId>itext-xtra</artifactId>
-		<version>5.5.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.itextpdf</groupId>
-		<artifactId>itext-hyph-xml</artifactId>
-		<version>5.1.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.itextpdf</groupId>
-		<artifactId>itext-asian</artifactId>
-		<version>5.2.0</version>
-	</dependency>	
-    <dependency>
-		<groupId>org.eclipse.core</groupId>
-		<artifactId>org.eclipse.core.commands</artifactId>
-		<version>3.6.0</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.core</groupId>
-		<artifactId>runtime</artifactId>
-		<version>3.9.100-v20131218-1515</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.core.runtime.compatibility</groupId>
-		<artifactId>auth</artifactId>
-		<version>3.2.100-v20070502</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.equinox</groupId>
-		<artifactId>common</artifactId>
-		<version>3.6.200-v20130402-1505</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.equinox</groupId>
-		<artifactId>registry</artifactId>
-		<version>3.5.301-v20130717-1549</version>
-	</dependency>
-	<dependency>
-		<groupId>org.eclipse.jface</groupId>
-		<artifactId>text</artifactId>
-		<version>3.3.0-v20070606-0010</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.birt.runtime</groupId>
-		<artifactId>org.eclipse.osgi</artifactId>
-		<version>3.9.1.v20130814-1242</version>
-	</dependency>
-    <dependency>
-		<groupId>org.eclipse.text</groupId>
-		<artifactId>org.eclipse.text</artifactId>
-		<version>3.5.101</version>
-	</dependency>
-	<dependency>
-		<groupId>org.eclipse.ui</groupId>
-		<artifactId>forms</artifactId>
-		<version>3.3.0-v20070511</version>
-	</dependency>
-	<dependency>
 		<groupId>mysql</groupId>
 		<artifactId>mysql-connector-java</artifactId>
 		<version>5.1.30</version>
 	</dependency>
-                                                                                                        
-    <dependency>
-    	<groupId>org.eclipse.swt</groupId>
-    	<artifactId>jmx</artifactId>
-    	<version>1.0.0-v20070510</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.eclipse.swt.win32.win32</groupId>
-    	<artifactId>x86</artifactId>
-    	<version>3.3.0-v3346</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.eclipse.jface</groupId>
-    	<artifactId>databinding</artifactId>
-    	<version>1.1.0-I20070606-0010</version>
-    </dependency>
-    <dependency>
+	
+	<dependency>
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-core</artifactId>
 		<version>4.3.5.Final</version>
 	</dependency>
 	
 	<dependency>
-		<groupId>dom4j</groupId>
-		<artifactId>dom4j</artifactId>
-		<version>1.6.1</version>
-	</dependency>
-	
+		<groupId>com.itextpdf</groupId>
+		<artifactId>itextpdf</artifactId>
+		<version>5.5.1</version>
+	</dependency>	
+  	
+    <dependency>
+    	<groupId>org.eclipse.swt.win32.win32</groupId>
+    	<artifactId>x86</artifactId>
+    	<version>3.3.0-v3346</version>
+    </dependency>
+
 	<dependency>
-		<groupId>commons-logging</groupId>
-		<artifactId>commons-logging</artifactId>
-		<version>1.1.1</version>
-	</dependency>
- 
-	<dependency>
-		<groupId>commons-collections</groupId>
-		<artifactId>commons-collections</artifactId>
-		<version>3.2.1</version>
-	</dependency>
- 
-	<dependency>
-		<groupId>cglib</groupId>
-		<artifactId>cglib</artifactId>
-		<version>2.2</version>
+		<groupId>org.eclipse.jface</groupId>
+		<artifactId>text</artifactId>
+		<version>3.3.0-v20070606-0010</version>
 	</dependency>
 	
     <dependency>
-		<groupId>javassist</groupId>
-		<artifactId>javassist</artifactId>
-		<version>3.12.1.GA</version>
-	</dependency>        
-    
+		<groupId>org.eclipse.birt.runtime</groupId>
+		<artifactId>com.ibm.icu</artifactId>
+		<version>50.1.1.v201304230130</version>
+	</dependency>
+      	
   </dependencies>
+  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <organization>
+  	<name>Tim9</name>
+  </organization>
+  
+  <description>Sistem za fakturisanje</description>
+  
   <build>
   <resources>
      <resource>
@@ -203,46 +122,9 @@
 	        <artifactId>maven-release-plugin</artifactId>
     	</plugin>
   	</plugins>
+  	
+
   </build>
-  <developers>
-    <developer>
-      <id>huma</id>
-      <name>Huma Milišić</name>
-      <email>huma.milisic@gmail.com</email>
-    </developer>
-    <developer>
-      <id>samra</id>
-      <name>Samra Mršo</name>
-    </developer>
-    <developer>
-      <id>berina</id>
-      <name>Berina Muratović</name>
-    </developer>
-    <developer>
-      <id>arnis</id>
-      <name>Arnis Mustafić</name>
-    </developer>
-    <developer>
-      <id>kopic</id>
-      <name>Edin Kopić</name>
-    </developer>
-    <developer>
-      <id>krupic</id>
-      <name>Edin Krupić</name>
-    </developer>
-    
-  </developers>
-  <description>Sistem za fakturisanje</description>
-  <organization>
-  	<name>Tim9</name>
-  </organization>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-    </plugins>
-  </reporting>
+  
+  
 </project>
