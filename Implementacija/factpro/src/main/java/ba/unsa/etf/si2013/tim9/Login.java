@@ -49,22 +49,22 @@ public class Login {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(332, 300);
+		shell.setSize(360, 300);
 		shell.setText("SWT Application");
 		
 		Label lblUsername = new Label(shell, SWT.NONE);
-		lblUsername.setBounds(35, 115, 55, 15);
+		lblUsername.setBounds(53, 79, 55, 15);
 		lblUsername.setText("Username:");
 		
 		Label lblPassword = new Label(shell, SWT.NONE);
-		lblPassword.setBounds(35, 150, 61, 15);
+		lblPassword.setBounds(53, 116, 61, 15);
 		lblPassword.setText("Password:");
 		
 		text = new Text(shell, SWT.BORDER);
-		text.setBounds(107, 112, 180, 21);
+		text.setBounds(136, 76, 154, 21);
 		
 		text_1 = new Text(shell, SWT.BORDER);
-		text_1.setBounds(107, 147, 180, 21);
+		text_1.setBounds(136, 113, 154, 21);
 		
 		Button btnLogin = new Button(shell, SWT.NONE);
 		btnLogin.addSelectionListener(new SelectionAdapter() {
@@ -93,7 +93,7 @@ public class Login {
 				
 			}
 		});
-		btnLogin.setBounds(193, 174, 94, 38);
+		btnLogin.setBounds(136, 169, 154, 38);
 		btnLogin.setText("Login");
 
 	}
