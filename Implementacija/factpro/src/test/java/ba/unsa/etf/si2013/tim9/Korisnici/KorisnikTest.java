@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
+
 /**
  * @author Work
  *
@@ -30,7 +32,32 @@ public class KorisnikTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
+	public void testDaLiPostojiKorisnik() {
 
+		Korisnik _klijent =  new Korisnik();
+		_klijent.setUsername("nekinaziv");
+		
+		assertEquals((Boolean)false,(Boolean) _klijent.daLiPostoji());
+		}
+	
+	public void testDodajKorisnika() {
+		Korisnik _k =  new Korisnik();
+		//parsiranje datuma
+		_k=new Korisnik(
+				"Samra",
+				"Mrso",
+				"sef",
+				"061 111 111",
+				"Adresa 23",
+				"username",
+				"password",
+				null
+				
+				);
+		_k.spasiUBazu();
+		assertEquals((Boolean)true,(Boolean) _k.daLiPostoji());
+	} 
+	
 	/**
 	 * @throws java.lang.Exception
 	 */

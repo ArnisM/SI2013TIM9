@@ -67,7 +67,8 @@ public class PredracunStavkeDodavanjeForm2 extends Shell {
 		java.util.List<Usluga> usluge;
 		
 			
-	        Query q = session.createQuery("from Usluga");
+		Query q = session.createQuery("from Usluga where deleted=:del");
+        q.setString("del", Long.toString(0));
 	        usluge=q.list();
 	        t.commit();
 	        session.close();
