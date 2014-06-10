@@ -13,11 +13,15 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.hql.internal.ast.util.SessionFactoryHelper;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Korisnici.Korisnik;
 
 @Entity 
 @Table (name = "Klijenti")
@@ -54,6 +58,27 @@ public class Klijenti implements Serializable {
 		public String getAdresa() {
 		return adresa;
 	}
+		
+		boolean daLiPostoji(){
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction t = session.beginTransaction();
+			
+			 
+			Query q = session.createQuery("from Klijenti where naziv=:naziv and deleted=:deleted");
+			 q.setString("naziv", this.getNaziv());
+			
+			 q.setInteger("deleted", 0);
+			 List<Klijenti> c = q.list();
+			 t.commit();
+			 
+			 if (c.size()>0) {
+				 Shell shell1 = new Shell();
+				 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik već postoji u bazi.");
+				 return true;
+			 }
+			 return false;
+		}
+		
 	public void setAdresa(String adresa) {
 		this.adresa = adresa;
 	}

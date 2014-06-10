@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
+
 public class UslugaTest {
 
 	/**
@@ -16,7 +18,20 @@ public class UslugaTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
-
+	public void testDodajUslugu() {
+		Usluga _klijent =  new Usluga();
+		//parsiranje datuma
+		_klijent=new Usluga(
+				"nekausluga",
+				"servis",
+				12.12,
+				12.12,
+				"opis usluge"
+				
+				);
+		_klijent.spasiUBazu();
+		assertEquals((Boolean)true,(Boolean) _klijent.daLiPostoji());
+	} 
 	/**
 	 * @throws java.lang.Exception
 	 */

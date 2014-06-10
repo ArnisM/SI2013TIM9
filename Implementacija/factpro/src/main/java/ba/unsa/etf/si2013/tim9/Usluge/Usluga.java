@@ -1,13 +1,18 @@
 package ba.unsa.etf.si2013.tim9.Usluge;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
+import ba.unsa.etf.si2013.tim9.Korisnici.Korisnik;
 
 @Entity 
 @Table (name = "Usluga")
@@ -33,7 +38,25 @@ public class Usluga implements Serializable {
 		this.opisUsluge = opisUsluge;
 		this.deleted=0;
 	}
-	
+	boolean daLiPostoji(){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		
+		 
+		Query q = session.createQuery("from Usluga where naziv=:ime and deleted=:deleted");
+		 q.setString("ime", this.getNaziv());
+		
+		 q.setInteger("deleted", 0);
+		 List<Usluga> c = q.list();
+		 t.commit();
+		 
+		 if (c.size()>0) {
+			 Shell shell1 = new Shell();
+			 MessageDialog.openInformation(shell1, "Doodavanje korisnika", "Korisnik već postoji u bazi.");
+			 return true;
+		 }
+		 return false;
+	}
 	
 	
 	public long getId() {
