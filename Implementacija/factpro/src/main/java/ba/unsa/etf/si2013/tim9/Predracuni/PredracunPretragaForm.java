@@ -272,7 +272,13 @@ public class PredracunPretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("target/predracun.pdf"));
+					File fu = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+					fu.mkdirs();
+					//PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\usluga.pdf"));
+/*
+ * System.getProperty("user.home")+"\\factpro\\pdfovi\\"
+ * */
+					file = new FileOutputStream(new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\predracun.pdf"));
 				List<Stavka_predracuna>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;
