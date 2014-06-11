@@ -30,6 +30,7 @@ import org.hibernate.Transaction;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -272,9 +273,12 @@ public class PredracunPretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					File fu = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
-					fu.mkdirs();
-					//PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\usluga.pdf"));
+Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+					
+					File f = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+					f.mkdirs();
+					PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\faktura.pdf"));
+		         //PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\usluga.pdf"));
 /*
  * System.getProperty("user.home")+"\\factpro\\pdfovi\\"
  * */
@@ -282,7 +286,7 @@ public class PredracunPretragaForm extends Shell {
 				List<Stavka_predracuna>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;
-			      Document document = new Document();
+			//      Document document = new Document();
 			      PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=table.getSelectionIndex();
@@ -329,9 +333,9 @@ public class PredracunPretragaForm extends Shell {
 	                fakture=q.list();
 	                t.commit();
 	                session.close();
-	                Predracun f=new Predracun();
+	                Predracun f1=new Predracun();
 	                
-	                f=(Predracun)fakture.get(0);
+	                f1=(Predracun)fakture.get(0);
 	                
 
 	               List _ss;
@@ -366,7 +370,7 @@ public class PredracunPretragaForm extends Shell {
 	                  my_first_table.completeRow();
 	                  my_first_table.addCell(new PdfPCell(new Phrase(u.getId()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(u.getNaziv()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(f.getBroj_usluga()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(f1.getBroj_usluga()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena())))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena()))));
 	                  

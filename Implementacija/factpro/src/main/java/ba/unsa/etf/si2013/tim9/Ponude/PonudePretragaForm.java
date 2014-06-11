@@ -1,5 +1,8 @@
 package ba.unsa.etf.si2013.tim9.Ponude;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -19,6 +22,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import ba.unsa.etf.si2013.tim9.HibernateUtil;
 import ba.unsa.etf.si2013.tim9.Klijenti.Klijenti;
@@ -252,7 +260,20 @@ public class PonudePretragaForm extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) 
 			{
+				Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 				
+				File f = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+				f.mkdirs();
+				try {
+					PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\ponuda.pdf"));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	         
 				Shell shell = new Shell();
 				MessageDialog.openInformation(shell, "Info", "Uspjesno je kreiran '.pdf' ponude.");
 				/*
