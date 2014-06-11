@@ -29,6 +29,7 @@ import org.hibernate.Transaction;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -274,12 +275,16 @@ public class FakturePretragaForm extends Shell {
 				Session session = HibernateUtil.getSessionFactory().openSession();
 			      FileOutputStream file;
 				try {
-					file = new FileOutputStream(new File("target/faktura_.pdf"));
+					Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+					
+					File f = new File(System.getProperty("user.home")+"\\factpro\\pdfovi\\");
+					f.mkdirs();
+					PdfWriter.getInstance(document,new FileOutputStream(System.getProperty("user.home")+"\\factpro\\pdfovi\\faktura.pdf"));
+		          //SADRZAJ
 				List<Stavka_faktura>stavka_fakture;
 				List<Usluga>usluge;
 				List<Klijenti>klijenti;
-			      Document document = new Document();
-			      PdfWriter.getInstance(document, file);
+			    // PdfWriter.getInstance(document, file);
 			      document.open();
 			      int i=table.getSelectionIndex();
 			       document.addTitle("Faktura");
@@ -325,9 +330,9 @@ public class FakturePretragaForm extends Shell {
 	                fakture=q.list();
 	                t.commit();
 	                session.close();
-	                Faktura f=new Faktura();
+	                Faktura f1=new Faktura();
 	                
-	                f=(Faktura)fakture.get(0);
+	                f1=(Faktura)fakture.get(0);
 	                
 
 	               List _ss;
@@ -362,7 +367,7 @@ public class FakturePretragaForm extends Shell {
 	                  my_first_table.completeRow();
 	                  my_first_table.addCell(new PdfPCell(new Phrase(u.getId()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(u.getNaziv()))); 
-			            my_first_table.addCell(new PdfPCell(new Phrase(f.getBroj_usluga()))); 
+			            my_first_table.addCell(new PdfPCell(new Phrase(f1.getBroj_usluga()))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena())))); 
 			            my_first_table.addCell(new PdfPCell(new Phrase(Double.toString(u.getCijena()))));
 	                  
@@ -377,7 +382,7 @@ public class FakturePretragaForm extends Shell {
 		            document.add(new Paragraph(_fakture.get(i).getKomentar()));
 			      
 			      document.close();
-			      file.close();
+			//      f.close();
 			      
 			      Shell shell1 = new Shell();
 				MessageDialog.openInformation(shell1, "Generisanje pdf", "PDF je generisan!");
